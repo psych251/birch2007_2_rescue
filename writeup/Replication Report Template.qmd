@@ -1,6 +1,6 @@
 ---
-title: "Replication of Study X by Sample & Sample (20xx, Psychological Science)"
-author: "Replication Author[s] (contact information)"
+title: "Replication of Study 'The curse of knowledge in reasoning about false beliefs' by Birch and Bloom (2007, Psychological Science)"
+author: "Adani B. Abutto (aabutto@stanford.edu)"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 format:
   html:
@@ -8,24 +8,45 @@ format:
     toc_depth: 3
 ---
 
-<!-- Replication reports should all use this template to standardize reporting across projects.  These reports will be public supplementary materials that accompany the summary report(s) of the aggregate results. -->
-
 ## Introduction
 
-[No abstract is needed.]  Each replication project will have a straightforward, no frills report of the study and results.  These reports will be publicly available as supplementary material for the aggregate report(s) of the project as a whole.  Also, to maximize project integrity, the intro and methods will be written and critiqued in advance of data collection.  Introductions can be just 1-2 paragraphs clarifying the main idea of the original study, the target finding for replication, and any other essential information.  It will NOT have a literature review -- that is in the original publication. You can write both the introduction and the methods in past tense.  
+My main research interest lies in examining how human reasoning about various aspects of what's "out there" (the physical world external to us) and what's "in here" (the mental world(s) internal to us) arises, progresses, and interplays throughout development. Birch and Bloom's (2007) work looks at how adults reason about other people and their (false) knowledge about the world, and whether adults' struggles in"belief reasoning" are akin to children's if sufficiently sensitive measures are used. Squarely in line with my own interests, this line of inquiry addresses the interplay between social cognition and reasoning about the world, focusing on potential differences in the related cognitive competencies between child- and adulthood.
 
+Birch and Bloom's experimental study entails a simple four-step procedure. First, all participants are shown a picture of a girl holding a violin in a living room. Participants are then shown a short text, whereby a single key word in it varies by experimental condition ("\[...\] While Vicki is outside playing, her sister, Denise moves the violin to \[another/the red/the purple\] container"). Thereafter, all participants are displayed another short text, this time with no difference by condition. Finally, respondents are asked to respond to a single question by filling out four separate response fields.
+
+Given that the study involves only simple text and picture material as well as a single-page questionnaire, I do not anticipate any major challenges in the reproduction and use of study materials. I expect that all experimental manipulations, respondent instructions, and measures can be administered without issue by using Prolific's in-built survey functions. Notably, however, it seems that Birch and Bloom (2007) administered their questionnaire in physical form. It is possible that when using the Prolific platform, it is not achievable to display the figure text and probability response fields in the exact same layout (i.e., field size and location) as in the original study (see Figure 1 below).
+
+**Figure 1.**
+
+![Figure taken from Birch and Bloom (2007); questionnaire item prompting participants to respond by indicating probabilities between 0 and 100. Color-word labels (red, green, purple, blue) were included for interpretability and not shown to study participants.](images/Screenshot%202023-10-08%20at%2018.14.13.png){fig-align="center" width="800"}
+
+However, this slight limitation in replicating the study materials should not impact the overall replication quality in fundamental ways. Indeed, in light of the COVID-19 pandemic, numerous researchers have started creating and employing digital versions of classic "theory of mind" (ToM) tasks that have typically been administered in person. The findings of such online studies (e.g., in terms of task success rates by age bracket) are generally comparable to the findings of the corresponding in-person research (see Livingston et al., 2021, for an example).
+
+### Link to Rescue Project Repository
+
+[Rescue project repository on GitHub](https://github.com/psych251/birch2007_2_rescue/)
+
+### Link to Original Paper
+
+[Original paper (Birch & Bloom, 2007) on GitHub](https://github.com/psych251/birch2007_2_rescue/tree/main/original_paper)
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+\[No abstract is needed.\] Each replication project will have a straightforward, no frills report of the study and results. These reports will be publicly available as supplementary material for the aggregate report(s) of the project as a whole. Also, to maximize project integrity, the intro and methods will be written and critiqued in advance of data collection. Introductions can be just 1-2 paragraphs clarifying the main idea of the original study, the target finding for replication, and any other essential information. It will NOT have a literature review -- that is in the original publication. You can write both the introduction and the methods in past tense.
 
 ## Summary of prior replication attempt
 
-Based on the prior write-up, describe any differences between the original and 1st replication in terms of methods, sample, sample size, and analysis. Note any potential problems such as exclusion rates, noisy data, or issues with analysis. 
+Based on the prior write-up, describe any differences between the original and 1st replication in terms of methods, sample, sample size, and analysis. Note any potential problems such as exclusion rates, noisy data, or issues with analysis.
 
 ## Methods
 
 ### Power Analysis
 
-Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size.  Considerations of feasibility for selecting planned sample size.
+Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size. Considerations of feasibility for selecting planned sample size.
 
-How much power does your planned sample have for original effect? For an attenuated effect that is half the size of the original? 
+How much power does your planned sample have for original effect? For an attenuated effect that is half the size of the original?
 
 (If power analysis is not possible or precise, discuss more fully how you determined a sample size that would be sufficient for rescue.)
 
@@ -35,45 +56,44 @@ Planned sample size and/or termination rule, sampling frame, known demographics 
 
 ### Materials
 
-All materials - can quote directly from original article - just put the text in quotations and note that this was followed precisely.  Or, quote directly and just point out exceptions to what was described in the original article.
+All materials - can quote directly from original article - just put the text in quotations and note that this was followed precisely. Or, quote directly and just point out exceptions to what was described in the original article.
 
-### Procedure	
+### Procedure
 
-Can quote directly from original article - just put the text in quotations and note that this was followed precisely.  Or, quote directly and just point out exceptions to what was described in the original article.
+Can quote directly from original article - just put the text in quotations and note that this was followed precisely. Or, quote directly and just point out exceptions to what was described in the original article.
 
 ### Controls
 
 What attention checks, positive or negative controls, or other quality control measures are you adding so that a (positive or negative) result will be more interpretable?
 
-
 ### Analysis Plan
 
-Can also quote directly, though it is less often spelled out effectively for an analysis strategy section.  The key is to report an analysis strategy that is as close to the original - data cleaning rules, data exclusion rules, covariates, etc. - as possible.  
+Can also quote directly, though it is less often spelled out effectively for an analysis strategy section. The key is to report an analysis strategy that is as close to the original - data cleaning rules, data exclusion rules, covariates, etc. - as possible.
 
-**Clarify key analysis of interest here**  You can also pre-specify additional analyses you plan to do.
+**Clarify key analysis of interest here** You can also pre-specify additional analyses you plan to do.
 
 ### Differences from Original Study and 1st replication
 
-Explicitly describe known differences in sample, setting, procedure, and analysis plan from original study.  The goal, of course, is to minimize those differences, but differences will inevitably occur.  Also, note whether such differences are anticipated to make a difference based on claims in the original article or subsequent published research on the conditions for obtaining the effect.
+Explicitly describe known differences in sample, setting, procedure, and analysis plan from original study. The goal, of course, is to minimize those differences, but differences will inevitably occur. Also, note whether such differences are anticipated to make a difference based on claims in the original article or subsequent published research on the conditions for obtaining the effect.
 
 ### Methods Addendum (Post Data Collection)
 
 You can comment this section out prior to final report with data collection.
 
 #### Actual Sample
-  Sample size, demographics, data exclusions based on rules spelled out in analysis plan
+
+Sample size, demographics, data exclusions based on rules spelled out in analysis plan
 
 #### Differences from pre-data collection methods plan
-  Any differences from what was described as the original plan, or “none”.
 
+Any differences from what was described as the original plan, or "none".
 
 ## Results
-
 
 ### Data preparation
 
 Data preparation following the analysis plan.
-	
+
 ```{r include=F}
 ### Data Preparation
 
@@ -88,27 +108,28 @@ Data preparation following the analysis plan.
 
 ### Results of control measures
 
-How did people perform on any quality control checks or positive and negative controls? 
+How did people perform on any quality control checks or positive and negative controls?
 
 ### Confirmatory analysis
 
-The analyses as specified in the analysis plan.  
+The analyses as specified in the analysis plan.
 
 *Three-panel graph with original, 1st replication, and your replication is ideal here*
 
 ### Exploratory analyses
 
-Any follow-up analyses desired (not required).  
+Any follow-up analyses desired (not required).
 
 ## Discussion
 
 ## Mini meta analysis
-Combining across the original paper, 1st replication, and 2nd replication, what is the aggregate effect size? 
+
+Combining across the original paper, 1st replication, and 2nd replication, what is the aggregate effect size?
 
 ### Summary of Replication Attempt
 
-Open the discussion section with a paragraph summarizing the primary result from the confirmatory analysis and the assessment of whether it replicated, partially replicated, or failed to replicate the original result.  
+Open the discussion section with a paragraph summarizing the primary result from the confirmatory analysis and the assessment of whether it replicated, partially replicated, or failed to replicate the original result.
 
 ### Commentary
 
-Add open-ended commentary (if any) reflecting (a) insights from follow-up exploratory analysis, (b) assessment of the meaning of the replication (or not) - e.g., for a failure to replicate, are the differences between original and present study ones that definitely, plausibly, or are unlikely to have been moderators of the result, and (c) discussion of any objections or challenges raised by the current and original authors about the replication attempt.  None of these need to be long.
+Add open-ended commentary (if any) reflecting (a) insights from follow-up exploratory analysis, (b) assessment of the meaning of the replication (or not) - e.g., for a failure to replicate, are the differences between original and present study ones that definitely, plausibly, or are unlikely to have been moderators of the result, and (c) discussion of any objections or challenges raised by the current and original authors about the replication attempt. None of these need to be long.
