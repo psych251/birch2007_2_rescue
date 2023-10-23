@@ -1,6 +1,6 @@
 ---
-title: "Replication of Study 'The curse of knowledge in reasoning about false beliefs' by Birch and Bloom (2007, Psychological Science)"
-author: "Adani B. Abutto (aabutto@stanford.edu)"
+title: "Replication of Study 'The curse of knowledge in reasoning about false beliefs' by Susan A. J. Birch and Paul Bloom (2007, Psychological Science)"
+author: "Adani B. Abutto (Email: aabutto@stanford.edu)"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 format:
   html:
@@ -10,15 +10,25 @@ format:
 
 ## Introduction
 
-My main research interest lies in examining how human reasoning about various aspects of what's "out there" (the physical world external to us) and what's "in here" (the mental world(s) internal to us) arises, progresses, and interplays throughout development. Birch and Bloom's (2007) work looks at how adults reason about other people and their (false) knowledge about the world, and whether adults' struggles in"belief reasoning" are akin to children's if sufficiently sensitive measures are used. Squarely in line with my own interests, this line of inquiry addresses the interplay between social cognition and reasoning about the world, focusing on potential differences in the related cognitive competencies between child- and adulthood.
+My main research interest lies in examining how human reasoning about various aspects of the physical world external to us (what's "out there") and the mental world(s) internal to us (what's "in here") arises, progresses, and interplays throughout development. Birch and Bloom's (2007) work looks at how adults reason about other people and their (false) knowledge about the world, and whether adults' struggles in "belief reasoning" are akin to children's when sufficiently sensitive measures are used. Squarely in line with my own interests, this line of inquiry addresses the interplay between social cognition and reasoning about the world, focusing on potential differences (and continuities) between child- and adulthood in the related cognitive competencies.
 
-Birch and Bloom's experimental study entails a simple four-step procedure. First, all participants are shown a picture of a girl holding a violin in a living room. Participants are then shown a short text, whereby a single key word in it varies by experimental condition ("\[...\] While Vicki is outside playing, her sister, Denise moves the violin to \[another/the red/the purple\] container"). Thereafter, all participants are displayed another short text, this time with no difference by condition. Finally, respondents are asked to respond to a single question by filling out four separate response fields.
-
-Given that the study involves only simple text and picture material as well as a single-page questionnaire, I do not anticipate any major challenges in the reproduction and use of study materials. I expect that all experimental manipulations, respondent instructions, and measures can be administered without issue by using Prolific's in-built survey functions. Notably, however, it seems that Birch and Bloom (2007) administered their questionnaire in physical form. It is possible that when using the Prolific platform, it is not achievable to display the figure text and probability response fields in the exact same layout (i.e., field size and location) as in the original study (see Figure 1 below).
+Birch and Bloom (2007) reported results indicating that young adults' (*N* = 155 college students) reasoning about another person's (false) belief about the world can indeed be compromised by manipulating their knowledge about an event's outcome as well as the plausibility of the event in question. Their experimental study employed a simple four-step procedure, using a modified version of a classic displacement task (see, e.g., Wimmer & Perner, 1983).
 
 **Figure 1.**
 
-![Figure taken from Birch and Bloom (2007); questionnaire item prompting participants to respond by indicating probabilities between 0 and 100. Color-word labels (red, green, purple, blue) were included for interpretability and not shown to study participants.](images/Screenshot%202023-10-08%20at%2018.14.13.png){fig-align="center" width="800"}
+![Figure taken from Birch and Bloom (2007); questionnaire item prompting participants to respond by indicating probabilities between 0 and 100. Color-word labels (red, green, purple, blue) were included in the journal article for interpretability and not shown to study participants.](images/Screenshot 2023-10-22 at 15.20.40.png){alt="Figure taken from Birch and Bloom (2007); questionnaire item prompting participants to respond by indicating probabilities between 0 and 100. Color-word labels (red, green, purple, blue) were included in the journal article for interpretability and not shown to study participants." fig-align="center"}
+
+Figure 1 shows the task as presented to participants in one of three experimental conditions; however, the procedure was highly similar across conditions. In the first step, all participants were shown a picture of a girl, Vicki, holding a violin in a living room with a sofa and four containers of different colors. Participants were then told that once Vicki finished playing, she placed her violin in a blue container and goes outside playing. Thereafter, participants were shown a text and picture conveying that Vicki's sister, Denise, came in, moved the violin, and rearranged the colored containers. To this end, participants were shown another short text, this time varying by experimental condition: "While Vicki is outside playing, her sister, Denise moves the violin to \[...\]"
+
+-   *Ignorance* condition: "\[...\] another container." (no additional information)
+
+-   *Knowledge-plausible* condition: "\[...\] the red container." (different container but physical location held constant)
+
+-   *Knowledge-implausible* condition: "\[...\] the purple container." (different container and different physical location)
+
+Then, upon conclusion of the story, participants were asked to respond to a single question: "When Vicki returns, she wants to play her violin. What are the chances Vicki will first look for her violin in each of the \[colored\] containers?" Respondents were asked to give their answers in percentages by filling out four separate response fields (i.e., one for each of the four containers).
+
+Given that the study involved only simple text and picture material as well as a single-page questionnaire, I do not anticipate any major challenges in the reproduction and use of study materials. I expect that all experimental manipulations, respondent instructions, and measures can be administered without issue by using *Qualtrics*' in-built survey functions. Notably, however, it seems that Birch and Bloom (2007) administered their questionnaire in physical form. It is possible that when using the *Qualtrics* platform, it is not achievable to display the figure text and probability response fields in the exact same layout as in the original study (e.g., field size and location) .
 
 However, this slight limitation in replicating the study materials should not impact the overall replication quality in fundamental ways. Indeed, in light of the COVID-19 pandemic, numerous researchers have started creating and employing digital versions of classic "theory of mind" (ToM) tasks that have typically been administered in person. The findings of such online studies (e.g., in terms of task success rates by age bracket) are generally comparable to the findings of the corresponding in-person research (see Livingston et al., 2021, for an example).
 
@@ -30,106 +40,144 @@ However, this slight limitation in replicating the study materials should not im
 
 [Original paper (Birch & Bloom, 2007) on GitHub](https://github.com/psych251/birch2007_2_rescue/tree/main/original_paper)
 
-------------------------------------------------------------------------
-
-------------------------------------------------------------------------
-
-\[No abstract is needed.\] Each replication project will have a straightforward, no frills report of the study and results. These reports will be publicly available as supplementary material for the aggregate report(s) of the project as a whole. Also, to maximize project integrity, the intro and methods will be written and critiqued in advance of data collection. Introductions can be just 1-2 paragraphs clarifying the main idea of the original study, the target finding for replication, and any other essential information. It will NOT have a literature review -- that is in the original publication. You can write both the introduction and the methods in past tense.
-
 ## Summary of prior replication attempt
 
-Based on the prior write-up, describe any differences between the original and 1st replication in terms of methods, sample, sample size, and analysis. Note any potential problems such as exclusion rates, noisy data, or issues with analysis.
+There are three notable differences between the original study (Birch & Bloom, 2007) and the replication study (Borchers, 2018; <https://rpubs.com/lrborchers/450894>). The first lies in the replication study omitting one of the three experimental conditions (*knowledge-implausible*)*.* Borchers justifies this in pointing out that the authors did not report significant differences between the *knowledge-plausible* group and the *ignorance* group. However, given that Birch and Bloom (2007) did report a lack of a difference between the *ignorance* and *knowledge-implausible* groups as one of two key findings --- indicating that knowledge alone does not appear to be the sole factor biasing adults' false-belief reasoning ---, I plan to diverge from Borchers' approach and include this condition in the present study.
+
+Second, the sample of the original study consisted of undergraduate students at Yale, whereas Borchers' sample consisted of MTurk workers. Borchers did ask respondents to indicate their education levels but remarked that given this circumstance, there would likely be a difference in education between the original group and the MTurk sample. Third, Borchers' study was conducted online rather than in person, which meant that stimuli had to be adapted and were not perfectly equivalent to the original materials. It should also be noted that Borchers asked participants whether they were colorblind and excluded people in this category --- Birch and Bloom did not report whether they did so.
+
+Finally, Borchers raised a crucial issue prior to her data collection: Given that participants were asked to write down their probability estimates in a simple text box, it was possible for them to make typing or calculation errors, resulting in the sum of all response fields to add up to less (or more) than 100%. Indeed, in Borcher's data, there were *n* = 8 such cases (*n* = 4 in each condition). Borchers reported that she thus conducted her analysis twice --- once including these cases, and once excluding them --- and that the results did not differ across subsamples. Nevertheless, this circumstance led to a slight reduction in her sample size and statistical power. The present study will avoid this by integrating an input check in the survey (e.g., having a message pop up on the respective Qualtrics page if respondents' probability values don't add up to 100%).
 
 ## Methods
 
-### Power Analysis
-
-Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size. Considerations of feasibility for selecting planned sample size.
-
-How much power does your planned sample have for original effect? For an attenuated effect that is half the size of the original?
-
-(If power analysis is not possible or precise, discuss more fully how you determined a sample size that would be sufficient for rescue.)
+> ### Power Analysis
+>
+> ***\[Power analysis will be added next week\]***
+>
+> Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size. Considerations of feasibility for selecting planned sample size.
+>
+> How much power does your planned sample have for original effect? For an attenuated effect that is half the size of the original?
+>
+> (If power analysis is not possible or precise, discuss more fully how you determined a sample size that would be sufficient for rescue.)
 
 ### Planned Sample
 
-Planned sample size and/or termination rule, sampling frame, known demographics if any, preselection rules if any.
+To achieve similar education-level demographics as Birch and Bloom (2007), I will recruit only college-educated adults. Furthermore, I will pre-screen for colorblindness and exclude respondents in this category from participation. I will also pre-screen for Prolific respondents with high approval rates (indicating that their participation in previous Prolific studies was of high quality).
+
+Borchers reported that to achieve 80% power, 24 participants would be needed per condition; to achieve 90% power, 32 participants would be needed per condition; and to achieve 95% power, 40 participants would be needed per condition. Hence, I will recruit *N* = 120 participants and terminate data collection thereafter.
 
 ### Materials
 
-All materials - can quote directly from original article - just put the text in quotations and note that this was followed precisely. Or, quote directly and just point out exceptions to what was described in the original article.
+Materials will be employed as reported by Borchers: "This study \[will use\] a colored figure depicting Vicki, her violin, a sofa, and four containers (ordered: blue, purple, red, green) on the top panel and her sister, the violin, a sofa, and the containers (reordered: red, green, purple, blue) on the bottom panel. All participants \[will be\] shown the following text (manipulations shown in brackets): 'This is Vicki. She finishes playing her violin and puts it in the blue container. Then she goes outside to play. While Vicki is outside playing, her sister, Denise, moves the violin...
+
+-   \[*ignorance*\] ...to another container
+
+-   \[*knowledge-plausible*\] ...to the red container (occupying original location)
+
+-   \[*knowledge-implausible*\] ...to the purple container (occupying location different from original)
+
+Then Denise rearranges the containers in the room until the room looks like the picture below. When Vicki returns, she wants to play her violin. What are the chances Vicki will first look for her violin in each of the above containers? Write your answers in percentages in the spaces provided under each container.' All participants will receive the same figure with modifications to the text according to their condition (described above)."
+
+Given that the materials made available by Birch and Bloom's (2007) are black-and-white, I contacted Borchers to obtain her colored figure. I'm currently awaiting a response.
 
 ### Procedure
 
-Can quote directly from original article - just put the text in quotations and note that this was followed precisely. Or, quote directly and just point out exceptions to what was described in the original article.
+Procedure will largely match that of Borchers: "\[I will employ\] a between-subjects design and participants will be randomly assigned to the *ignorance* or *knowledge-plausible* condition at the beginning of the study. After reading the corresponding prompt, all participants will report on their perceived probability that Vicki will look in each of the four containers for her violin." The sole difference is that the present study includes all three conditions used by Birch and Bloom (2007) rather than merely *knowledge-plausible* and *ignorance* as in Borchers (2018).
 
 ### Controls
 
-What attention checks, positive or negative controls, or other quality control measures are you adding so that a (positive or negative) result will be more interpretable?
+In addition to pre-screening for Prolific respondents with high approval rates, I will include a response check ensuring that participants' probability estimates add up to 100 across the four response fields. No other control measures will be used.
+
+> ### Link to Paradigm
+>
+> ***\[Qualtrics link will be added next week\]***
 
 ### Analysis Plan
 
-Can also quote directly, though it is less often spelled out effectively for an analysis strategy section. The key is to report an analysis strategy that is as close to the original - data cleaning rules, data exclusion rules, covariates, etc. - as possible.
+The main analysis of interest is the comparison between the *ignorance* and *knowledge-plausible* groups in terms of their reported probability for Vicky to look for her violin in the "red container" (i.e., the container residing in the same physical location as where Vicki originally placed the violin). The hypothesis --- in line with the effect reported by Birch and Bloom (2007), but contrary to Borchers (2018) --- is that, on average, participants in the *knowledge-plausible* group will report significantly higher probabilities that Vicky will look in the "red container" thanparticipants in the *ignorance* condition. This is because in the *knowledge-plausible* condition, participants' prior knowledge of the event outcome (that the violin was placed in the "red container") in combination with the plausibility of the event (that Vicky will look in the "red container" because after rearrangement of the room, it is in the same physical location as the "blue container," which is where she put her violin originally) is thought to interfere with their ability to reason from Vicky's (unknowing) perspective.
 
-**Clarify key analysis of interest here** You can also pre-specify additional analyses you plan to do.
+To test (the replication of) this hypothesis, I will conduct an independent sample t-test, matching the procedure followed both by Borchers (2018) and Birch and Bloom (2007). Additionally, I will conduct three more independent samples t-tests: One to compare the reported probability for the "red container" between the *ignorance* and *knowledge-implausible* groups, another to compare *ignorance and knowledge-plausible* on their "blue container" probability judgments, and a final one to compare *ignorance* and *knowledge-implausible* groups on their "blue container" probability judgments. For all of the above comparisons of means, Cohen's *d* will also be calculated.
 
 ### Differences from Original Study and 1st replication
 
-Explicitly describe known differences in sample, setting, procedure, and analysis plan from original study. The goal, of course, is to minimize those differences, but differences will inevitably occur. Also, note whether such differences are anticipated to make a difference based on claims in the original article or subsequent published research on the conditions for obtaining the effect.
+Birch and Bloom's (2007) study was conducted in person, and Borchers (2018) conducted her study on MTurk. The present study will differ from both in that it will be run on *Qualtrics* (<http://qualtrics.com/>), with the sample being recruited from *Prolific* (<https://prolific.co/>). The number of participants per condition will match that of Borchers but will be smaller than that of Birch and Bloom (which was *N* = 155 total, with the exact *n* per condition unknown). The setting and procedure will match that of Borchers and deviate from Birch and Bloom (2007) in being set online rather than in person. The present analysis plan matches that of both prior studies. None of the above is anticipated to make a crucial difference in the effect estimation.
 
-### Methods Addendum (Post Data Collection)
+> ### Methods Addendum (Post Data Collection)
+>
+> You can comment this section out prior to final report with data collection.
 
-You can comment this section out prior to final report with data collection.
-
-#### Actual Sample
-
-Sample size, demographics, data exclusions based on rules spelled out in analysis plan
-
-#### Differences from pre-data collection methods plan
-
-Any differences from what was described as the original plan, or "none".
+> #### Actual Sample
+>
+> Sample size, demographics, data exclusions based on rules spelled out in analysis plan
+>
+> #### Differences from pre-data collection methods plan
+>
+> Any differences from what was described as the original plan, or "none".
 
 ## Results
 
 ### Data preparation
 
-Data preparation following the analysis plan.
+I will take the following steps to prepare the data for analysis:
 
-```{r include=F}
-### Data Preparation
+-   Export .csv file from *Qualtrics*
 
-#### Load Relevant Libraries and Functions
+-   Load relevant libraries in *R* (*tidyverse* for cleaning, *ggplot2* for plotting, *car* for t-tests, *effsize* for Cohen's d)
 
-#### Import data
+-   Read in csv. data in *R*
 
-#### Data exclusion / filtering
+-   Remove identifying data and other unneeded columns (e.g., date/time, response times)
 
-#### Prepare data for analysis - create columns etc.
-```
+-   Exclude participants who are colorblind and/or did not give consent and/or are not college-educated (if pre-screener ends up being not possible/fails)
 
 ### Results of control measures
 
-How did people perform on any quality control checks or positive and negative controls?
+-   Run descriptive statistics (*N*, *M*, *SD*) for participants who entered probability values that sum up to less or more than 100 (despite the response check)
+
+-   Exclude participants who entered probability values that sum up to less or more than 100 (despite the response check)
+
+-   Exclude participants with missing probability values (despite the response check)
 
 ### Confirmatory analysis
 
-The analyses as specified in the analysis plan.
+I will conduct the confirmatory analysis as follows:
 
-*Three-panel graph with original, 1st replication, and your replication is ideal here*
+-   Run descriptive statistics (*N, M*, *SD*) for probability judgments for all four containers (red, blue, green, purple) by condition (ignorant, knowledge-implausible, knowledge-implausible)
 
-### Exploratory analyses
+-   Run independent sample t-tests (Welch's two sample t-test in R); calculate Cohen's *d*
 
-Any follow-up analyses desired (not required).
+    -   Comparing *Ignorant* vs *knowledge-plausible*: Probability judgments for "red container"
 
-## Discussion
+    -   Comparing *Ignorant* vs *knowledge-plausible*: Probability judgments for "blue container"
 
-## Mini meta analysis
+    -   Comparing *ignorant* vs *knowledge-implausible*: Probability judgments for "red container"
 
-Combining across the original paper, 1st replication, and 2nd replication, what is the aggregate effect size?
+    -   Comparing *ignorant* vs *knowledge-implausible*: Probability judgments for "blue container"
 
-### Summary of Replication Attempt
+-   Create three-panel graph comparing mean difference in probability judgments for "red container" between the *ignorant* and *knowledge-plausible* groupsacrossthe original study (Birch & Bloom, 2007)*,* 1st replication (Borchers, 2018),and the present study
 
-Open the discussion section with a paragraph summarizing the primary result from the confirmatory analysis and the assessment of whether it replicated, partially replicated, or failed to replicate the original result.
+    -   Include bootstrapped 95% confidence intervals
 
-### Commentary
+> ### Exploratory analyses
+>
+> Any follow-up analyses desired (not required).
+>
+> -   Perhaps running Bayes factor for main t-test analysis.
 
-Add open-ended commentary (if any) reflecting (a) insights from follow-up exploratory analysis, (b) assessment of the meaning of the replication (or not) - e.g., for a failure to replicate, are the differences between original and present study ones that definitely, plausibly, or are unlikely to have been moderators of the result, and (c) discussion of any objections or challenges raised by the current and original authors about the replication attempt. None of these need to be long.
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+> ## Discussion
+>
+> ## Mini meta analysis
+>
+> Combining across the original paper, 1st replication, and 2nd replication, what is the aggregate effect size?
+>
+> ### Summary of Replication Attempt
+>
+> Open the discussion section with a paragraph summarizing the primary result from the confirmatory analysis and the assessment of whether it replicated, partially replicated, or failed to replicate the original result.
+>
+> ### Commentary
+>
+> Add open-ended commentary (if any) reflecting (a) insights from follow-up exploratory analysis, (b) assessment of the meaning of the replication (or not) - e.g., for a failure to replicate, are the differences between original and present study ones that definitely, plausibly, or are unlikely to have been moderators of the result, and (c) discussion of any objections or challenges raised by the current and original authors about the replication attempt. None of these need to be long.

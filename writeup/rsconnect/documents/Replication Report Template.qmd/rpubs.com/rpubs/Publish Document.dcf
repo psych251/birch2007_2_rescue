@@ -1,4 +1,4 @@
-name: Document
+name: Publish Document
 title:
 username:
 account: rpubs
@@ -6,6 +6,6 @@ server: rpubs.com
 hostUrl: rpubs.com
 appId: https://api.rpubs.com/api/v1/document/1102891/49da432084134a2abbdf53169ec5fa97
 bundleId: https://api.rpubs.com/api/v1/document/1102891/49da432084134a2abbdf53169ec5fa97
-url: http://rpubs.com/publish/claim/1102891/b89773aeddbc415d855dabcc5190176d
-when: 1698021240.07431
-lastSyncTime: 1698021240.07433
+url: http://rpubs.com/ottuba/1102891
+when: 1698021471.58892
+lastSyncTime: 1698021471.58893
