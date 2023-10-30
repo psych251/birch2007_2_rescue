@@ -40,6 +40,10 @@ However, this slight limitation in replicating the study materials should not im
 
 [Original paper (Birch & Bloom, 2007) on GitHub](https://github.com/psych251/birch2007_2_rescue/tree/main/original_paper)
 
+### Link to Paradigm
+
+Link to Qualtrics study (Pilot A): <https://stanforduniversity.qualtrics.com/jfe/form/SV_egPpG0CfiIZAKPk>
+
 ## Summary of prior replication attempt
 
 There are three notable differences between the original study (Birch & Bloom, 2007) and the replication study (Borchers, 2018; <https://rpubs.com/lrborchers/450894>). The first lies in the replication study omitting one of the three experimental conditions (*knowledge-implausible*)*.* Borchers justifies this in pointing out that the authors did not report significant differences between the *knowledge-plausible* group and the *ignorance* group. However, given that Birch and Bloom (2007) did report a lack of a difference between the *ignorance* and *knowledge-implausible* groups as one of two key findings --- indicating that knowledge alone does not appear to be the sole factor biasing adults' false-belief reasoning ---, I plan to diverge from Borchers' approach and include this condition in the present study.
@@ -124,19 +128,90 @@ I will take the following steps to prepare the data for analysis:
 
 -   Load relevant libraries in *R* (*tidyverse* for cleaning, *ggplot2* for plotting, *car* for t-tests, *effsize* for Cohen's d)
 
+```{r}
+
+library(tidyverse); library(ggplot2); library(car); library(effsize); library(qualtRics); library(here); library(readxl)
+
+```
+
 -   Read in csv. data in *R*
+
+```{r}
+
+here()
+pilot_a_data <- read_survey("/Users/ottuba/birch2007_2_rescue/data/pilot-a_data/Birch+&+Bloom+replication_October+29,+2023_19.08.csv")
+
+```
 
 -   Remove identifying data and other unneeded columns (e.g., date/time, response times)
 
--   Exclude participants who are colorblind and/or did not give consent and/or are not college-educated (if pre-screener ends up being not possible/fails)
+```{r}
+
+selected_columns <-
+  c("consent_form", "FL_16_DO", "age", "high_school", "college", "gender", "colorblindness",
+    "red_knowplausible", "green_knowplausible", "purple_knowplausible", "blue_knowplausible", 
+    "red_knowimplausible", "green_prob", "purple_prob", "blue_knowimplausible",
+    "red_ignorance", "green_ignorance", "purple_ignorance", "blue_ignorance")
+
+pilot_a_data_tidy <- pilot_a_data %>%
+  select(all_of(selected_columns))
+
+```
+
+-   Reformat data
+
+```{r}
+
+pilot_a_data_tidy <-
+  pilot_a_data_tidy %>%
+  mutate(subid = row.names(.)) %>%
+  gather(measurement, probability_pct,
+         red_knowplausible:blue_ignorance) %>%
+  separate(measurement, c("color", "condition")) 
+
+```
+
+-   Exclude participants who are colorblind and/or did not give consent and/or are not high school graduates (if pre-screener ends up being not possible/fails)
+
+```{r}
+
+pilot_a_data_tidy = pilot_a_data_tidy %>%
+  filter(high_school == "Yes", # Completed high school
+         colorblindness == "No", # Not colorblind
+         consent_form == "I agree") # Consented to the study
+
+```
+
+-   Spread final data
+
+```{r}
+
+pilot_a_data_final = pilot_a_data_tidy %>% spread(color, probability_pct)
+
+```
 
 ### Results of control measures
 
 -   Run descriptive statistics (*N*, *M*, *SD*) for participants who entered probability values that sum up to less or more than 100 (despite the response check)
 
+```{r}
+
+
+```
+
 -   Exclude participants who entered probability values that sum up to less or more than 100 (despite the response check)
 
+```{r}
+
+
+```
+
 -   Exclude participants with missing probability values (despite the response check)
+
+```{r}
+
+
+```
 
 ### Confirmatory analysis
 
@@ -148,15 +223,124 @@ I will conduct the confirmatory analysis as follows:
 
     -   Comparing *Ignorant* vs *knowledge-plausible*: Probability judgments for "red container"
 
+    ```{r}
+
+    t.test(red ~ condition, data = pilot_a_data_final[pilot_a_data_final$condition!="knowimplausible",]) # Target replication
+
+    ```
+
     -   Comparing *Ignorant* vs *knowledge-plausible*: Probability judgments for "blue container"
+
+    ```{r}
+
+    t.test(blue ~ condition, data = pilot_a_data_final[pilot_a_data_final$condition!="knowimplausible",])
+
+    ```
 
     -   Comparing *ignorant* vs *knowledge-implausible*: Probability judgments for "red container"
 
+    ```{r}
+
+    t.test(red ~ condition, data = pilot_a_data_final[pilot_a_data_final$condition!="knowplausible",])
+
+    ```
+
     -   Comparing *ignorant* vs *knowledge-implausible*: Probability judgments for "blue container"
 
--   Create three-panel graph comparing mean difference in probability judgments for "red container" between the *ignorant* and *knowledge-plausible* groupsacrossthe original study (Birch & Bloom, 2007)*,* 1st replication (Borchers, 2018),and the present study
+        ```{r}
 
-    -   Include bootstrapped 95% confidence intervals
+        t.test(blue ~ condition, data = pilot_a_data_final[pilot_a_data_final$condition!="knowplausible",])
+
+        ```
+
+-   Create graph comparing mean difference in probability judgments for "red container" between the *ignorant* and *knowledge-plausible* groups acrossthe original study (Birch & Bloom, 2007)*,* 1st replication (Borchers, 2018), and the present study
+
+```{r}
+
+birch_bloom_data= data.frame(
+  condition=c("Ignorance","Ignorance","Ignorance","Ignorance",
+         "Knowledge-Plausible","Knowledge-Plausible","Knowledge-Plausible","Knowledge-Plausible"
+         ),
+  
+  container=c("blue",
+              "red",
+              "purple",
+              "green"
+              ), 
+  probability_percent =c(71, 23, 2, 3, #ignorance mean
+                59, 34, 3, 4 #knowledge-plausible mean
+                ),
+  standard_deviation = c(26, 22, 5, 7, #ignorance_standarddeviation
+                        27, 25, 5, 7), #knowledge-plausible_standarddeviation
+  n = c(52, 52, 52, 52,
+        52, 52, 52, 52)
+                 ) %>%
+  mutate(standard_error = standard_deviation / sqrt(n))
+
+filtered_birch_bloom_data = birch_bloom_data %>%
+  filter(container=="red")
+
+# Birch and Bloom bar graph
+ggplot(filtered_birch_bloom_data, aes(x=condition, y=probability_percent, fill=condition)) +
+  geom_bar(position="dodge", stat="identity") +
+ggtitle("Birch & Bloom Data") +
+theme(plot.title=element_text(hjust=.5)) +
+geom_errorbar(aes(ymin=probability_percent - standard_error, ymax = probability_percent + standard_error), width=.2) +
+ylim(0,100) +
+xlab("Condition") +
+ylab("Percent of Red")
+
+```
+
+```{r}
+
+# Importing Borcher data collected via MTurk
+borchers_replication_all_participants <- read_xls("/Users/ottuba/birch2007_2_rescue/data/pilot-a_data/borchers_replication_anonymized.xls")
+
+# Tidying data
+borchers_replication_tidy <- borchers_replication_all_participants %>%
+  mutate(subid = row.names(.)) %>%
+  gather (measurement, probability_pct, red_knowledgeplausible:blue_ignorance) %>%
+  filter(!is.na(probability_pct)) %>%
+  separate(measurement, c("color", "condition")) 
+
+# Eligible participants 
+borchers_replication_filtered_data = borchers_replication_tidy %>%
+  filter(high_school=="Yes",
+         color_blind=="No",
+         consent=="I agree") #Consenting to the study
+
+borchers_replication_filtered_data %>%
+  filter(color=="red") %>%
+  ggplot() +
+  aes(x=condition, y=probability_pct, fill=condition) +
+  stat_summary(geom="bar") +
+  stat_summary(geom="errorbar", width =0.2, fun.data=mean_se) +
+  xlab("Condition") +
+  ylab("Percent of Red") +
+  ggtitle("Borchers Replication Data") +
+  scale_color_hue(labels= c("Ignorance", "Knowledge-plausible")) +
+  theme(plot.title=element_text(hjust=.5)) +
+  ylim(0,100)
+
+```
+
+```{r}
+
+pilot_a_data_tidy %>%
+  filter(color=="red" & condition != "knowimplausible") %>%
+  ggplot() +
+  aes(x=condition, y=probability_pct, fill=condition) +
+  stat_summary(geom="bar") +
+  stat_summary(geom="errorbar", width =0.2, fun.data=mean_se) +
+  xlab("Condition") +
+  ylab("Percent of Red") +
+  ggtitle("Data Replicating Borcher") +
+  scale_color_hue(labels= c("Ignorance", "Knowledge-plausible")) +
+  theme(plot.title=element_text(hjust=.5)) +
+  ylim(0,100)
+
+```
 
 > ### Exploratory analyses
 >
