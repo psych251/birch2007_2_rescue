@@ -40,10 +40,6 @@ However, this slight limitation in replicating the study materials should not im
 
 [Original paper (Birch & Bloom, 2007) on GitHub](https://github.com/psych251/birch2007_2_rescue/tree/main/original_paper)
 
-### Link to Paradigm
-
-Link to Qualtrics study (Pilot A): <https://stanforduniversity.qualtrics.com/jfe/form/SV_egPpG0CfiIZAKPk>
-
 ## Summary of prior replication attempt
 
 There are three notable differences between the original study (Birch & Bloom, 2007) and the replication study (Borchers, 2018; <https://rpubs.com/lrborchers/450894>). The first lies in the replication study omitting one of the three experimental conditions (*knowledge-implausible*)*.* Borchers justifies this in pointing out that the authors did not report significant differences between the *knowledge-plausible* group and the *ignorance* group. However, given that Birch and Bloom (2007) did report a lack of a difference between the *ignorance* and *knowledge-implausible* groups as one of two key findings --- indicating that knowledge alone does not appear to be the sole factor biasing adults' false-belief reasoning ---, I plan to diverge from Borchers' approach and include this condition in the present study.
@@ -92,9 +88,9 @@ Procedure will largely match that of Borchers: "\[I will employ\] a between-subj
 
 In addition to pre-screening for Prolific respondents with high approval rates, I will include a response check ensuring that participants' probability estimates add up to 100 across the four response fields. No other control measures will be used.
 
-> ### Link to Paradigm
->
-> ***\[Qualtrics link will be added next week\]***
+### Link to Paradigm
+
+Link to Qualtrics study (Pilot A): <https://stanforduniversity.qualtrics.com/jfe/form/SV_egPpG0CfiIZAKPk>
 
 ### Analysis Plan
 
