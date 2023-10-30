@@ -139,7 +139,7 @@ library(tidyverse); library(ggplot2); library(car); library(effsize); library(qu
 ```{r}
 
 here()
-pilot_a_data <- read_survey("/Users/ottuba/birch2007_2_rescue/data/pilot-a_data/Birch+&+Bloom+replication_October+29,+2023_19.08.csv")
+pilot_a_data <- read_survey("/Users/ottuba/birch2007_2_rescue/data/pilot-a_data/Birch+&+Bloom+replication_October+29,+2023_20.09.csv")
 
 ```
 
