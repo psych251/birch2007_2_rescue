@@ -18,7 +18,7 @@ Birch and Bloom (2007) reported results indicating that young adults' (*N* = 155
 
 ![Figure taken from Birch and Bloom (2007); questionnaire item prompting participants to respond by indicating probabilities between 0 and 100. Color-word labels (red, green, purple, blue) were included in the journal article for interpretability and not shown to study participants.](images/Screenshot%202023-10-22%20at%2015.20.40.png){fig-align="center"}
 
-Figure 1 shows the task as presented to participants in one of three experimental conditions; however, the procedure was highly similar across conditions. In the first step, all participants were shown a picture of a girl, Vicki, holding a violin in a living room with a sofa and four containers of different colors. Participants were then told that once Vicki finished playing, she placed her violin in a blue container and goes outside playing. Thereafter, participants were shown a text and picture conveying that Vicki's sister, Denise, came in, moved the violin, and rearranged the colored containers. To this end, participants were shown another short text, this time varying by experimental condition: "While Vicki is outside playing, her sister, Denise moves the violin to \[...\]"
+Figure 1 shows the task as presented to participants in one of the three experimental conditions. The procedure was highly similar across conditions: In the first step, all participants were shown a picture of a girl, Vicki, holding a violin in a living room with a sofa and four containers of different colors. Participants were then told that once Vicki finished playing, she placed her violin in a blue container and goes outside playing. Thereafter, participants were shown a text and picture conveying that Vicki's sister, Denise, came in, moved the violin, and rearranged the colored containers. To this end, participants were shown another short text, this time varying by experimental condition: "While Vicki is outside playing, her sister, Denise moves the violin to \[...\]"
 
 -   *Ignorance* condition: "\[...\] another container." (no additional information)
 
@@ -44,27 +44,69 @@ However, this slight limitation in replicating the study materials should not im
 
 There are three notable differences between the original study (Birch & Bloom, 2007) and the replication study (Borchers, 2018; <https://rpubs.com/lrborchers/450894>). The first lies in the replication study omitting one of the three experimental conditions (*knowledge-implausible*)*.* Borchers justifies this in pointing out that the authors did not report significant differences between the *knowledge-plausible* group and the *ignorance* group. However, given that Birch and Bloom (2007) did report a lack of a difference between the *ignorance* and *knowledge-implausible* groups as one of two key findings --- indicating that knowledge alone does not appear to be the sole factor biasing adults' false-belief reasoning ---, I plan to diverge from Borchers' approach and include this condition in the present study.
 
-Second, the sample of the original study consisted of undergraduate students at Yale, whereas Borchers' sample consisted of MTurk workers. Borchers did ask respondents to indicate their education levels but remarked that given this circumstance, there would likely be a difference in education between the original group and the MTurk sample. Third, Borchers' study was conducted online rather than in person, which meant that stimuli had to be adapted and were not perfectly equivalent to the original materials. It should also be noted that Borchers asked participants whether they were colorblind and excluded people in this category --- Birch and Bloom did not report whether they did so.
+Second, the sample of the original study consisted of undergraduate students at Yale, whereas Borchers' sample consisted of MTurk workers. Borchers did ask respondents to indicate their education levels but remarked that given this circumstance, there would likely be a difference in education between the original group and the MTurk sample.
+
+Third, Borchers' study was conducted online rather than in person, which meant that stimuli had to be adapted and were not perfectly equivalent to the original materials. It should also be noted that Borchers asked participants whether they were colorblind and excluded people in this category --- Birch and Bloom did not report whether they did so.
 
 Finally, Borchers raised a crucial issue prior to her data collection: Given that participants were asked to write down their probability estimates in a simple text box, it was possible for them to make typing or calculation errors, resulting in the sum of all response fields to add up to less (or more) than 100%. Indeed, in Borcher's data, there were *n* = 8 such cases (*n* = 4 in each condition). Borchers reported that she thus conducted her analysis twice --- once including these cases, and once excluding them --- and that the results did not differ across subsamples. Nevertheless, this circumstance led to a slight reduction in her sample size and statistical power. The present study will avoid this by integrating an input check in the survey (e.g., having a message pop up on the respective Qualtrics page if respondents' probability values don't add up to 100%).
 
 ## Methods
 
-> ### Power Analysis
->
-> ***\[Power analysis will be added next week\]***
->
-> Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size. Considerations of feasibility for selecting planned sample size.
->
-> How much power does your planned sample have for original effect? For an attenuated effect that is half the size of the original?
->
-> (If power analysis is not possible or precise, discuss more fully how you determined a sample size that would be sufficient for rescue.)
+### Power Analysis
+
+The original effect size Birch & Bloom (2007) reported was *d* = 0.472 (*t*(105) = -2.42, $p_{rep}$ = .95). Notably, neither Bridgers (n.d.) nor Borchers (2018) replicated the main effect: *t*(149.58) = -1.20, *p* = 0.231, and *t*(70.25) = -0.65, *p* = .518, respectively. In the former case, the sample size (*N* = 225) considerably exceeded that of the original authors (*N* = 155).
+
+In replicating the study, [Borchers (2018)](https://rpubs.com/lrborchers/450894) ran an a-priori power analysis and reported that "\[we\] would need 24 participants per condition to achieve 80% power, 32 participants per condition to achieve 90% power, and 40 participants per condition to achieve 95% power."
+
+However, in the earlier replication by [Bridgers (n.d.)](https://docs.google.com/document/d/1fSARliH5QKadGy3UElC00ehgwr2LLQbey-uzb1RPv0A/edit), it was reported that "\[...\] to detect \[the original\] effect size with 80%, 90%, and 95% power, the sample size would need to be 71 participants per condition, 95 participants per condition, or 118 participants per condition, respectively."
+
+In re-running the above power analysis, I found that required sample sizes would indeed be 71, 95, and 118 per condition to achieve 80%, 90%, and 95% power, respectively:
+
+```{r}
+
+power.t.test(delta = .472, sd = 1, sig.level = 0.05, power = .80,
+             type = "two.sample",
+             alternative = "two.sided") # 80% power
+
+power.t.test(delta = .472, sd = 1, sig.level = 0.05, power = .90,
+             type = "two.sample",
+             alternative = "two.sided") # 90% power
+
+power.t.test(delta = .472, sd = 1, sig.level = 0.05, power = .95,
+             type = "two.sample",
+             alternative = "two.sided") # 95% power
+
+```
+
+Unfortunately, there exists no meta-analysis that could provide a (more) precise estimate of the population effect size, and the pilot data obtained as part of the present data is too noisy as to be informative (*N* \< 10, non-naive participants). In short, I do not have strong prior information about the likely effect size.
+
+Given all of the above, I will follow [Simonsohn's (2014)](https://dx.doi.org/10.2139/ssrn.2259879) recommendation of "\[obtaining\] 2.5 times as many observations as the original study to obtain about 80% power to reject a detectable effect," (p. 14) if the true effect is zero. Thus, $N_{planned}=N_{original}*2.5 = 155*2.5=387$.
+
+Given that the survey is estimated to take only a few minutes, and using an hourly pay of \$10, I anticipate it to be feasible to recruit an even larger sample size of *N* = 387 while staying within budget ($N_{planned}*pay = 387*(\frac{10}{60}*3)=194)$).
+
+With *N* = 387, assuming an attenuated effect that is half the size of the original (*d* = 0.236), power will be \~60% (one-sided test):
+
+```{r}
+
+power.t.test(delta = .236, n = 129, sd = 1, sig.level = 0.05, power = NULL,
+             type = "two.sample",
+             alternative = "one.sided")
+
+```
+
+Figure 2 below shows a more comprehensive overview of the interplay between effect size and required sample size:
+
+**Figure 2.**
+
+![](images/powerplot.png)
+
+*Note*. Graph generated in G\*Power: Required sample size to detect a given effect of size *d* with 80% power.
 
 ### Planned Sample
 
-To achieve similar education-level demographics as Birch and Bloom (2007), I will recruit only college-educated adults. Furthermore, I will pre-screen for colorblindness and exclude respondents in this category from participation. I will also pre-screen for Prolific respondents with high approval rates (indicating that their participation in previous Prolific studies was of high quality).
+To achieve similar education-level demographics as Birch and Bloom (2007), I will recruit only adults enrolled in college. Furthermore, I will pre-screen for colorblindness and exclude respondents in this category from participation. I will also pre-screen for Prolific respondents with high approval rates (indicating that their participation in previous Prolific studies was of high quality).
 
-Borchers reported that to achieve 80% power, 24 participants would be needed per condition; to achieve 90% power, 32 participants would be needed per condition; and to achieve 95% power, 40 participants would be needed per condition. Hence, I will recruit *N* = 120 participants and terminate data collection thereafter.
+Based on the considerations above, I propose to recruit *N* = 387 participants (*n* = 129 per condition) and terminate data collection thereafter.
 
 ### Materials
 
@@ -82,19 +124,19 @@ Given that the materials made available by Birch and Bloom's (2007) are black-an
 
 ### Procedure
 
-Procedure will largely match that of Borchers: "\[I will employ\] a between-subjects design and participants will be randomly assigned to the *ignorance* or *knowledge-plausible* condition at the beginning of the study. After reading the corresponding prompt, all participants will report on their perceived probability that Vicki will look in each of the four containers for her violin." The sole difference is that the present study includes all three conditions used by Birch and Bloom (2007) rather than merely *knowledge-plausible* and *ignorance* as in Borchers (2018).
+Procedure will largely match that of Borchers: "\[I will employ\] a between-subjects design and participants will be randomly assigned to the *ignorance* or *knowledge-plausible* condition at the beginning of the study. After reading the corresponding prompt, all participants will report on their perceived probability that Vicki will look in each of the four containers for her violin." The main difference is that the present study includes all three conditions used by Birch and Bloom (2007) rather than merely *knowledge-plausible* and *ignorance* as in Borchers (2018). Additionally, I formatted response fields to be displayed side-by-side right beneath the experimental manipulation figure, and moved demographic questions to the very end of the study.
 
 ### Controls
 
-In addition to pre-screening for Prolific respondents with high approval rates, I will include a response check ensuring that participants' probability estimates add up to 100 across the four response fields. No other control measures will be used.
+In addition to pre-screening for Prolific respondents with high approval rates, I will include a response check ensuring that participants' probability estimates add up to (roughly) 100% across the four response fields. No other control measures will be used.
 
 ### Link to Paradigm
 
-Link to Qualtrics study (Pilot A): <https://stanforduniversity.qualtrics.com/jfe/form/SV_egPpG0CfiIZAKPk>
+Link to Qualtrics study: <https://stanforduniversity.qualtrics.com/jfe/form/SV_egPpG0CfiIZAKPk?PROLIFIC_PID=6532e945721c66a08685dbaa&STUDY_ID=6539a3a6f3653a31f4561148&SESSION_ID=03e1hesve6nm>
 
 ### Analysis Plan
 
-The main analysis of interest is the comparison between the *ignorance* and *knowledge-plausible* groups in terms of their reported probability for Vicky to look for her violin in the "red container" (i.e., the container residing in the same physical location as where Vicki originally placed the violin). The hypothesis --- in line with the effect reported by Birch and Bloom (2007), but contrary to Borchers (2018) --- is that, on average, participants in the *knowledge-plausible* group will report significantly higher probabilities that Vicky will look in the "red container" thanparticipants in the *ignorance* condition. This is because in the *knowledge-plausible* condition, participants' prior knowledge of the event outcome (that the violin was placed in the "red container") in combination with the plausibility of the event (that Vicky will look in the "red container" because after rearrangement of the room, it is in the same physical location as the "blue container," which is where she put her violin originally) is thought to interfere with their ability to reason from Vicky's (unknowing) perspective.
+The main analysis of interest is the comparison between the *ignorance* and *knowledge-plausible* groups in terms of their reported probability for Vicky to look for her violin in the "red container" (i.e., the container residing in the same physical location as where Vicki originally placed the violin). The hypothesis --- in line with the effect reported by Birch and Bloom (2007), but contrary to Borchers (2018) --- is that, on average, participants in the *knowledge-plausible* group will report significantly higher probabilities that Vicky will look in the "red container" than participants in the *ignorance* condition. This is because in the *knowledge-plausible* condition, participants' prior knowledge of the event outcome (that the violin was placed in the "red container") in combination with the plausibility of the event (that Vicky will look in the "red container" because after rearrangement of the room, it is in the same physical location as the "blue container," which is where she put her violin originally) is thought to interfere with their ability to reason from Vicky's (unknowing) perspective.
 
 To test for (the replication of) this effect, I will conduct an independent sample t-test, matching the procedure followed both by Borchers (2018) and Birch and Bloom (2007). Additionally, I will conduct three more independent samples t-tests: One to compare the reported probability for the "red container" between the *ignorance* and *knowledge-implausible* groups, another to compare *ignorance and knowledge-plausible* on their "blue container" probability judgments, and a final one to compare *ignorance* and *knowledge-implausible* groups on their "blue container" probability judgments. For all of the above comparisons of means, Cohen's *d* will also be calculated.
 
