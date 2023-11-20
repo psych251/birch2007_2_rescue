@@ -82,7 +82,7 @@ Unfortunately, there exists no meta-analysis that could provide a (more) precise
 
 Given all of the above, I will follow [Simonsohn's (2014)](https://dx.doi.org/10.2139/ssrn.2259879) recommendation of "\[obtaining\] 2.5 times as many observations as the original study to obtain about 80% power to reject a detectable effect," (p. 14) if the true effect is zero. Thus, $N_{planned}=N_{original}*2.5 = 155*2.5=387$.
 
-Given that the survey is estimated to take only a few minutes, and using an hourly pay of \$10, I anticipate it to be feasible to recruit an even larger sample size of *N* = 387 while staying within budget ($N_{planned}*pay = 387*(\frac{10}{60}*3)=194)$).
+Given that the survey is estimated to take only a few minutes, and using an hourly pay of \$10, I anticipate it to be feasible to recruit a sample size of *N* = 387 while staying within budget ($N_{planned}*pay = 387*(\frac{10}{60}*\$3)=\$194)$).
 
 With *N* = 387, assuming an attenuated effect that is half the size of the original (*d* = 0.236), power will be \~60% (one-sided test):
 
