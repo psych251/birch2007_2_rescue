@@ -82,7 +82,7 @@ Unfortunately, there exists no meta-analysis that could provide a (more) precise
 
 Given all of the above, I will follow [Simonsohn's (2014)](https://dx.doi.org/10.2139/ssrn.2259879) recommendation of "\[obtaining\] 2.5 times as many observations as the original study to obtain about 80% power to reject a detectable effect," (p. 14) if the true effect is zero. Thus, $N_{planned}=N_{original}*2.5 = 155*2.5=387$.
 
-Given that the survey is estimated to take only a few minutes, and using an hourly pay of \$10, I anticipate it to be feasible to recruit a sample size of *N* = 387 while staying within budget ($N_{planned}*pay = 387*(\frac{10}{60}*\$3)=\$194)$).
+Given that the survey is estimated to take only a few minutes, and using an hourly pay of \$10, I anticipate it to be feasible to recruit a sample size of *N* = 387 while staying within budget ($N_{planned}*pay = 387*(\frac{10}{60}*\$3)=\$194$).
 
 With *N* = 387, assuming an attenuated effect that is half the size of the original (*d* = 0.236), power will be \~60% (one-sided test):
 
@@ -106,7 +106,7 @@ Figure 2 below shows a more comprehensive overview of the interplay between effe
 
 To achieve similar education-level demographics as Birch and Bloom (2007), I will recruit only adults enrolled in college. Furthermore, I will pre-screen for colorblindness and exclude respondents in this category from participation. I will also pre-screen for Prolific respondents with high approval rates (indicating that their participation in previous Prolific studies was of high quality).
 
-Based on the considerations above, I propose to recruit *N* = 387 participants (*n* = 129 per condition) and terminate data collection thereafter.
+Based on the considerations above, I propose to recruit *N* = 387 participants (*n* = 129 per condition) and will terminate data collection once this number was reached.
 
 ### Materials
 
@@ -134,7 +134,7 @@ In addition to pre-screening for Prolific respondents with high approval rates, 
 
 Link to Qualtrics study: <https://stanforduniversity.qualtrics.com/jfe/form/SV_egPpG0CfiIZAKPk?PROLIFIC_PID=6532e945721c66a08685dbaa&STUDY_ID=6539a3a6f3653a31f4561148&SESSION_ID=03e1hesve6nm>
 
-### Analysis Plan
+### Key Test and Analysis Plan
 
 The main analysis of interest is the comparison between the *ignorance* and *knowledge-plausible* groups in terms of their reported probability for Vicky to look for her violin in the "red container" (i.e., the container residing in the same physical location as where Vicki originally placed the violin). The hypothesis --- in line with the effect reported by Birch and Bloom (2007), but contrary to Borchers (2018) --- is that, on average, participants in the *knowledge-plausible* group will report significantly higher probabilities that Vicky will look in the "red container" than participants in the *ignorance* condition. This is because in the *knowledge-plausible* condition, participants' prior knowledge of the event outcome (that the violin was placed in the "red container") in combination with the plausibility of the event (that Vicky will look in the "red container" because after rearrangement of the room, it is in the same physical location as the "blue container," which is where she put her violin originally) is thought to interfere with their ability to reason from Vicky's (unknowing) perspective.
 
@@ -142,7 +142,7 @@ To test for (the replication of) this effect, I will conduct an independent samp
 
 ### Differences from Original Study and 1st replication
 
-Birch and Bloom's (2007) study was conducted in person, and Borchers (2018) conducted her study on MTurk. The present study will differ from both in that it will be run on *Qualtrics* (<http://qualtrics.com/>), with the sample being recruited from *Prolific* (<https://prolific.co/>). The number of participants per condition will match that of Borchers but will be smaller than that of Birch and Bloom (which was *N* = 155 total, with the exact *n* per condition unknown). The setting and procedure will match that of Borchers and deviate from Birch and Bloom (2007) in being set online rather than in person. The present analysis plan matches that of both prior studies. None of the above is anticipated to make a crucial difference in the effect estimation.
+Birch and Bloom's (2007) study was conducted in person, and Borchers (2018) conducted her study on MTurk. The present study will differ from both in that it will be run on *Qualtrics* (<http://qualtrics.com/>), with the sample being recruited from *Prolific* (<https://prolific.co/>). The number of participants per condition will exceed that of Borchers (*N* = 70) as well as Birch and Bloom (*N* = 155 total, but exact *n* per condition unknown). The setting and procedure will match that of Borchers and deviate from Birch and Bloom (2007) in being set online rather than in person. The present analysis plan matches that of both prior studies. None of the above is anticipated to make a crucial difference in the effect estimation.
 
 > ### Methods Addendum (Post Data Collection)
 >
@@ -174,10 +174,12 @@ library(tidyverse); library(ggplot2); library(car); library(effsize); library(qu
 
 -   Read in csv. data in *R*
 
-```{r}
+```{r message = FALSE}
 
 here()
 pilot_a_data <- read_survey("/Users/ottuba/birch2007_2_rescue/data/pilot-a_data/Birch+&+Bloom+replication_October+29,+2023_20.09.csv")
+
+pilot_b_data <- read_survey("/Users/ottuba/birch2007_2_rescue/data/pilot-b_data/Birch+&+Bloom+replication_November+24,+2023_16.10.csv")
 
 ```
 
@@ -186,7 +188,7 @@ pilot_a_data <- read_survey("/Users/ottuba/birch2007_2_rescue/data/pilot-a_data/
 ```{r}
 
 selected_columns <-
-  c("consent_form", "FL_16_DO", "age", "high_school", "college", "gender", "colorblindness",
+  c("consent_form", "FL_16_DO", "age", "high_school", "gender", "colorblindness",
     "red_knowplausible", "green_knowplausible", "purple_knowplausible", "blue_knowplausible", 
     "red_knowimplausible", "green_prob", "purple_prob", "blue_knowimplausible",
     "red_ignorance", "green_ignorance", "purple_ignorance", "blue_ignorance")
@@ -194,14 +196,24 @@ selected_columns <-
 pilot_a_data_tidy <- pilot_a_data %>%
   select(all_of(selected_columns))
 
+pilot_b_data_tidy <- pilot_b_data[c(63:77),] %>%
+  select(all_of(selected_columns))
+
 ```
 
 -   Reformat data
 
-```{r}
+```{r warning = FALSE}
 
 pilot_a_data_tidy <-
   pilot_a_data_tidy %>%
+  mutate(subid = row.names(.)) %>%
+  gather(measurement, probability_pct,
+         red_knowplausible:blue_ignorance) %>%
+  separate(measurement, c("color", "condition")) 
+
+pilot_b_data_tidy <-
+  pilot_b_data_tidy %>%
   mutate(subid = row.names(.)) %>%
   gather(measurement, probability_pct,
          red_knowplausible:blue_ignorance) %>%
@@ -218,6 +230,11 @@ pilot_a_data_tidy = pilot_a_data_tidy %>%
          colorblindness == "No", # Not colorblind
          consent_form == "I agree") # Consented to the study
 
+pilot_b_data_tidy = pilot_b_data_tidy %>%
+  filter(high_school == "Yes", # Completed high school
+         colorblindness == "No", # Not colorblind
+         consent_form == "I agree") # Consented to the study
+
 ```
 
 -   Spread final data
@@ -225,6 +242,8 @@ pilot_a_data_tidy = pilot_a_data_tidy %>%
 ```{r}
 
 pilot_a_data_final = pilot_a_data_tidy %>% spread(color, probability_pct)
+
+pilot_b_data_final = pilot_b_data_tidy %>% spread(color, probability_pct)
 
 ```
 
@@ -255,45 +274,93 @@ pilot_a_data_final = pilot_a_data_tidy %>% spread(color, probability_pct)
 
 I will conduct the confirmatory analysis as follows:
 
--   Run descriptive statistics (*N, M*, *SD*) for probability judgments for all four containers (red, blue, green, purple) by condition (ignorant, knowledge-implausible, knowledge-implausible)
+> #### Descriptive Statistics
+>
+> *To be added later:* Run descriptive statistics (*N, M*, *SD*) for probability judgments for all four containers (red, blue, green, purple) by condition (ignorant, knowledge-implausible, knowledge-implausible)
 
--   Run independent sample t-tests (Welch's two sample t-test in R); calculate Cohen's *d*
+#### Independent sample t-tests (Welch's)
 
-    -   Comparing *Ignorant* vs *knowledge-plausible*: Probability judgments for "red container"
+1.  Comparing *Ignorant* vs *knowledge-plausible*: Probability judgments for "red container"
 
-    ```{r}
-
-    t.test(red ~ condition, data = pilot_a_data_final[pilot_a_data_final$condition!="knowimplausible",]) # Target replication
-
-    ```
-
-    -   Comparing *Ignorant* vs *knowledge-plausible*: Probability judgments for "blue container"
-
-    ```{r}
-
-    t.test(blue ~ condition, data = pilot_a_data_final[pilot_a_data_final$condition!="knowimplausible",])
-
-    ```
-
-    -   Comparing *ignorant* vs *knowledge-implausible*: Probability judgments for "red container"
-
-    ```{r}
-
-    t.test(red ~ condition, data = pilot_a_data_final[pilot_a_data_final$condition!="knowplausible",])
-
-    ```
-
-    -   Comparing *ignorant* vs *knowledge-implausible*: Probability judgments for "blue container"
-
-        ```{r}
-
-        t.test(blue ~ condition, data = pilot_a_data_final[pilot_a_data_final$condition!="knowplausible",])
-
-        ```
-
--   Create graph comparing mean difference in probability judgments for "red container" between the *ignorant* and *knowledge-plausible* groups acrossthe original study (Birch & Bloom, 2007)*,* 1st replication (Borchers, 2018), and the present study
+*Pilot A data:*
 
 ```{r}
+
+t.test(red ~ condition, data = pilot_a_data_final[pilot_a_data_final$condition!="knowimplausible",]) # Target replication
+
+```
+
+*Pilot B data:*
+
+```{r}
+
+t.test(red ~ condition, data = pilot_b_data_final[pilot_b_data_final$condition!="knowimplausible",]) # Target replication
+
+```
+
+2.  Comparing *Ignorant* vs *knowledge-plausible*: Probability judgments for "blue container"
+
+*Pilot A data:*
+
+```{r}
+
+t.test(blue ~ condition, data = pilot_a_data_final[pilot_a_data_final$condition!="knowimplausible",])
+
+```
+
+*Pilot B data:*
+
+```{r}
+
+t.test(blue ~ condition, data = pilot_b_data_final[pilot_b_data_final$condition!="knowimplausible",])
+
+```
+
+3.  Comparing *ignorant* vs *knowledge-implausible*: Probability judgments for "red container"
+
+*Pilot A data:*
+
+```{r}
+
+t.test(red ~ condition, data = pilot_a_data_final[pilot_a_data_final$condition!="knowplausible",])
+
+```
+
+*Pilot B data:*
+
+```{r}
+
+t.test(red ~ condition, data = pilot_b_data_final[pilot_b_data_final$condition!="knowplausible",])
+
+```
+
+4.  Comparing *ignorant* vs *knowledge-implausible*: Probability judgments for "blue container"
+
+*Pilot A data:*
+
+```{r}
+
+t.test(blue ~ condition, data = pilot_a_data_final[pilot_a_data_final$condition!="knowplausible",])
+
+```
+
+*Pilot B data:*
+
+```{r}
+
+t.test(blue ~ condition, data = pilot_b_data_final[pilot_b_data_final$condition!="knowplausible",])
+
+```
+
+------------------------------------------------------------------------
+
+#### Graphical Comparison
+
+Creating a graph comparing mean difference in probability judgments for "red container" between the *ignorant* and *knowledge-plausible* groups across the original study (Birch & Bloom, 2007)*,* 1st replication (Borchers, 2018), and the present study.
+
+##### Birch & Bloom (2007) Data Plot
+
+```{r echo = FALSE}
 
 birch_bloom_data= data.frame(
   condition=c("Ignorance","Ignorance","Ignorance","Ignorance",
@@ -330,7 +397,9 @@ ylab("Percent of Red")
 
 ```
 
-```{r}
+##### Previous Replication Data Plot (Borchers)
+
+```{r echo = FALSE}
 
 # Importing Borcher data collected via MTurk
 borchers_replication_all_participants <- read_xls("/Users/ottuba/birch2007_2_rescue/data/pilot-a_data/borchers_replication_anonymized.xls")
@@ -363,6 +432,8 @@ borchers_replication_filtered_data %>%
 
 ```
 
+##### Pilot A Data Plot (N = 10)
+
 ```{r}
 
 pilot_a_data_tidy %>%
@@ -373,20 +444,31 @@ pilot_a_data_tidy %>%
   stat_summary(geom="errorbar", width =0.2, fun.data=mean_se) +
   xlab("Condition") +
   ylab("Percent of Red") +
-  ggtitle("Data Replicating Borcher") +
+  ggtitle("Pilot A Data Replicating Borcher") +
   scale_color_hue(labels= c("Ignorance", "Knowledge-plausible")) +
   theme(plot.title=element_text(hjust=.5)) +
   ylim(0,100)
 
 ```
 
-> ### Exploratory analyses
->
-> Any follow-up analyses desired (not required).
->
-> -   Perhaps running Bayes factor for main t-test analysis.
+##### Pilot B Data Plot (N = 15)
 
-------------------------------------------------------------------------
+```{r}
+
+pilot_b_data_tidy %>%
+  filter(color=="red" & condition != "knowimplausible") %>%
+  ggplot() +
+  aes(x=condition, y=probability_pct, fill=condition) +
+  stat_summary(geom="bar") +
+  stat_summary(geom="errorbar", width =0.2, fun.data=mean_se) +
+  xlab("Condition") +
+  ylab("Percent of Red") +
+  ggtitle("Pilot B Data Replicating Borcher") +
+  scale_color_hue(labels= c("Ignorance", "Knowledge-plausible")) +
+  theme(plot.title=element_text(hjust=.5)) +
+  ylim(0,100)
+
+```
 
 ------------------------------------------------------------------------
 
