@@ -402,7 +402,7 @@ ylab("Percent of Red")
 ```{r echo = FALSE}
 
 # Importing Borcher data collected via MTurk
-borchers_replication_all_participants <- read_xls("/Users/ottuba/birch2007_2_rescue/data/pilot-a_data/borchers_replication_anonymized.xls")
+borchers_replication_all_participants <- read_xls("/Users/ottuba/birch2007_2_rescue/data/borchers_replication_anonymized.xls")
 
 # Tidying data
 borchers_replication_tidy <- borchers_replication_all_participants %>%
