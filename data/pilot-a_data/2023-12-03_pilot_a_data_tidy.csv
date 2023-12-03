@@ -1,0 +1,11 @@
+"","consent_form","FL_16_DO","age","high_school","gender","colorblindness","red_knowplausible","green_knowplausible","purple_knowplausible","blue_knowplausible","red_knowimplausible","green_prob","purple_prob","blue_knowimplausible","red_ignorance","green_ignorance","purple_ignorance","blue_ignorance"
+"1","I agree","cond_know_implausible",99,"Yes","Male","No",NA,NA,NA,NA,33,33,33,1,NA,NA,NA,NA
+"2","I agree","cond_know_plausible",21,"Yes","Male","No",44,44,11,1,NA,NA,NA,NA,NA,NA,NA,NA
+"3","I agree","cond_know_implausible",26,"Yes","Male","No",NA,NA,NA,NA,11,25,24,40,NA,NA,NA,NA
+"4","I agree","cond_know_plausible",23,"Yes","Female","No",0,0,0,100,NA,NA,NA,NA,NA,NA,NA,NA
+"5","I agree","cond_ignorance",24,"Yes","Male","No",NA,NA,NA,NA,NA,NA,NA,NA,0,0,0,100
+"6","I agree","cond_ignorance",27,"Yes","Male","No",NA,NA,NA,NA,NA,NA,NA,NA,25,25,25,25
+"7","I agree","cond_know_plausible",25,"Yes","Male","Yes",90,0,0,10,NA,NA,NA,NA,NA,NA,NA,NA
+"8","I agree","cond_know_implausible",24,"Yes","Female","No",NA,NA,NA,NA,40,0,0,60,NA,NA,NA,NA
+"9","I agree","cond_know_plausible",25,"Yes","Male","No",100,20,20,100,NA,NA,NA,NA,NA,NA,NA,NA
+"10","I agree","cond_know_implausible",29,"Yes","Male","No",NA,NA,NA,NA,25,25,25,25,NA,NA,NA,NA
