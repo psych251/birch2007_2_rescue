@@ -1,0 +1,779 @@
+---
+title: "Replication of study 'The curse of knowledge in reasoning about false beliefs' by Susan A. J. Birch and Paul Bloom (2007, Psychological Science)"
+author: "Adani B. Abutto (Email: aabutto@stanford.edu)"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+format:
+  html:
+    toc: true
+    toc_depth: 3
+---
+
+## Introduction
+
+Ample psychological literature has investigated and discussed the onset and development of human reasoning about others' beliefs and knowledge states. Various scholars and findings have suggested that young children struggle considerably with false-belief reasoning, that is, reasoning about others' beliefs in cases where those beliefs conflict with reality. Birch and Bloom's (2007) seminal study examined whether adults' struggles in "false-belief reasoning" are akin to children's when sufficiently sensitive measures are used. Indeed, their results indicated that young adults' (*N* = 155 college students) reasoning about another person's (false) belief about the world can be compromised by manipulating their knowledge about an event's outcome as well as the plausibility of the event in question. In sum, this finding suggested that while children may have difficulties ignoring their knowledge when reasoning from the perspective of an unknowing agent, adults may experience their knowledge interfering with their false-belief reasoning ability in similar ways.
+
+**Figure 1.**
+
+![Figure taken from Birch and Bloom (2007); questionnaire item prompting participants to respond by indicating probabilities between 0 and 100. Color-word labels (red, green, purple, blue) are included in the figure for interpretability and were not shown to participants in the study.](images/Screenshot%202023-10-22%20at%2015.20.40.png){fig-align="center"}
+
+Birch and Bloom's experimental study employed a simple four-step procedure, using a modified version of a classic displacement task (see, e.g., Wimmer & Perner, 1983). Figure 1 shows the task as presented to participants in one of the three experimental conditions. The procedure was highly similar across conditions: In the first step, all participants were shown a picture of a girl, Vicki, holding a violin in a living room with a sofa and four containers of different colors. Participants were then told that once Vicki finished playing, she placed her violin in a blue container and goes outside playing. Thereafter, participants were shown a text and picture conveying that Vicki's sister, Denise, came in, moved the violin, and rearranged the colored containers. To this end, participants were shown another short text, this time varying by experimental condition: "While Vicki is outside playing, her sister, Denise moves the violin to \[...\]"
+
+-   *Ignorance* condition: "\[...\] another container." (no knowledge of outcome; no interference with false-belief reasoning)
+
+-   *Knowledge-plausible* condition: "\[...\] the red container." (knowledge of placement in same location but different container; interference with false-belief reasoning)
+
+-   *Knowledge-implausible* condition: "\[...\] the purple container." (knowledge of placement in different location and different container; no (or less) interference with false-belief reasoning)
+
+Then, upon conclusion of the story, participants were asked to respond to a single question: "When Vicki returns, she wants to play her violin. What are the chances Vicki will first look for her violin in each of the \[colored\] containers?" Respondents were asked to give their answers in percentages by filling out four separate response fields (i.e., one for each of the four containers).
+
+Given that the study involved only simple text and picture material as well as a single-page questionnaire, I do not anticipate any major challenges in the reproduction and use of study materials. I expect that all experimental manipulations, respondent instructions, and measures can be administered without issue by using *Qualtrics*' in-built survey functions. Notably, however, it seems that Birch and Bloom (2007) administered their questionnaire in physical form. It is possible that when using the *Qualtrics* platform, it is not achievable to display the figure text and probability response fields in the exact same layout as in the original study (e.g., field size and location).
+
+However, this slight limitation in replicating the study materials should not impact the overall replication quality in fundamental ways. Indeed, in light of the COVID-19 pandemic, numerous researchers have started creating and employing digital versions of classic "theory of mind" (ToM) tasks that have typically been administered in person. The findings of such online studies (e.g., in terms of task success rates by age bracket) are generally comparable to the findings of the corresponding in-person research (see Livingston et al., 2021, for an example).
+
+## Link to Rescue Project Repository (GitHub)
+
+[Rescue project repository on GitHub](https://github.com/psych251/birch2007_2_rescue/)
+
+## Link to Original Paper (GitHub)
+
+[Original paper (Birch & Bloom, 2007) on GitHub](https://github.com/psych251/birch2007_2_rescue/tree/main/original_paper)
+
+## Link to Hosted Experiment (Qualtrics)
+
+[Study paradigm on Qualtrics](https://stanforduniversity.qualtrics.com/jfe/form/SV_egPpG0CfiIZAKPk?PROLIFIC_PID=6532e945721c66a08685dbaa&STUDY_ID=6539a3a6f3653a31f4561148&SESSION_ID=03e1hesve6nm)
+
+## Summary of Prior Replications
+
+There are three notable differences between the original study (Birch & Bloom, 2007) and the first replication study by Borchers (2018, see <https://rpubs.com/lrborchers/450894>). The first lies in the replication study omitting one of the three experimental conditions (*knowledge-implausible*)*.* Borchers justifies this in pointing out that the authors did not report significant differences between the *knowledge-plausible* group and the *ignorance* group. However, given that Birch and Bloom (2007) did report a lack of a difference between the *ignorance* and *knowledge-implausible* groups as one of two key findings --- indicating that knowledge alone does not appear to be the sole factor biasing adults' false-belief reasoning ---, I plan to diverge from Borchers' approach and include this condition in the present study.
+
+Second, the sample of the original study consisted of undergraduate students at Yale, whereas Borchers' sample consisted of MTurk workers. Borchers did ask respondents to indicate their education levels but remarked that given this circumstance, there would likely be a difference in education between the original group and the MTurk sample.
+
+Third, Borchers' study was conducted online rather than in person, which meant that stimuli had to be adapted and were not perfectly equivalent to the original materials. It should also be noted that Borchers asked participants whether they were colorblind and excluded people in this category --- Birch and Bloom did not report whether they did so.
+
+Finally, Borchers raised a crucial issue prior to her data collection: Given that participants were asked to write down their probability estimates in a simple text box, it was possible for them to make typing or calculation errors, resulting in the sum of all response fields to add up to less (or more) than 100%. Indeed, in Borchers' data, there were *n* = 8 such cases (*n* = 4 in each condition). Borchers reported that she thus conducted her analysis twice --- once including these cases, and once excluding them --- and that the results did not differ across subsamples. Nevertheless, this circumstance led to a slight reduction in her sample size and statistical power. The present study will avoid this by integrating an input check in the survey (e.g., having a message pop up on the respective Qualtrics page if respondents' probability values don't add up to 100%).
+
+Notably, there exists also an earlier replication conducted by Bridgers (n.d., see <https://docs.google.com/document/d/1fSARliH5QKadGy3UElC00ehgwr2LLQbey-uzb1RPv0A/edit>). Bridgers' replication was highly similar to Borchers', the only difference being that Bridgers incoporated all three conditions and employed slightly adapted versions of Birch and Bloom's (2007) story stimuli.
+
+## Methods
+
+```{r}
+
+knitr::opts_chunk$set(echo = T)
+library(tidyverse); library(ggplot2); library(car); library(effsize); library(qualtRics); library(readxl); library(patchwork); library(ggpubr); library(metafor)
+
+```
+
+### Power Analysis
+
+The original effect size Birch and Bloom (2007) reported was *d* = 0.472 (*t*(105) = -2.42, $p_{rep}$ = .95). Neither Bridgers (n.d.) nor Borchers (2018) replicated this effect: *t*(149.58) = -1.20, *p* = 0.231, and *t*(70.25) = -0.65, *p* = .518, respectively. In the former case (Bridgers), the sample size (*N* = 225) considerably exceeded that of the original authors (*N* = 155). In the latter case (Borchers), the sample size (*N* = 73) was smaller compared to that of the original authors.
+
+In planning her replication study, [Borchers (2018)](https://rpubs.com/lrborchers/450894) ran an a-priori power analysis and reported that "\[we\] would need 24 participants per condition to achieve 80% power, 32 participants per condition to achieve 90% power, and 40 participants per condition to achieve 95% power."
+
+In contrast, in the earlier replication by [Bridgers (n.d.)](https://docs.google.com/document/d/1fSARliH5QKadGy3UElC00ehgwr2LLQbey-uzb1RPv0A/edit), it was reported that "\[...\] to detect \[the original\] effect size with 80%, 90%, and 95% power, the sample size would need to be 71 participants per condition, 95 participants per condition, or 118 participants per condition, respectively."
+
+In re-running the above power analysis, I found that required sample sizes would indeed be 71, 95, and 118 per condition to achieve 80%, 90%, and 95% power, respectively:
+
+```{r}
+
+# 80% power
+power.t.test(delta = .472, sd = 1, sig.level = 0.05, power = .80,
+             type = "two.sample",
+             alternative = "two.sided")
+
+ # 90% power
+power.t.test(delta = .472, sd = 1, sig.level = 0.05, power = .90,
+             type = "two.sample",
+             alternative = "two.sided")
+
+ # 95% power
+power.t.test(delta = .472, sd = 1, sig.level = 0.05, power = .95,
+             type = "two.sample",
+             alternative = "two.sided")
+
+```
+
+Unfortunately, there exists no meta-analysis that could provide a more precise estimate of the effect size, and the pilot data obtained as part of the present project was too limited in size as to be informative (*N* \< 10, non-naive participants). In short, I do not have strong prior information about the likely effect size.
+
+Given all of the above, I will follow [Simonsohn's (2014)](https://dx.doi.org/10.2139/ssrn.2259879) recommendation of "\[obtaining\] 2.5 times as many observations as the original study to obtain about 80% power to reject a detectable effect," (p. 14) if the true effect is zero. Thus, $N_{planned}=N_{original}*2.5 = 155*2.5=387$.
+
+Given that I estimate my study to take only a few minutes, and plan to use an hourly pay of \$10, I anticipate it to be feasible to recruit a sample size of *N* = 387 while staying within budget ($N_{planned}*pay = 387*(\frac{10}{60}*\$3)=\$194$).
+
+With *N* = 387, assuming an attenuated effect that is half the size of the original (*d* = 0.236), power will be \~60% (one-sided test):
+
+```{r}
+
+power.t.test(delta = .236, n = 129, sd = 1, sig.level = 0.05, power = NULL,
+             type = "two.sample",
+             alternative = "one.sided")
+
+```
+
+Figure 2 below shows a more comprehensive overview of the interplay between effect size and required sample size:
+
+**Figure 2.**
+
+![](images/powerplot.png)
+
+*Note*. Graph generated in G\*Power: Required sample size to detect a given effect of size *d* with 80% power.
+
+### Planned Sample
+
+To achieve similar education-level demographics as Birch and Bloom (2007), I will use a pre-screener to recruit only adults enrolled in college. Additionally, I will pre-screen for colorblindness. Lastly, I will pre-screen for Prolific respondents with high approval rates (indicating that their participation in previous Prolific studies was of high quality). I propose to recruit *N* = 387 participants (*n* = 129 per condition) fitting the above criteria and will terminate data collection once this number is reached.
+
+### Materials
+
+Materials will be employed as reported by Borchers (2018): "This study \[will use\] a colored figure depicting Vicki, her violin, a sofa, and four containers (ordered: blue, purple, red, green) on the top panel and her sister, the violin, a sofa, and the containers (reordered: red, green, purple, blue) on the bottom panel. All participants \[will be\] shown the following text (manipulations shown in brackets): 'This is Vicki. She finishes playing her violin and puts it in the blue container. Then she goes outside to play. While Vicki is outside playing, her sister, Denise, moves the violin...
+
+-   \[*ignorance*\] ...to another container
+
+-   \[*knowledge-plausible*\] ...to the red container
+
+-   \[*knowledge-implausible*\] ...to the purple container
+
+Then Denise rearranges the containers in the room until the room looks like the picture below. When Vicki returns, she wants to play her violin. What are the chances Vicki will first look for her violin in each of the above containers? Write your answers in percentages in the spaces provided under each container.' All participants will receive the same figure with modifications to the text according to their condition (described above)."
+
+Given that the materials made available by Birch and Bloom's (2007) are black-and-white, I contacted Borchers to obtain her colored figure. Borchers shared said figure, and I added only minor adaptations, increasing the in-figure text size to make it more readable (see <https://github.com/psych251/birch2007_2_rescue/tree/main/stimuli>).
+
+### Procedure
+
+My procedure will largely match that of Borchers: "\[I will employ\] a between-subjects design and participants will be randomly assigned to the *ignorance* or *knowledge-plausible* condition at the beginning of the study. After reading the corresponding prompt, all participants will report on their perceived probability that Vicki will look in each of the four containers for her violin."
+
+The main difference is that the present study will include all three conditions used by Birch and Bloom (2007) rather than merely *knowledge-plausible* and *ignorance* as in Borchers (2018). Additionally, I formatted response fields to be displayed side-by-side right beneath the experimental manipulation figure, and moved demographic questions to the very end of the study.
+
+### Controls
+
+In addition to pre-screening for Prolific respondents with color vision, college enrollment, and ≥ Prolific 99% approval rates, I will include a response check ensuring that participants' probability estimates add up to (roughly) 100% across the four response fields. No other control measures will be used.
+
+### Key Test and Analysis Plan
+
+The main analysis of interest is the comparison between the *ignorance* and *knowledge-plausible* groups in terms of their average probability for Vicky to look for her violin in the "red container" (i.e., the container residing in the same physical location as where Vicki originally placed the violin). The hypothesis --- in line with the effect reported by Birch and Bloom (2007) --- is that, on average, participants in the *knowledge-plausible* group will report significantly higher probabilities that Vicky will look in the "red container" than participants in the *ignorance* condition. This is because in the *knowledge-plausible* condition, participants' prior knowledge of the event outcome (that the violin was placed in the "red container") in combination with the plausibility of the event (that Vicky will look in the "red container" because after rearrangement of the room, it is in the same physical location as the "blue container," which is where she put her violin originally) is hypothesized to interfere with their ability to reason from Vicky's (unknowing) perspective.
+
+To test for (the replication of) this effect, I will conduct an independent samples t-test, matching the procedure followed by Birch and Bloom (2007), Bridgers (n.d.), and Borchers (2018). Cohen's *d* will also be calculated.
+
+Secondly, related to the main effect of interest above, Birch and Bloom (2007) also reported that
+
+Moreover, for exploratory purposes, I will conduct three more independent samples t-tests: One to compare the reported probability for the "red container" between the *ignorance* and *knowledge-implausible* groups (anticipating no sig. difference as per Birch & Bloom), another to compare *ignorance and knowledge-plausible* on their "blue container" probability judgments (anticipating lower ratings in knowledge-plausible as per Birch & Bloom; *d* = 0.459), and a final one to compare *ignorance* and *knowledge-implausible* groups on their "blue container" probability judgments (anticipating no sig. difference as per Birch & Bloom).
+
+### Deviations from Original Study and Previous Replications
+
+Birch and Bloom's (2007) study was conducted in person, and Bridgers (n.d.) and Borchers (2018) conducted their studies on MTurk. The present study will differ from all three in that it will be run on *Qualtrics* (<http://qualtrics.com/>), with the sample being recruited from *Prolific* (<https://prolific.co/>). The number of participants per condition will exceed that of Bridgers (*N* = 225), Borchers (*N* = 73) as well as Birch and Bloom (*N* = 155 total). The setting and procedure will match that of Borchers and Bridgers and deviate from Birch and Bloom (2007) in being set online rather than in person. My survey will incorporate the same "response check" reminder as Borchers (2018), reminding participants that their probability estimates should (roughly) add up to 100% across the four response fields. Finally, the present analysis plan matches that of all three prior studies. I anticipate none of the above deviations to make a crucial difference in the effect estimation.
+
+### Methods Addendum (Post Data Collection)
+
+Although the full planned sample size was reached (*N* = 387 participants), a total of *n* = 13 participants had to be excluded from analysis. With that, the final sample size was slightly smaller than anticipated. Other than that, there is no methods addendum to be made now that data collection has been concluded.
+
+#### Differences from pre-data collection methods plan
+
+None.
+
+## Actual Sample
+
+Below, I provide my data processing pipeline and thereafter describe my sample size, demographics, and data exclusions based on the rules spelled out in my analysis plan.
+
+### Data Processing
+
+1.  Read in csv. data in R (deidentified data set available under <https://github.com/psych251/birch2007_2_rescue/tree/main/data>)
+
+```{r message = FALSE}
+
+final_data_raw <- read_survey("/Users/ottuba/birch2007_2_rescue/data/final_data/Birch+&+Bloom+replication_December+7,+2023_11.14.csv")
+
+```
+
+2.  Remove identifying data and other unneeded columns (e.g., date/time, response times)
+
+```{r}
+
+selected_columns <-
+  c("consent_form", "FL_16_DO", "age", "high_school", "gender", "colorblindness",
+    "red_knowplausible", "green_knowplausible", "purple_knowplausible", "blue_knowplausible", 
+    "red_knowimplausible", "green_prob", "purple_prob", "blue_knowimplausible",
+    "red_ignorance", "green_ignorance", "purple_ignorance", "blue_ignorance")
+
+final_data_tidy <- final_data_raw %>%
+  filter(Finished != "FALSE", # Exclude participants who didn't finish
+         FL_16_DO != "NA", # Exclude participants who weren't assigned condition
+         PID != "NA", # Exclude people w/o Prolific ID (my own test runs)
+         PID != "a", # Exclude people with random Prolific ID (my own test runs)
+         !grepl("TA", PID)) %>%  # Exclude TA submissions
+  select(all_of(selected_columns))
+
+```
+
+```{r}
+
+knitr::kable(head(final_data_tidy),
+             table.attr = "class=\"striped\"",
+             format = "html")
+
+```
+
+### Sample Size (N = 387)
+
+A total of *N* = 387 completed the survey. All of them had U.S. IP addresses and a ≥ 99% approval rating on Prolific.
+
+```{r}
+
+nrow(final_data_tidy)
+
+```
+
+### Demographics
+
+There were *n =* 128-130 participants per condition.
+
+```{r}
+
+Hmisc::describe(final_data_tidy$FL_16_DO)
+
+```
+
+The mean age was about 28 years (*SD* = 9.54, range = 18-74). The sample skewed heavily toward younger years. Given that I pre-screened for participants enrolled in college, this was expected.
+
+```{r}
+
+psych::describe(final_data_tidy$age)
+
+```
+
+All but one participant (*N* = 386) have completed high school and are presently enrolled in college. This was expected given that I pre-screened for participants enrolled in college.
+
+```{r}
+
+Hmisc::describe(final_data_tidy$high_school)
+
+```
+
+The gender distribution was close to 50/50.
+
+```{r}
+
+Hmisc::describe(final_data_tidy$gender)
+
+```
+
+A total of *n* = 2 participants indicated they were colorblind, despite the pre-screener.
+
+```{r}
+
+Hmisc::describe(final_data_tidy$colorblindness)
+
+```
+
+Based on the above, in a first step, I excluded a total of *n* = 2 participants from analysis due to being colorblind, and *n* = 1 participant due to not having completed high school/not being in college. After these exclusions, the remaining sample size was *N* = 384.
+
+```{r}
+
+final_data_tidy = final_data_tidy %>%
+  filter(high_school == "Yes", # Keep only participants who completed high school
+         colorblindness == "No", # Keep only participants with color vision
+         consent_form == "I agree") # Keep only participants who gave consent
+
+```
+
+## Results
+
+### Data Preparation
+
+1.  Reformat data
+
+```{r}
+
+final_data_tidy <- final_data_tidy %>% 
+  rename(green_knowimplausible = green_prob,
+         purple_knowimplausible  = purple_prob)
+
+final_data_tidy <-
+  final_data_tidy %>%
+  mutate(subid = row.names(.)) %>%
+  gather(measurement, probability_pct,
+         red_knowplausible:blue_ignorance) %>%
+  separate(measurement, c("color", "condition"))
+
+```
+
+2.  Spread the data
+
+```{r}
+
+final_data =
+  final_data_tidy %>%
+  spread(color, probability_pct) %>% 
+  filter(complete.cases(.))
+
+```
+
+3.  Exclude participants whose probability estimates did not sum up to (roughly) 100% (± 5%).
+
+```{r}
+
+final_data <-
+  final_data %>%
+  mutate(total_sum = rowSums(select(., blue, green, purple, red))) %>%
+  mutate(deviation_from_100 = abs(total_sum - 100)) %>%
+  mutate(within_tolerance = total_sum >= 95 & total_sum <= 105)
+
+Hmisc::describe(final_data$deviation_from_100)
+
+```
+
+```{r}
+
+final_data <-
+  final_data %>% 
+  filter(deviation_from_100 <= 5) %>% 
+  select(-c("FL_16_DO"))
+
+knitr::kable(head(final_data),
+             table.attr = "class=\"striped\"",
+             format = "html")
+
+```
+
+After the above exclusions, the final *N* for analysis was 374. The total *n* per condition was not affected systematically.
+
+```{r}
+
+Hmisc::describe(final_data$condition)
+
+```
+
+### Results of Control Measures
+
+None.
+
+### Confirmatory Analysis
+
+#### Descriptive Statistics
+
+The table below shows descriptive statistics (*N, M*, *SD*) for probability ratings relating to the four containers (red, blue, green, purple) by condition (ignorant, knowledge-implausible, knowledge-implausible).
+
+```{r}
+
+knitr::kable(final_data %>%
+  group_by(condition) %>%
+  summarise(
+    mean_red = mean(red),
+    sd_red = sd(red),
+    mean_blue = mean(blue),
+    sd_blue = sd(blue),
+    mean_green = mean(green),
+    sd_green = sd(green),
+    mean_purple = mean(purple),
+    sd_purple = sd(purple)
+  ), digits = 2,
+  table.attr = "class=\"striped\"",
+  format = "html")
+
+```
+
+#### Key Test
+
+The output below shows an independent samples t-test comparing participants' probability judgments for the "red" container across the *Ignorant* and *knowledge-plausible* conditions.
+
+```{r}
+
+t.test(red ~ condition,
+       data = final_data[final_data$condition!="knowimplausible",])
+
+effsize::cohen.d(final_data$red[final_data$condition!="ignorance"], 
+                 final_data$red[final_data$condition!="knowplausible"])
+
+```
+
+#### Graphical Comparison
+
+The graph below visualizes the mean differences in participants' probability judgments relating to the "red container," comparing the *ignorant* and *knowledge-plausible* groups across the original study (Birch & Bloom, 2007)*,* 1st replication (Borchers, 2018), and the present study. Bridgers (n.d.) did not report full information on the relevant mean and SD values, hence this data is not included in the comparison below.
+
+##### Birch & Bloom Plot (Original):
+
+```{r warning = FALSE, fig.show='hide', message = FALSE}
+
+birch_bloom_data = data.frame(
+  condition=c(rep("Ignorance", 4),
+              rep("Knowledge-Plausible", 4),
+              rep("Knowledge-Implausible", 4)),
+  container=c("blue",
+              "red",
+              "purple",
+              "green"), 
+  probability_percent =c(71, 23, 2, 3, # Mean for ignorance
+                         59, 34, 3, 4, # Mean for knowledge plausible
+                         73, 19, 6, 3), # Mean for knowledge implausible
+  standard_deviation = c(26, 22, 5, 7, # SD for ignorance
+                         27, 25, 5, 7,  # SD for knowledge plausible
+                         29, 21, 16, 5), # SD for knowledge implausible
+  n = c(rep(52, 12))
+  ) %>%
+  mutate(standard_error = standard_deviation / sqrt(n))
+
+filtered_birch_bloom_data = birch_bloom_data %>%
+  filter(container == "red",
+         condition != "Knowledge-Implausible")
+
+```
+
+```{r warning = FALSE, fig.show='hide', message = FALSE}
+
+plot1 <-
+  ggplot(filtered_birch_bloom_data,
+       aes(x = condition, y = probability_percent, fill = condition)) +
+  geom_bar(position="dodge", stat="identity") +
+  ggtitle("Birch & Bloom (2007; N = 104)") +
+  theme_linedraw() +
+  theme(plot.title=element_text(hjust=.5),
+        legend.position = "none",
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank()) +
+  geom_errorbar(aes(ymin=probability_percent - standard_error,
+                    ymax = probability_percent + standard_error), width = .1) +
+  scale_fill_manual(values = c(rgb(101/255,187/255,103/255),
+                           rgb(249/255,170/255,112/255)),
+                 labels = c("Ignorance", "Knowledge-plausible")) +
+  ylim(0,100) +
+  xlab("Condition") +
+  ylab("Percent of Red") +
+  annotate("text", x = 1.5, y = 57, label = "***", size = 6) +
+  geom_segment(aes(x = 1, xend = 2, y = 55, yend = 55), colour = "black", linetype = "solid", size = 0.5)
+
+plot1
+
+```
+
+##### Borchers Plot (Replication):
+
+```{r}
+
+# Importing Borcher data collected via MTurk
+borchers_replication_all_participants <-
+  read_xls("/Users/ottuba/birch2007_2_rescue/data/borchers_replication_anonymized.xls")
+
+# Tidying data
+borchers_replication_tidy <- borchers_replication_all_participants %>%
+  mutate(subid = row.names(.)) %>%
+  gather(measurement, probability_pct, red_knowledgeplausible:blue_ignorance) %>%
+  filter(!is.na(probability_pct)) %>%
+  separate(measurement, c("color", "condition")) 
+
+# Eligible participants 
+borchers_replication_filtered_data = borchers_replication_tidy %>%
+  filter(high_school=="Yes",
+         color_blind=="No",
+         consent=="I agree") #Consenting to the study
+
+```
+
+```{r warning = FALSE, fig.show='hide', message = FALSE}
+
+plot2 <-
+  borchers_replication_filtered_data %>%
+  filter(color=="red") %>%
+  ggplot() +
+  aes(x=condition, y=probability_pct, fill=condition) +
+  stat_summary(geom="bar") +
+  stat_summary(geom="errorbar", width = 0.1, fun.data=mean_se) +
+  xlab("Condition") +
+  ylab("Percent of Red") +
+  ggtitle("Borchers (2018; N = 73)") +
+  scale_fill_manual(values = c(rgb(101/255,187/255,103/255),
+                               rgb(249/255,170/255,112/255)),
+                     labels = c("Ignorance", "Knowledge-plausible")) +
+  theme_linedraw() +
+  theme(plot.title=element_text(hjust=.5),
+        legend.position = "bottom",
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank()) +
+  ylim(0,100) +
+  stat_compare_means(comparisons = list(c("ignorance", "knowledgeplausible")), 
+                 label = "p.signif",
+                 label.size = 24, bracket.size = .75, label.y = c(50,50))
+
+plot2
+
+```
+
+##### Abutto Plot (Replication):
+
+```{r warning = FALSE, fig.show='hide', message = FALSE}
+
+plot3 <-
+  final_data_tidy %>%
+  filter(color == "red" & condition != "knowimplausible") %>%
+  ggplot() +
+  aes(x = condition, y = probability_pct, fill = condition) +
+  stat_summary(geom = "bar") +
+  stat_summary(geom = "errorbar", width = 0.1, fun.data = mean_se) +
+  xlab("Condition") +
+  ggtitle("Abutto (2023; N = 374)") +
+  ylab("Percent of Red") +
+  scale_fill_manual(values = c(rgb(101/255,187/255,103/255),
+                               rgb(249/255,170/255,112/255)),
+                     labels = c("Ignorance", "Knowledge-plausible")) +
+  theme_linedraw() +
+  theme(plot.title = element_text(hjust = .5),
+        legend.position = "none",
+        axis.title.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.title.x = element_blank(),
+        axis.text.x = element_blank()) +
+  ylim(0, 100) +
+  stat_compare_means(comparisons = list(c("ignorance", "knowplausible")), 
+                   label = "p.signif",
+                   label.size = 24, bracket.size = .75, label.y = c(50,50))
+
+plot3
+
+```
+
+```{r fig.width = 10, warning = FALSE, message = FALSE}
+
+combined_plot <- plot1 + plot2 + plot3
+combined_plot
+
+```
+
+### Exploratory Analyses
+
+The plot below provides a graphical comparison of all group contrasts across the present study's data and the original study's data (Birch & Bloom, 2007).
+
+```{r warning = FALSE, fig.show='hide', message = FALSE}
+
+plot4 <-
+  final_data_tidy %>%
+  mutate(condition = fct_relevel(condition, 
+                                 "Knowledge-plausible", 
+                                 "Ignorance", 
+                                 "Knowledge-implausible")) %>%
+  ggplot() +
+  aes(x = color, y = probability_pct, fill = condition) +
+  geom_bar(stat = "summary", fun = "mean", position = position_dodge(width = 0.8)) +
+  geom_errorbar(stat = "summary", fun.data = mean_se, width = 0.1, position = position_dodge(width = 0.8)) +
+  xlab("Container") +
+  ylab("Average Probability Rating") +
+  ggtitle("Abutto (2023; N = 374)") +
+  scale_fill_manual(values = c(rgb(249/255,170/255,112/255),
+                               rgb(101/255,187/255,103/255),
+                               rgb(167/255,144/255,192/255)),
+                     labels = c("Knowledge-plausible",
+                                "Ignorance",
+                                "Knowledge-implausible")) +
+  theme_linedraw() +
+  theme(plot.title = element_text(hjust = .5),
+        legend.position = "none") +
+  ylim(0, 100)
+
+```
+
+```{r warning = FALSE, fig.show='hide', message = FALSE}
+
+plot5 <-
+  birch_bloom_data %>%
+  mutate(condition = fct_relevel(condition, 
+                               "Knowledge-plausible", 
+                               "Ignorance", 
+                               "Knowledge-implausible")) %>%
+  ggplot() +
+  aes(x = container, y = probability_percent, fill = condition) +
+  geom_bar(stat = "summary", fun = "mean", position = position_dodge(width = 0.8)) +
+  geom_errorbar(aes(ymin = probability_percent - standard_error, 
+                    ymax = probability_percent + standard_error),
+                width = 0.1, position = position_dodge(width = 0.8)) +
+  xlab("Container") +
+  ylab("Average Probability Rating") +
+  ggtitle("Birch and Bloom (2007; N = 155)") +
+  scale_fill_manual(values = c(rgb(249/255,170/255,112/255),
+                               rgb(101/255,187/255,103/255),
+                               rgb(167/255,144/255,192/255)),
+                     labels = c("Knowledge-plausible",
+                                "Ignorance",
+                                "Knowledge-implausible")) +
+  theme_linedraw() +
+  theme(plot.title = element_text(hjust = .5),
+        legend.position = "right",
+        axis.text.y = element_blank(),
+        axis.title.y = element_blank()) +
+  ylim(0, 100)
+
+```
+
+```{r fig.width = 12, warning = FALSE}
+
+combined_plot2 <- plot4+plot5
+combined_plot2
+
+```
+
+The code outputs below relate to the present study's exploratory analyses.
+
+1.  Comparison of participants' probability judgments for the "red" container between the *ignorance* and *knowledge-implausible* groups
+
+```{r}
+
+t.test(red ~ condition,
+       data = final_data[final_data$condition!="knowplausible",])
+
+```
+
+2.  Comparison of participants' probability judgments for the "blue" container between the *ignorance* and *knowledge-plausible* groups
+
+```{r}
+
+t.test(blue ~ condition,
+       data = final_data[final_data$condition!="knowimplausible",])
+
+```
+
+3.  Comparison of participants' probability judgments for the "blue" container between the *ignorance* and *knowledge-implausible* groups
+
+```{r}
+
+t.test(blue ~ condition,
+       data = final_data[final_data$condition!="knowplausible",])
+
+```
+
+4.  Comparison of participants' probability judgments for the "purple" container between the *ignorance* and *knowledge-implausible* groups
+
+```{r}
+
+t.test(purple ~ condition,
+       data = final_data[final_data$condition!="knowplausible",])
+
+```
+
+## Summary and Discussion of Replication Attempt
+
+The present project set out to replicate Birch and Bloom's (2007) examination of possible parallels between adults' and children's struggles in "false-belief reasoning" when sufficiently sensitive measures are used. To this end, I employed an online version of Birch and Bloom's (2007) modified version of a classic displacement task and closely matched the authors' stimuli, procedures, sample demographics, and analyses. The main difference lay in the nature of the study setting (in-lab versus online).
+
+Contrary to the original study by Birch and Bloom, the present results indicated a negligible effect of the "curse of knowledge" bias on adults' false belief reasoning. More concretely, the analysis showed that even if participants had prior knowledge of the event outcome, and the event outcome in question was plausible, adults did *not* display greater error rates in reasoning from the perspective of the (unknowing) story protagonist. This was reflected in the statistically negligible difference in probability judgments for the "red" container between the *ignorance* and *knowledge-plausible* groups. That is, even if participants knew where the violin had been moved to, and even if the new location of the violin was one where the protagonist (Vicky) might reasonably search, their probability judgments still tended to favor the search location an unknowing agent (i.e., Vicky) would prefer. Similarly, participants in the *knowledge-plausible* group did not differ in their judgments that Vicky would first search for her violin in the "false-belief" container - the blue container, where Vicky had originally placed her violin - compared to participants who had no knowledge of the violin's location (*ignorance* group). With that, the present results did not replicate Birch and Bloom's (2007) relative decrease in participants' probability judgments that Vicky would first search for her violin in the "blue" container when comparing participants in the *knowledge-plausible and ignorance* groups.
+
+Notably, however, the present exploratory analyses replicated other parts of Birch and Bloom's (2007) findings. When comparing probability judgments for the "red" container between the *ignorance* and *knowledge-implausible* groups, the analysis revealed that manipulating just participants' knowledge of the outcome (i.e., telling participants that the violin was moved to the "purple" container) indeed did not induce higher error rates in adults' false-belief reasoning.
+
+With that, the present study partially replicated the original findings: Select exploratory results were congruent, but the main findings contradicted the reports from the original study conducted by Birch and Bloom (2007). This pattern of results aligns with the reports from the two previous replication attempts conducted by Bridgers (n.d.) and Borchers (2018).
+
+### Mini Meta Analysis
+
+Combining across the original paper, 1st replication, and 2nd replication, the aggregate effect size is negligible (estimated 5% difference in mean probability judgments on the original scale):
+
+```{r}
+
+raw_metaanalysis_data <- as.data.frame(read_xlsx("/Users/ottuba/birch2007_2_rescue/data/Birch-Bloom_minimeta_data.xlsx", range = "B2:G6"))
+
+raw_metaanalysis_data[,c("N", "raw_mean_difference",
+                        "raw_low", "raw_high")] <-
+  lapply(raw_metaanalysis_data[,c("N", "raw_mean_difference",
+                                  "raw_low", "raw_high")], as.numeric)
+
+knitr::kable(raw_metaanalysis_data,
+             table.attr = "class=\"striped\"",
+             format = "html")
+
+```
+
+```{r}
+
+for_mod <- raw_metaanalysis_data %>% 
+  mutate(se=(raw_high-raw_low)/(2*1.96))
+
+mini_meta_mod <- rma(yi=raw_mean_difference,
+                     sei=se, slab=Study, data=for_mod)
+
+summary(mini_meta_mod)
+
+```
+
+```{r}
+
+aggregate <- tibble(Study="Aggregate", Citation=NA,
+                    raw_mean_difference=mini_meta_mod$b,
+                    raw_low=mini_meta_mod$ci.lb,
+                    raw_high=mini_meta_mod$ci.ub,
+                    N=sum(raw_metaanalysis_data$N))
+
+for_plot <-
+  raw_metaanalysis_data %>%
+  bind_rows(aggregate) %>%
+  mutate(Study=factor(Study,
+                      levels=c("Aggregate",
+                               "Birch and Bloom",
+                               "Bridgers",
+                               "Borchers",
+                               "Abutto")))
+
+```
+
+```{r}
+
+ggplot(for_plot,
+       aes(x = Study, y = raw_mean_difference,
+           ymin = raw_low, ymax = raw_high, size=N))+
+  geom_errorbar(colour='darkgray',size=.5,width=.25)+
+  geom_point(data=for_plot |> filter(Study != "Aggregate"))+
+  geom_point(data=for_plot |> filter(Study == "Aggregate"),
+             shape=18, color="red")+
+  coord_flip()+
+  ylim(-25,25) +
+  scale_size_area()+
+  geom_hline(yintercept=0,color="black")+
+  theme_linedraw() +
+  theme(legend.position = "none")+
+  geom_vline(xintercept = 1.5, lty=2)+
+  labs(y="Main effect size on original scale", x="")
+
+```
+
+```{r}
+
+forest(mini_meta_mod)
+
+```
+
+*Note.* The estimate for Bridgers may be inaccurate, as it had to be reconstructed based on incomplete information (missing information on the mean difference and SDs relating to the group comparison of interest). The necessary numerical information was reconstructed with the help of ChatGPT (see here for output: <https://chat.openai.com/share/cf52551d-d983-48af-a3a7-3239442fdf9d>).
+
+```{r}
+
+funnel(mini_meta_mod)
+
+```
+
+#### Scale Ratings
+
+*Using a 0-1 scale rating \[0, .25, .5, .75, 1\], how well did this rescue replicate the original results?*
+
+On the above scale, I would rate the present rescue's replication of results a .25. There was no support for the original authors' main findings, but results on comparisons of secondary interest aligned.
+
+*Categorize your rescue for how close of a replication of the original it was using the scale in the Figure below:*
+
+Based on the scale provided in the figure below, I would rate the present rescue a "very close replication." The effect and hypothesis in question were the same, the conceptualization and operationalization of IVs and DVs were held constant, the population was largely matched (pre-screened for adults living in the U.S. and enrolled in college), and stimuli were adapted only slightly. The key difference lay in the (lack of a) physical setting.
+
+**Figure X.**
+
+![](images/Screenshot 2023-12-12 at 19.07.18.png)
+
+*Note.* Figure taken from LeBel et al. (2018).
+
+### Commentary
+
+Crucially, the present rescue project's results showed that different participants in different conditions were largely consistent in how probable they thought it was for Vicky to first search in the "red" container. In other words, rather than experiencing different degrees of interference as per the "curse of knowledge," participants seemed to consistently consider the "red" container - that is, the container located where Vicky first put her violin - a plausible option for Vicky to start her search. Indeed, even in the *knowledge plausible* condition, one can (successfully) reason from the unknowing protagonist's perspective and still think the "red" container presents a reasonable choice: It represents the same location - albeit not the same container - as where Vicky first put her violin before leaving the room. While it is certainly plausible for Vicky to distinctly remember the color of the container she put her violin (i.e., blue) and first begin her search there, it is also plausible for her to distinctly remember the corner of the living room she put her violin (i.e., where the red container is), and first begin her search there. Thus, using probability judgments relating to the "red" container as a basis for estimating the effect of the "curse of knowledge" bias may be misguided in its premise that unknowing Vicky would not reasonably begin her search there.
+
+It should also be noted that relative to Birch and Bloom's (2007) original results, participants also generally judged it more probable for Vicky to first search in the "green" or "purple" containers. In the present study, descriptive statistics showed $M_{green}$ = 7.3% and $SD_{green}$ = 9.8% as well as $M_{purple}$ = 8.8% and $SD_{purple}$ = 13.2%. In the original study, descriptive statistics showed $M_{green}$ = 3.3% and $SD_{green}$, as well as $M_{purple}$ = 3.7% and $SD_{purple}$ = 6.3%. This is slightly surprising, given that the story context should render these search locations as quite improbable: Both containers are neither of the same color as the container where Vicky placed her violin (blue), nor do they inhabit the same location of the original container after the sister, Denise, had rearranged the room. While this need not have impeded on the estimation of the effect of interest, it is still a deviation from the original results.
+
+Importantly, all of the above is still consistent with the explanation that *some* but not all adults in the *knowledge-plausible* condition may have succumbed to a "curse of knowledge" bias under the circumstances leveraged in the present study. The effect size, indeed, was not zero (*d* = 0.09), though drastically smaller than the one estimated in the original study (*d* = .47). Still, this difference in effect size could, at least in part, be explained by sampling variability as well as the discrepancies in study setup (lab versus in-person). Hence, Birch and Bloom's (2007) fundamental claim that adults may display difficulties in their false-belief reasoning if sensitive enough measures are used should not be dismissed entirely on the basis of the present study's results. Rather thano asking whether or not the "curse of knowledge" is a true phenomenon, the key question then becomes: To what degree, and under which circumstances, if not the ones induced in the present study, do adults display difficulties in false-belief reasoning akin to those of children? Future research may wish to develop and employ new, adapted paradigms to investigate this question.
+
+## References
+
+Birch, S. A. J., & Bloom, P. (2007). The Curse of Knowledge in Reasoning About False Beliefs. *Psychological Science*, *18*(5), 382--386. <https://doi.org/10.1111/j.1467-9280.2007.01909.x>
+
+Borchers, L. R. Replication of Study The Curse of Knowledge in Reasoning About False Beliefs by Susan A.J. Birch & Paul Bloom (2007, Psychological Science). RPubs. Retrieved on December 12, 2023, from <https://rpubs.com/lrborchers/450894>
+
+Bridgers, S. (n.d.). Replication of \'The Curse of Knowledge in Reasoning about False Beliefs\'  by Susan A.J. Birch & Paul Bloom (2007, Psychological Science). Google Docs. Retrieved on December 12, 2023, from <https://docs.google.com/document/d/1fSARliH5QKadGy3UElC00ehgwr2LLQbey-uzb1RPv0A/edit?usp=embed_facebook>
+
+LeBel, E. P., McCarthy, R. J., Earp, B. D., Elson, M., & Vanpaemel, W. (2018). A unified framework to quantify the credibility of scientific findings. *Advances in Methods and Practices in Psychological Science*, *1*(3), 389--402. <https://doi.org/10.1177/2515245918787489>
+
+Livingston, L. A., Shah, P., White, S. J., & Happé, F. (2021). Further developing the Frith--Happé animations: A quicker, more objective, and web-based test of theory of mind for autistic and neurotypical adults. *Autism Research*, *14*(9), 1905--1912. <https://doi.org/10.1002/aur.2575>
+
+Simonsohn, U. (2014). *Small Telescopes: Detectability and the Evaluation of Replication Results* (SSRN Scholarly Paper 2259879). <https://doi.org/10.2139/ssrn.2259879>
+
+Wimmer, H., & Perner, J. (1983). Beliefs about beliefs: Representation and constraining function of wrong beliefs in young children\'s understanding of deception. *Cognition*, *13*(1), 103--128. <https://doi.org/10.1016/0010-0277(83)90004-5>
