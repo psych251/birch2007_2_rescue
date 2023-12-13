@@ -398,10 +398,6 @@ effsize::cohen.d(final_data$red[final_data$condition != "ignorance"],
 
 The graph below visualizes the mean differences in participants' probability judgments relating to the "red container," comparing the *ignorant* and *knowledge-plausible* groups across the original study (Birch & Bloom, 2007)*,* 1st replication (Borchers, 2018), and the present study. Bridgers (n.d.) did not report full information on the relevant mean and SD values, hence this data is not included in the comparison below.
 
-**Figure 3.**
-
-*Birch & Bloom Plot (Original)*
-
 ```{r warning = FALSE, fig.show='hide', message = FALSE}
 
 # Hardcode new data frame based on information in Birch & Bloom (2007)
@@ -458,10 +454,6 @@ plot1
 
 ```
 
-**Figure 4.**
-
-*Borchers Plot (Replication)*
-
 ```{r}
 
 # Import Borchers data
@@ -515,10 +507,6 @@ plot2
 
 ```
 
-**Figure 5.**
-
-*Abutto Plot (Replication)*
-
 ```{r warning = FALSE, fig.show='hide', message = FALSE}
 
 # Plot my own data for red container judgments
@@ -550,6 +538,8 @@ plot3 <-
 plot3
 
 ```
+
+**Figure 3.**
 
 ```{r fig.width = 10, warning = FALSE, message = FALSE}
 
@@ -623,7 +613,7 @@ plot5 <-
 
 ```
 
-**Figure 6.**
+**Figure 4.**
 
 ```{r fig.width = 12, warning = FALSE}
 
@@ -733,7 +723,7 @@ for_plot <-
 
 ```
 
-**Figure 7.**
+**Figure 5.**
 
 ```{r}
 
@@ -758,7 +748,7 @@ ggplot(for_plot,
 
 *Note.* The estimate for Bridgers may be inaccurate, as it had to be reconstructed based on incomplete information (missing information on the mean difference and SDs relating to the group comparison of interest). The necessary numerical information was reconstructed with the help of ChatGPT (see here for output: <https://chat.openai.com/share/cf52551d-d983-48af-a3a7-3239442fdf9d>).
 
-**Figure 8.**
+**Figure 6.**
 
 ```{r}
 
@@ -769,7 +759,7 @@ forest(mini_meta_mod)
 
 *Note.* The estimate for Bridgers may be inaccurate, as it had to be reconstructed based on incomplete information (missing information on the mean difference and SDs relating to the group comparison of interest). The necessary numerical information was reconstructed with the help of ChatGPT (see here for output: <https://chat.openai.com/share/cf52551d-d983-48af-a3a7-3239442fdf9d>).
 
-**Figure 9.**
+**Figure 7.**
 
 ```{r}
 
@@ -788,7 +778,7 @@ On the above scale, I would rate the present rescue's replication of results a .
 
 Based on the scale provided in the figure below, I would rate the present rescue a "very close replication." The effect and hypothesis in question were the same, the conceptualization and operationalization of IVs and DVs were held constant, the population was largely matched (pre-screened for adults living in the U.S. and enrolled in college), and stimuli were adapted only slightly. The key difference lay in the (lack of a) physical setting.
 
-**Figure 10.**
+**Figure 8.**
 
 ![](images/Screenshot 2023-12-12 at 19.07.18.png)
 
