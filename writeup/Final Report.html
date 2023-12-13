@@ -991,8 +991,6 @@ d estimate: 0.09217616 (negligible)
 <section id="graphical-comparison" class="level4">
 <h4 class="anchored" data-anchor-id="graphical-comparison">Graphical Comparison</h4>
 <p>The graph below visualizes the mean differences in participants’ probability judgments relating to the “red container,” comparing the <em>ignorant</em> and <em>knowledge-plausible</em> groups across the original study (Birch &amp; Bloom, 2007)<em>,</em> 1st replication (Borchers, 2018), and the present study. Bridgers (n.d.) did not report full information on the relevant mean and SD values, hence this data is not included in the comparison below.</p>
-<p><strong>Figure 3.</strong></p>
-<p><em>Birch &amp; Bloom Plot (Original)</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hardcode new data frame based on information in Birch &amp; Bloom (2007)</span></span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>birch_bloom_data <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
@@ -1043,8 +1041,6 @@ d estimate: 0.09217616 (negligible)
 <span id="cb55-23"><a href="#cb55-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb55-24"><a href="#cb55-24" aria-hidden="true" tabindex="-1"></a>plot1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Figure 4.</strong></p>
-<p><em>Borchers Plot (Replication)</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import Borchers data</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>borchers_replication_all_participants <span class="ot">&lt;-</span></span>
@@ -1092,8 +1088,6 @@ d estimate: 0.09217616 (negligible)
 <span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>plot2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Figure 5.</strong></p>
-<p><em>Abutto Plot (Replication)</em></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot my own data for red container judgments</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>plot3 <span class="ot">&lt;-</span></span>
@@ -1123,6 +1117,7 @@ d estimate: 0.09217616 (negligible)
 <span id="cb58-26"><a href="#cb58-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb58-27"><a href="#cb58-27" aria-hidden="true" tabindex="-1"></a>plot3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Figure 3.</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine plots into a single panel</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>combined_plot <span class="ot">&lt;-</span> plot1 <span class="sc">+</span> plot2 <span class="sc">+</span> plot3</span>
@@ -1190,7 +1185,7 @@ d estimate: 0.09217616 (negligible)
 <span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
 <span id="cb61-27"><a href="#cb61-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Figure 6.</strong></p>
+<p><strong>Figure 4.</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>combined_plot2 <span class="ot">&lt;-</span> plot4<span class="sc">+</span>plot5</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>combined_plot2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1403,7 +1398,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Borchers"</span>,</span>
 <span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Abutto"</span>))) <span class="co"># create new column with study names</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>Figure 7.</strong></p>
+<p><strong>Figure 5.</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot mini meta-analysis results</span></span>
 <span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(for_plot,</span>
@@ -1426,7 +1421,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p><em>Note.</em> The estimate for Bridgers may be inaccurate, as it had to be reconstructed based on incomplete information (missing information on the mean difference and SDs relating to the group comparison of interest). The necessary numerical information was reconstructed with the help of ChatGPT (see here for output: <a href="https://chat.openai.com/share/cf52551d-d983-48af-a3a7-3239442fdf9d" class="uri">https://chat.openai.com/share/cf52551d-d983-48af-a3a7-3239442fdf9d</a>).</p>
-<p><strong>Figure 8.</strong></p>
+<p><strong>Figure 6.</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run forest plot</span></span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">forest</span>(mini_meta_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1435,7 +1430,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p><em>Note.</em> The estimate for Bridgers may be inaccurate, as it had to be reconstructed based on incomplete information (missing information on the mean difference and SDs relating to the group comparison of interest). The necessary numerical information was reconstructed with the help of ChatGPT (see here for output: <a href="https://chat.openai.com/share/cf52551d-d983-48af-a3a7-3239442fdf9d" class="uri">https://chat.openai.com/share/cf52551d-d983-48af-a3a7-3239442fdf9d</a>).</p>
-<p><strong>Figure 9.</strong></p>
+<p><strong>Figure 7.</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run funnel plot</span></span>
 <span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">funnel</span>(mini_meta_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1449,7 +1444,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>On the above scale, I would rate the present rescue’s replication of results a .25. There was no support for the original authors’ main findings, but results on comparisons of secondary interest aligned.</p>
 <p><em>Categorize your rescue for how close of a replication of the original it was using the scale in the Figure below:</em></p>
 <p>Based on the scale provided in the figure below, I would rate the present rescue a “very close replication.” The effect and hypothesis in question were the same, the conceptualization and operationalization of IVs and DVs were held constant, the population was largely matched (pre-screened for adults living in the U.S. and enrolled in college), and stimuli were adapted only slightly. The key difference lay in the (lack of a) physical setting.</p>
-<p><strong>Figure 10.</strong></p>
+<p><strong>Figure 8.</strong></p>
 <p><img src="images/Screenshot%202023-12-12%20at%2019.07.18.png" class="img-fluid"></p>
 <p><em>Note.</em> Figure taken from LeBel et al.&nbsp;(2018).</p>
 </section>
