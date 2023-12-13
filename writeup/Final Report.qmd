@@ -58,7 +58,10 @@ Notably, there exists also an earlier replication conducted by Bridgers (n.d., s
 
 ```{r}
 
+# Set echo = TRUE (showing code) as default for all code chunks
 knitr::opts_chunk$set(echo = T)
+
+# Import relevant libraries
 library(tidyverse); library(ggplot2); library(car); library(effsize); library(qualtRics); library(readxl); library(patchwork); library(ggpubr); library(metafor)
 
 ```
@@ -184,24 +187,26 @@ final_data_raw <- read_survey("/Users/ottuba/birch2007_2_rescue/data/final_data/
 
 ```{r}
 
+# Establish which columns to filter for
 selected_columns <-
   c("consent_form", "FL_16_DO", "age", "high_school", "gender", "colorblindness",
     "red_knowplausible", "green_knowplausible", "purple_knowplausible", "blue_knowplausible", 
     "red_knowimplausible", "green_prob", "purple_prob", "blue_knowimplausible",
     "red_ignorance", "green_ignorance", "purple_ignorance", "blue_ignorance")
 
-final_data_tidy <- final_data_raw %>%
+final_data_tidy <- final_data_raw %>% # Filter to keep only columns established above
   filter(Finished != "FALSE", # Exclude participants who didn't finish
          FL_16_DO != "NA", # Exclude participants who weren't assigned condition
          PID != "NA", # Exclude people w/o Prolific ID (my own test runs)
          PID != "a", # Exclude people with random Prolific ID (my own test runs)
          !grepl("TA", PID)) %>%  # Exclude TA submissions
-  select(all_of(selected_columns))
+  select(all_of(selected_columns)) # Filter to keep only columns established above
 
 ```
 
 ```{r}
 
+# Show first few rows of data set
 knitr::kable(head(final_data_tidy),
              table.attr = "class=\"striped\"",
              format = "html")
@@ -214,6 +219,7 @@ A total of *N* = 387 completed the survey. All of them had U.S. IP addresses and
 
 ```{r}
 
+# Count rows of data (1 row per participant)
 nrow(final_data_tidy)
 
 ```
@@ -224,6 +230,7 @@ There were *n =* 128-130 participants per condition.
 
 ```{r}
 
+# Run frequency statistics over randomizer variable
 Hmisc::describe(final_data_tidy$FL_16_DO)
 
 ```
@@ -232,6 +239,7 @@ The mean age was about 28 years (*SD* = 9.54, range = 18-74). The sample skewed 
 
 ```{r}
 
+# Run standard descriptive statistics over age variable
 psych::describe(final_data_tidy$age)
 
 ```
@@ -240,6 +248,7 @@ All but one participant (*N* = 386) have completed high school and are presently
 
 ```{r}
 
+# Run frequency statistics over high school variable
 Hmisc::describe(final_data_tidy$high_school)
 
 ```
@@ -248,6 +257,7 @@ The gender distribution was close to 50/50.
 
 ```{r}
 
+# Run frequency statistics over gender variable
 Hmisc::describe(final_data_tidy$gender)
 
 ```
@@ -256,6 +266,7 @@ A total of *n* = 2 participants indicated they were colorblind, despite the pre-
 
 ```{r}
 
+# Run frequency statistics over colorblindness variable
 Hmisc::describe(final_data_tidy$colorblindness)
 
 ```
@@ -281,14 +292,14 @@ final_data_tidy = final_data_tidy %>%
 
 final_data_tidy <- final_data_tidy %>% 
   rename(green_knowimplausible = green_prob,
-         purple_knowimplausible  = purple_prob)
+         purple_knowimplausible  = purple_prob) # Rename columns to match others
 
 final_data_tidy <-
   final_data_tidy %>%
-  mutate(subid = row.names(.)) %>%
+  mutate(subid = row.names(.)) %>% # Subject ID equal to row number
   gather(measurement, probability_pct,
          red_knowplausible:blue_ignorance) %>%
-  separate(measurement, c("color", "condition"))
+  separate(measurement, c("color", "condition")) # Group probability values and conditions into single columns
 
 ```
 
@@ -299,7 +310,7 @@ final_data_tidy <-
 final_data =
   final_data_tidy %>%
   spread(color, probability_pct) %>% 
-  filter(complete.cases(.))
+  filter(complete.cases(.)) # Filter out rows with missing values
 
 ```
 
@@ -309,16 +320,17 @@ final_data =
 
 final_data <-
   final_data %>%
-  mutate(total_sum = rowSums(select(., blue, green, purple, red))) %>%
-  mutate(deviation_from_100 = abs(total_sum - 100)) %>%
-  mutate(within_tolerance = total_sum >= 95 & total_sum <= 105)
+  mutate(total_sum = rowSums(select(., blue, green, purple, red))) %>% # Calculate probability judgment sums for each participant
+  mutate(deviation_from_100 = abs(total_sum - 100)) %>% # New column: Deviation from 100
+  mutate(within_tolerance = total_sum >= 95 & total_sum <= 105) # New column: Is participant's probability judgment sum within 5 percentage points of 100?
 
-Hmisc::describe(final_data$deviation_from_100)
+Hmisc::describe(final_data$deviation_from_100) # Show frequencies of deviations
 
 ```
 
 ```{r}
 
+# Exclude participants who were more than 5 percentage points away from 100
 final_data <-
   final_data %>% 
   filter(deviation_from_100 <= 5) %>% 
@@ -330,7 +342,7 @@ knitr::kable(head(final_data),
 
 ```
 
-After the above exclusions, the final *N* for analysis was 374. The total *n* per condition was not affected systematically.
+After the above exclusions (*n* = 10), the final *N* for analysis was 374. The total *n* per condition was not affected systematically.
 
 ```{r}
 
@@ -350,6 +362,7 @@ The table below shows descriptive statistics (*N, M*, *SD*) for probability rati
 
 ```{r}
 
+# Run descriptive statistics for probability judgments over each container
 knitr::kable(final_data %>%
   group_by(condition) %>%
   summarise(
@@ -374,10 +387,10 @@ The output below shows an independent samples t-test comparing participants' pro
 ```{r}
 
 t.test(red ~ condition,
-       data = final_data[final_data$condition!="knowimplausible",])
-
-effsize::cohen.d(final_data$red[final_data$condition!="ignorance"], 
-                 final_data$red[final_data$condition!="knowplausible"])
+       data = final_data[final_data$condition != "knowimplausible",])
+ 
+effsize::cohen.d(final_data$red[final_data$condition != "ignorance"], 
+                 final_data$red[final_data$condition != "knowplausible"])
 
 ```
 
@@ -385,39 +398,43 @@ effsize::cohen.d(final_data$red[final_data$condition!="ignorance"],
 
 The graph below visualizes the mean differences in participants' probability judgments relating to the "red container," comparing the *ignorant* and *knowledge-plausible* groups across the original study (Birch & Bloom, 2007)*,* 1st replication (Borchers, 2018), and the present study. Bridgers (n.d.) did not report full information on the relevant mean and SD values, hence this data is not included in the comparison below.
 
-##### Birch & Bloom Plot (Original):
+**Figure 3.**
+
+*Birch & Bloom Plot (Original)*
 
 ```{r warning = FALSE, fig.show='hide', message = FALSE}
 
+# Hardcode new data frame based on information in Birch & Bloom (2007)
 birch_bloom_data = data.frame(
-  condition=c(rep("Ignorance", 4),
-              rep("Knowledge-Plausible", 4),
-              rep("Knowledge-Implausible", 4)),
-  container=c("blue",
-              "red",
-              "purple",
-              "green"), 
-  probability_percent =c(71, 23, 2, 3, # Mean for ignorance
-                         59, 34, 3, 4, # Mean for knowledge plausible
-                         73, 19, 6, 3), # Mean for knowledge implausible
-  standard_deviation = c(26, 22, 5, 7, # SD for ignorance
-                         27, 25, 5, 7,  # SD for knowledge plausible
-                         29, 21, 16, 5), # SD for knowledge implausible
-  n = c(rep(52, 12))
+  condition = c(rep("Ignorance", 4),
+                rep("Knowledge-Plausible", 4),
+                rep("Knowledge-Implausible", 4)),
+  container = c("blue",
+                "red",
+                "purple",
+                "green"), 
+  probability_percent = c(71, 23, 2, 3, # Means for ignorance
+                         59, 34, 3, 4, # Means for knowledge plausible
+                         73, 19, 6, 3), # Means for knowledge implausible
+  standard_deviation = c(26, 22, 5, 7, # SDs for ignorance
+                         27, 25, 5, 7,  # SDs for knowledge plausible
+                         29, 21, 16, 5), # SDs for knowledge implausible
+  n = c(rep(52, 12)) # 52 participants in each condition
   ) %>%
-  mutate(standard_error = standard_deviation / sqrt(n))
+  mutate(standard_error = standard_deviation / sqrt(n)) # Calculate SE
 
 filtered_birch_bloom_data = birch_bloom_data %>%
   filter(container == "red",
-         condition != "Knowledge-Implausible")
+         condition != "Knowledge-Implausible") # Keep only data relating to red container judgments
 
 ```
 
 ```{r warning = FALSE, fig.show='hide', message = FALSE}
 
+# Plot Birch & Bloom data for red container judgments
 plot1 <-
   ggplot(filtered_birch_bloom_data,
-       aes(x = condition, y = probability_percent, fill = condition)) +
+         aes(x = condition, y = probability_percent, fill = condition)) +
   geom_bar(position="dodge", stat="identity") +
   ggtitle("Birch & Bloom (2007; N = 104)") +
   theme_linedraw() +
@@ -425,53 +442,57 @@ plot1 <-
         legend.position = "none",
         axis.title.x = element_blank(),
         axis.text.x = element_blank()) +
-  geom_errorbar(aes(ymin=probability_percent - standard_error,
+  geom_errorbar(aes(ymin = probability_percent - standard_error,
                     ymax = probability_percent + standard_error), width = .1) +
   scale_fill_manual(values = c(rgb(101/255,187/255,103/255),
-                           rgb(249/255,170/255,112/255)),
-                 labels = c("Ignorance", "Knowledge-plausible")) +
+                               rgb(249/255,170/255,112/255)),
+                    labels = c("Ignorance", "Knowledge-plausible")) +
   ylim(0,100) +
   xlab("Condition") +
   ylab("Percent of Red") +
   annotate("text", x = 1.5, y = 57, label = "***", size = 6) +
-  geom_segment(aes(x = 1, xend = 2, y = 55, yend = 55), colour = "black", linetype = "solid", size = 0.5)
+  geom_segment(aes(x = 1, xend = 2, y = 55, yend = 55),
+               colour = "black", linetype = "solid", size = 0.5)
 
 plot1
 
 ```
 
-##### Borchers Plot (Replication):
+**Figure 4.**
+
+*Borchers Plot (Replication)*
 
 ```{r}
 
-# Importing Borcher data collected via MTurk
+# Import Borchers data
 borchers_replication_all_participants <-
   read_xls("/Users/ottuba/birch2007_2_rescue/data/borchers_replication_anonymized.xls")
 
-# Tidying data
+# Tidy data
 borchers_replication_tidy <- borchers_replication_all_participants %>%
   mutate(subid = row.names(.)) %>%
   gather(measurement, probability_pct, red_knowledgeplausible:blue_ignorance) %>%
   filter(!is.na(probability_pct)) %>%
-  separate(measurement, c("color", "condition")) 
+  separate(measurement, c("color", "condition"))
 
-# Eligible participants 
+# Filter for releavant participants 
 borchers_replication_filtered_data = borchers_replication_tidy %>%
-  filter(high_school=="Yes",
-         color_blind=="No",
-         consent=="I agree") #Consenting to the study
+  filter(high_school == "Yes", # Completed high school
+         color_blind == "No", # Is not colorblind
+         consent == "I agree") # Consented to the study
 
 ```
 
 ```{r warning = FALSE, fig.show='hide', message = FALSE}
 
+# Plot Borchers data for red container judgments
 plot2 <-
   borchers_replication_filtered_data %>%
   filter(color=="red") %>%
   ggplot() +
-  aes(x=condition, y=probability_pct, fill=condition) +
-  stat_summary(geom="bar") +
-  stat_summary(geom="errorbar", width = 0.1, fun.data=mean_se) +
+  aes(x = condition, y = probability_pct, fill = condition) +
+  stat_summary(geom = "bar") +
+  stat_summary(geom = "errorbar", width = 0.1, fun.data = mean_se) +
   xlab("Condition") +
   ylab("Percent of Red") +
   ggtitle("Borchers (2018; N = 73)") +
@@ -494,10 +515,13 @@ plot2
 
 ```
 
-##### Abutto Plot (Replication):
+**Figure 5.**
+
+*Abutto Plot (Replication)*
 
 ```{r warning = FALSE, fig.show='hide', message = FALSE}
 
+# Plot my own data for red container judgments
 plot3 <-
   final_data_tidy %>%
   filter(color == "red" & condition != "knowimplausible") %>%
@@ -529,6 +553,7 @@ plot3
 
 ```{r fig.width = 10, warning = FALSE, message = FALSE}
 
+# Combine plots into a single panel
 combined_plot <- plot1 + plot2 + plot3
 combined_plot
 
@@ -598,6 +623,8 @@ plot5 <-
 
 ```
 
+**Figure 6.**
+
 ```{r fig.width = 12, warning = FALSE}
 
 combined_plot2 <- plot4+plot5
@@ -612,7 +639,7 @@ The code outputs below relate to the present study's exploratory analyses.
 ```{r}
 
 t.test(red ~ condition,
-       data = final_data[final_data$condition!="knowplausible",])
+       data = final_data[final_data$condition != "knowplausible",])
 
 ```
 
@@ -621,7 +648,7 @@ t.test(red ~ condition,
 ```{r}
 
 t.test(blue ~ condition,
-       data = final_data[final_data$condition!="knowimplausible",])
+       data = final_data[final_data$condition != "knowimplausible",])
 
 ```
 
@@ -630,7 +657,7 @@ t.test(blue ~ condition,
 ```{r}
 
 t.test(blue ~ condition,
-       data = final_data[final_data$condition!="knowplausible",])
+       data = final_data[final_data$condition != "knowplausible",])
 
 ```
 
@@ -639,7 +666,7 @@ t.test(blue ~ condition,
 ```{r}
 
 t.test(purple ~ condition,
-       data = final_data[final_data$condition!="knowplausible",])
+       data = final_data[final_data$condition != "knowplausible",])
 
 ```
 
@@ -659,12 +686,14 @@ Combining across the original paper, 1st replication, and 2nd replication, the a
 
 ```{r}
 
-raw_metaanalysis_data <- as.data.frame(read_xlsx("/Users/ottuba/birch2007_2_rescue/data/Birch-Bloom_minimeta_data.xlsx", range = "B2:G6"))
+# Import raw meta-analysis data
+raw_metaanalysis_data <-
+  as.data.frame(read_xlsx("/Users/ottuba/birch2007_2_rescue/data/Birch-Bloom_minimeta_data.xlsx", range = "B2:G6"))
 
 raw_metaanalysis_data[,c("N", "raw_mean_difference",
                         "raw_low", "raw_high")] <-
   lapply(raw_metaanalysis_data[,c("N", "raw_mean_difference",
-                                  "raw_low", "raw_high")], as.numeric)
+                                  "raw_low", "raw_high")], as.numeric) # Convert to numeric values
 
 knitr::kable(raw_metaanalysis_data,
              table.attr = "class=\"striped\"",
@@ -675,10 +704,10 @@ knitr::kable(raw_metaanalysis_data,
 ```{r}
 
 for_mod <- raw_metaanalysis_data %>% 
-  mutate(se=(raw_high-raw_low)/(2*1.96))
+  mutate(se=(raw_high-raw_low)/(2*1.96)) # Calculate SE values
 
 mini_meta_mod <- rma(yi=raw_mean_difference,
-                     sei=se, slab=Study, data=for_mod)
+                     sei=se, slab=Study, data=for_mod) # Run model
 
 summary(mini_meta_mod)
 
@@ -687,53 +716,64 @@ summary(mini_meta_mod)
 ```{r}
 
 aggregate <- tibble(Study="Aggregate", Citation=NA,
-                    raw_mean_difference=mini_meta_mod$b,
-                    raw_low=mini_meta_mod$ci.lb,
-                    raw_high=mini_meta_mod$ci.ub,
-                    N=sum(raw_metaanalysis_data$N))
+                    raw_mean_difference = mini_meta_mod$b, # Effect of interest
+                    raw_low = mini_meta_mod$ci.lb, # Lower CI bound
+                    raw_high = mini_meta_mod$ci.ub, # Upper CI bound
+                    N = sum(raw_metaanalysis_data$N)) # N for respective study
 
 for_plot <-
   raw_metaanalysis_data %>%
   bind_rows(aggregate) %>%
-  mutate(Study=factor(Study,
-                      levels=c("Aggregate",
-                               "Birch and Bloom",
-                               "Bridgers",
-                               "Borchers",
-                               "Abutto")))
+  mutate(Study = factor(Study,
+                        levels = c("Aggregate",
+                                   "Birch and Bloom",
+                                   "Bridgers",
+                                   "Borchers",
+                                   "Abutto"))) # create new column with study names
 
 ```
 
+**Figure 7.**
+
 ```{r}
 
+# Plot mini meta-analysis results
 ggplot(for_plot,
        aes(x = Study, y = raw_mean_difference,
            ymin = raw_low, ymax = raw_high, size=N))+
   geom_errorbar(colour='darkgray',size=.5,width=.25)+
-  geom_point(data=for_plot |> filter(Study != "Aggregate"))+
-  geom_point(data=for_plot |> filter(Study == "Aggregate"),
-             shape=18, color="red")+
+  geom_point(data=for_plot %>% filter(Study != "Aggregate"))+
+  geom_point(data=for_plot %>% filter(Study == "Aggregate"),
+             shape = 18, color = "red")+
   coord_flip()+
-  ylim(-25,25) +
+  ylim(-25, 25) +
   scale_size_area()+
-  geom_hline(yintercept=0,color="black")+
+  geom_hline(yintercept = 0, color = "black")+
   theme_linedraw() +
   theme(legend.position = "none")+
-  geom_vline(xintercept = 1.5, lty=2)+
-  labs(y="Main effect size on original scale", x="")
+  geom_vline(xintercept = 1.5, lty = 2)+
+  labs(y = "Main effect size on original scale", x = "")
 
 ```
 
+*Note.* The estimate for Bridgers may be inaccurate, as it had to be reconstructed based on incomplete information (missing information on the mean difference and SDs relating to the group comparison of interest). The necessary numerical information was reconstructed with the help of ChatGPT (see here for output: <https://chat.openai.com/share/cf52551d-d983-48af-a3a7-3239442fdf9d>).
+
+**Figure 8.**
+
 ```{r}
 
+# Run forest plot
 forest(mini_meta_mod)
 
 ```
 
 *Note.* The estimate for Bridgers may be inaccurate, as it had to be reconstructed based on incomplete information (missing information on the mean difference and SDs relating to the group comparison of interest). The necessary numerical information was reconstructed with the help of ChatGPT (see here for output: <https://chat.openai.com/share/cf52551d-d983-48af-a3a7-3239442fdf9d>).
 
+**Figure 9.**
+
 ```{r}
 
+# Run funnel plot
 funnel(mini_meta_mod)
 
 ```
@@ -748,7 +788,7 @@ On the above scale, I would rate the present rescue's replication of results a .
 
 Based on the scale provided in the figure below, I would rate the present rescue a "very close replication." The effect and hypothesis in question were the same, the conceptualization and operationalization of IVs and DVs were held constant, the population was largely matched (pre-screened for adults living in the U.S. and enrolled in college), and stimuli were adapted only slightly. The key difference lay in the (lack of a) physical setting.
 
-**Figure X.**
+**Figure 10.**
 
 ![](images/Screenshot 2023-12-12 at 19.07.18.png)
 
@@ -758,9 +798,24 @@ Based on the scale provided in the figure below, I would rate the present rescue
 
 Crucially, the present rescue project's results showed that different participants in different conditions were largely consistent in how probable they thought it was for Vicky to first search in the "red" container. In other words, rather than experiencing different degrees of interference as per the "curse of knowledge," participants seemed to consistently consider the "red" container - that is, the container located where Vicky first put her violin - a plausible option for Vicky to start her search. Indeed, even in the *knowledge plausible* condition, one can (successfully) reason from the unknowing protagonist's perspective and still think the "red" container presents a reasonable choice: It represents the same location - albeit not the same container - as where Vicky first put her violin before leaving the room. While it is certainly plausible for Vicky to distinctly remember the color of the container she put her violin (i.e., blue) and first begin her search there, it is also plausible for her to distinctly remember the corner of the living room she put her violin (i.e., where the red container is), and first begin her search there. Thus, using probability judgments relating to the "red" container as a basis for estimating the effect of the "curse of knowledge" bias may be misguided in its premise that unknowing Vicky would not reasonably begin her search there.
 
-It should also be noted that relative to Birch and Bloom's (2007) original results, participants also generally judged it more probable for Vicky to first search in the "green" or "purple" containers. In the present study, descriptive statistics showed $M_{green}$ = 7.3% and $SD_{green}$ = 9.8% as well as $M_{purple}$ = 8.8% and $SD_{purple}$ = 13.2%. In the original study, descriptive statistics showed $M_{green}$ = 3.3% and $SD_{green}$, as well as $M_{purple}$ = 3.7% and $SD_{purple}$ = 6.3%. This is slightly surprising, given that the story context should render these search locations as quite improbable: Both containers are neither of the same color as the container where Vicky placed her violin (blue), nor do they inhabit the same location of the original container after the sister, Denise, had rearranged the room. While this need not have impeded on the estimation of the effect of interest, it is still a deviation from the original results.
+It should also be noted that relative to Birch and Bloom's (2007) original results, participants also generally judged it more probable for Vicky to first search in the "green" or "purple" containers. In the present study, descriptive statistics showed $M_{green}$ = 7.3% and $SD_{green}$ = 9.8% as well as $M_{purple}$ = 8.8% and $SD_{purple}$ = 13.2%. In the original study, descriptive statistics showed $M_{green}$ = 3.3% and $SD_{green}$, as well as $M_{purple}$ = 3.7% and $SD_{purple}$ = 6.3%. This is slightly surprising, given that the story context should render these search locations as quite improbable: Both containers are neither of the same color as the container where Vicky placed her violin (blue), nor do they inhabit the same location of the original container after the sister, Denise, had rearranged the room. Upon a closer examination of the respective data columns, I found that a considerable number of participants assigned the "purple" and "green" containers unexpectedly high probabilities, with *n* = 49 and *n* = 40 participants at ≥ 25%, respectively. While the result of the key test does not change upon excluding said participants (see Appendix), this overall pattern is still a considerable deviation from the original results.
 
-Importantly, all of the above is still consistent with the explanation that *some* but not all adults in the *knowledge-plausible* condition may have succumbed to a "curse of knowledge" bias under the circumstances leveraged in the present study. The effect size, indeed, was not zero (*d* = 0.09), though drastically smaller than the one estimated in the original study (*d* = .47). Still, this difference in effect size could, at least in part, be explained by sampling variability as well as the discrepancies in study setup (lab versus in-person). Hence, Birch and Bloom's (2007) fundamental claim that adults may display difficulties in their false-belief reasoning if sensitive enough measures are used should not be dismissed entirely on the basis of the present study's results. Rather thano asking whether or not the "curse of knowledge" is a true phenomenon, the key question then becomes: To what degree, and under which circumstances, if not the ones induced in the present study, do adults display difficulties in false-belief reasoning akin to those of children? Future research may wish to develop and employ new, adapted paradigms to investigate this question.
+Importantly, all of the above is still consistent with the explanation that *some* but not all adults in the *knowledge-plausible* condition may have succumbed to a "curse of knowledge" bias under the circumstances leveraged in the present study. The estimated effect size across replication studies (see Figures 7 and 8), though drastically smaller than the one estimated in the original study (*d* = .47). This difference in effect size is likely, at least in part, attributable to sampling variability as well as the discrepancies in study setup (lab versus in-person). Hence, Birch and Bloom's (2007) fundamental claim that adults may display difficulties in their false-belief reasoning if sensitive enough measures are used should not be dismissed entirely on the basis of the present study's results. Rather than asking whether or not the "curse of knowledge" is a true phenomenon, the key question then becomes: To what degree, and under which circumstances, if not the ones induced in the present study, do adults display difficulties in false-belief reasoning akin to those of children? Future research may wish to develop and employ new, adapted paradigms to investigate this question.
+
+## Appendix
+
+Re-running key test while excluding participants with unexpectedly high probability judgments for "green" and "purple" containers:
+
+```{r}
+
+t.test(red ~ condition,
+       data = final_data %>% filter(
+         final_data$condition != "knowimplausible",
+         final_data$green <= 25,
+         final_data$purple <= 25,
+         ))
+
+```
 
 ## References
 
@@ -768,7 +823,7 @@ Birch, S. A. J., & Bloom, P. (2007). The Curse of Knowledge in Reasoning About F
 
 Borchers, L. R. Replication of Study The Curse of Knowledge in Reasoning About False Beliefs by Susan A.J. Birch & Paul Bloom (2007, Psychological Science). RPubs. Retrieved on December 12, 2023, from <https://rpubs.com/lrborchers/450894>
 
-Bridgers, S. (n.d.). Replication of \'The Curse of Knowledge in Reasoning about False Beliefs\'  by Susan A.J. Birch & Paul Bloom (2007, Psychological Science). Google Docs. Retrieved on December 12, 2023, from <https://docs.google.com/document/d/1fSARliH5QKadGy3UElC00ehgwr2LLQbey-uzb1RPv0A/edit?usp=embed_facebook>
+Bridgers, S. (n.d.). Replication of 'The Curse of Knowledge in Reasoning about False Beliefs'  by Susan A.J. Birch & Paul Bloom (2007, Psychological Science). Google Docs. Retrieved on December 12, 2023, from <https://docs.google.com/document/d/1fSARliH5QKadGy3UElC00ehgwr2LLQbey-uzb1RPv0A/edit?usp=embed_facebook>
 
 LeBel, E. P., McCarthy, R. J., Earp, B. D., Elson, M., & Vanpaemel, W. (2018). A unified framework to quantify the credibility of scientific findings. *Advances in Methods and Practices in Psychological Science*, *1*(3), 389--402. <https://doi.org/10.1177/2515245918787489>
 
@@ -776,4 +831,4 @@ Livingston, L. A., Shah, P., White, S. J., & Happé, F. (2021). Further developi
 
 Simonsohn, U. (2014). *Small Telescopes: Detectability and the Evaluation of Replication Results* (SSRN Scholarly Paper 2259879). <https://doi.org/10.2139/ssrn.2259879>
 
-Wimmer, H., & Perner, J. (1983). Beliefs about beliefs: Representation and constraining function of wrong beliefs in young children\'s understanding of deception. *Cognition*, *13*(1), 103--128. <https://doi.org/10.1016/0010-0277(83)90004-5>
+Wimmer, H., & Perner, J. (1983). Beliefs about beliefs: Representation and constraining function of wrong beliefs in young children's understanding of deception. *Cognition*, *13*(1), 103--128. <https://doi.org/10.1016/0010-0277(83)90004-5>

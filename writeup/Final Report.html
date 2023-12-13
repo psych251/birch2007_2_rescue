@@ -117,6 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#mini-meta-analysis" id="toc-mini-meta-analysis" class="nav-link" data-scroll-target="#mini-meta-analysis">Mini Meta Analysis</a></li>
   <li><a href="#commentary" id="toc-commentary" class="nav-link" data-scroll-target="#commentary">Commentary</a></li>
   </ul></li>
+  <li><a href="#appendix" id="toc-appendix" class="nav-link" data-scroll-target="#appendix">Appendix</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -195,8 +196,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="methods" class="level2">
 <h2 class="anchored" data-anchor-id="methods">Methods</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> T)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse); <span class="fu">library</span>(ggplot2); <span class="fu">library</span>(car); <span class="fu">library</span>(effsize); <span class="fu">library</span>(qualtRics); <span class="fu">library</span>(readxl); <span class="fu">library</span>(patchwork); <span class="fu">library</span>(ggpubr); <span class="fu">library</span>(metafor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set echo = TRUE (showing code) as default for all code chunks</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> T)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Import relevant libraries</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse); <span class="fu">library</span>(ggplot2); <span class="fu">library</span>(car); <span class="fu">library</span>(effsize); <span class="fu">library</span>(qualtRics); <span class="fu">library</span>(readxl); <span class="fu">library</span>(patchwork); <span class="fu">library</span>(ggpubr); <span class="fu">library</span>(metafor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 </div>
@@ -406,24 +410,26 @@ NOTE: n is number in *each* group</code></pre>
 <li>Remove identifying data and other unneeded columns (e.g., date/time, response times)</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>selected_columns <span class="ot">&lt;-</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"consent_form"</span>, <span class="st">"FL_16_DO"</span>, <span class="st">"age"</span>, <span class="st">"high_school"</span>, <span class="st">"gender"</span>, <span class="st">"colorblindness"</span>,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"red_knowplausible"</span>, <span class="st">"green_knowplausible"</span>, <span class="st">"purple_knowplausible"</span>, <span class="st">"blue_knowplausible"</span>, </span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"red_knowimplausible"</span>, <span class="st">"green_prob"</span>, <span class="st">"purple_prob"</span>, <span class="st">"blue_knowimplausible"</span>,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"red_ignorance"</span>, <span class="st">"green_ignorance"</span>, <span class="st">"purple_ignorance"</span>, <span class="st">"blue_ignorance"</span>)</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>final_data_tidy <span class="ot">&lt;-</span> final_data_raw <span class="sc">%&gt;%</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Finished <span class="sc">!=</span> <span class="st">"FALSE"</span>, <span class="co"># Exclude participants who didn't finish</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>         FL_16_DO <span class="sc">!=</span> <span class="st">"NA"</span>, <span class="co"># Exclude participants who weren't assigned condition</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>         PID <span class="sc">!=</span> <span class="st">"NA"</span>, <span class="co"># Exclude people w/o Prolific ID (my own test runs)</span></span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>         PID <span class="sc">!=</span> <span class="st">"a"</span>, <span class="co"># Exclude people with random Prolific ID (my own test runs)</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"TA"</span>, PID)) <span class="sc">%&gt;%</span>  <span class="co"># Exclude TA submissions</span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(selected_columns))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Establish which columns to filter for</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>selected_columns <span class="ot">&lt;-</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"consent_form"</span>, <span class="st">"FL_16_DO"</span>, <span class="st">"age"</span>, <span class="st">"high_school"</span>, <span class="st">"gender"</span>, <span class="st">"colorblindness"</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"red_knowplausible"</span>, <span class="st">"green_knowplausible"</span>, <span class="st">"purple_knowplausible"</span>, <span class="st">"blue_knowplausible"</span>, </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"red_knowimplausible"</span>, <span class="st">"green_prob"</span>, <span class="st">"purple_prob"</span>, <span class="st">"blue_knowimplausible"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"red_ignorance"</span>, <span class="st">"green_ignorance"</span>, <span class="st">"purple_ignorance"</span>, <span class="st">"blue_ignorance"</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>final_data_tidy <span class="ot">&lt;-</span> final_data_raw <span class="sc">%&gt;%</span> <span class="co"># Filter to keep only columns established above</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Finished <span class="sc">!=</span> <span class="st">"FALSE"</span>, <span class="co"># Exclude participants who didn't finish</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>         FL_16_DO <span class="sc">!=</span> <span class="st">"NA"</span>, <span class="co"># Exclude participants who weren't assigned condition</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>         PID <span class="sc">!=</span> <span class="st">"NA"</span>, <span class="co"># Exclude people w/o Prolific ID (my own test runs)</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>         PID <span class="sc">!=</span> <span class="st">"a"</span>, <span class="co"># Exclude people with random Prolific ID (my own test runs)</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>         <span class="sc">!</span><span class="fu">grepl</span>(<span class="st">"TA"</span>, PID)) <span class="sc">%&gt;%</span>  <span class="co"># Exclude TA submissions</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">all_of</span>(selected_columns)) <span class="co"># Filter to keep only columns established above</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(final_data_tidy),</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">table.attr =</span> <span class="st">"class=</span><span class="sc">\"</span><span class="st">striped</span><span class="sc">\"</span><span class="st">"</span>,</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">format =</span> <span class="st">"html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show first few rows of data set</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(final_data_tidy),</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">table.attr =</span> <span class="st">"class=</span><span class="sc">\"</span><span class="st">striped</span><span class="sc">\"</span><span class="st">"</span>,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">format =</span> <span class="st">"html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="striped table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -580,7 +586,8 @@ NOTE: n is number in *each* group</code></pre>
 <h3 class="anchored" data-anchor-id="sample-size-n-387">Sample Size (N = 387)</h3>
 <p>A total of <em>N</em> = 387 completed the survey. All of them had U.S. IP addresses and a ≥ 99% approval rating on Prolific.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(final_data_tidy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Count rows of data (1 row per participant)</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(final_data_tidy)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 387</code></pre>
 </div>
@@ -590,7 +597,8 @@ NOTE: n is number in *each* group</code></pre>
 <h3 class="anchored" data-anchor-id="demographics">Demographics</h3>
 <p>There were <em>n =</em> 128-130 participants per condition.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(final_data_tidy<span class="sc">$</span>FL_16_DO)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run frequency statistics over randomizer variable</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(final_data_tidy<span class="sc">$</span>FL_16_DO)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>final_data_tidy$FL_16_DO : FL_16 - Block Randomizer - Display Order 
        n  missing distinct 
@@ -603,7 +611,8 @@ Proportion                 0.336                 0.333                 0.331</co
 </div>
 <p>The mean age was about 28 years (<em>SD</em> = 9.54, range = 18-74). The sample skewed heavily toward younger years. Given that I pre-screened for participants enrolled in college, this was expected.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">describe</span>(final_data_tidy<span class="sc">$</span>age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run standard descriptive statistics over age variable</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">describe</span>(final_data_tidy<span class="sc">$</span>age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   vars   n  mean   sd median trimmed  mad min max range skew kurtosis   se
 X1    1 387 28.18 9.54     25   26.56 7.41  18  74    56 1.62     2.79 0.48</code></pre>
@@ -611,7 +620,8 @@ X1    1 387 28.18 9.54     25   26.56 7.41  18  74    56 1.62     2.79 0.48</cod
 </div>
 <p>All but one participant (<em>N</em> = 386) have completed high school and are presently enrolled in college. This was expected given that I pre-screened for participants enrolled in college.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(final_data_tidy<span class="sc">$</span>high_school)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run frequency statistics over high school variable</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(final_data_tidy<span class="sc">$</span>high_school)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>final_data_tidy$high_school : Have you completed high school? 
        n  missing distinct 
@@ -624,7 +634,8 @@ Proportion 0.003 0.997</code></pre>
 </div>
 <p>The gender distribution was close to 50/50.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(final_data_tidy<span class="sc">$</span>gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run frequency statistics over gender variable</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(final_data_tidy<span class="sc">$</span>gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>final_data_tidy$gender : What is your gender? 
        n  missing distinct 
@@ -641,7 +652,8 @@ Proportion              0.003</code></pre>
 </div>
 <p>A total of <em>n</em> = 2 participants indicated they were colorblind, despite the pre-screener.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(final_data_tidy<span class="sc">$</span>colorblindness)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run frequency statistics over colorblindness variable</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(final_data_tidy<span class="sc">$</span>colorblindness)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>final_data_tidy$colorblindness : Are you color blind? 
        n  missing distinct 
@@ -671,14 +683,14 @@ Proportion 0.995 0.005</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>final_data_tidy <span class="ot">&lt;-</span> final_data_tidy <span class="sc">%&gt;%</span> </span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">green_knowimplausible =</span> green_prob,</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">purple_knowimplausible  =</span> purple_prob)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">purple_knowimplausible  =</span> purple_prob) <span class="co"># Rename columns to match others</span></span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>final_data_tidy <span class="ot">&lt;-</span></span>
 <span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  final_data_tidy <span class="sc">%&gt;%</span></span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">subid =</span> <span class="fu">row.names</span>(.)) <span class="sc">%&gt;%</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">subid =</span> <span class="fu">row.names</span>(.)) <span class="sc">%&gt;%</span> <span class="co"># Subject ID equal to row number</span></span>
 <span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(measurement, probability_pct,</span>
 <span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>         red_knowplausible<span class="sc">:</span>blue_ignorance) <span class="sc">%&gt;%</span></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(measurement, <span class="fu">c</span>(<span class="st">"color"</span>, <span class="st">"condition"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(measurement, <span class="fu">c</span>(<span class="st">"color"</span>, <span class="st">"condition"</span>)) <span class="co"># Group probability values and conditions into single columns</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: attributes are not identical across measure variables; they will be
 dropped</code></pre>
@@ -691,7 +703,7 @@ dropped</code></pre>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>final_data <span class="ot">=</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  final_data_tidy <span class="sc">%&gt;%</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread</span>(color, probability_pct) <span class="sc">%&gt;%</span> </span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">complete.cases</span>(.))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">complete.cases</span>(.)) <span class="co"># Filter out rows with missing values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ol start="3" type="1">
 <li>Exclude participants whose probability estimates did not sum up to (roughly) 100% (± 5%).</li>
@@ -699,11 +711,11 @@ dropped</code></pre>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>final_data <span class="ot">&lt;-</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  final_data <span class="sc">%&gt;%</span></span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total_sum =</span> <span class="fu">rowSums</span>(<span class="fu">select</span>(., blue, green, purple, red))) <span class="sc">%&gt;%</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">deviation_from_100 =</span> <span class="fu">abs</span>(total_sum <span class="sc">-</span> <span class="dv">100</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">within_tolerance =</span> total_sum <span class="sc">&gt;=</span> <span class="dv">95</span> <span class="sc">&amp;</span> total_sum <span class="sc">&lt;=</span> <span class="dv">105</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total_sum =</span> <span class="fu">rowSums</span>(<span class="fu">select</span>(., blue, green, purple, red))) <span class="sc">%&gt;%</span> <span class="co"># Calculate probability judgment sums for each participant</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">deviation_from_100 =</span> <span class="fu">abs</span>(total_sum <span class="sc">-</span> <span class="dv">100</span>)) <span class="sc">%&gt;%</span> <span class="co"># New column: Deviation from 100</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">within_tolerance =</span> total_sum <span class="sc">&gt;=</span> <span class="dv">95</span> <span class="sc">&amp;</span> total_sum <span class="sc">&lt;=</span> <span class="dv">105</span>) <span class="co"># New column: Is participant's probability judgment sum within 5 percentage points of 100?</span></span>
 <span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(final_data<span class="sc">$</span>deviation_from_100)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(final_data<span class="sc">$</span>deviation_from_100) <span class="co"># Show frequencies of deviations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>final_data$deviation_from_100 
        n  missing distinct     Info     Mean      Gmd 
@@ -717,14 +729,15 @@ For the frequency table, variable is rounded to the nearest 0</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>final_data <span class="ot">&lt;-</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  final_data <span class="sc">%&gt;%</span> </span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(deviation_from_100 <span class="sc">&lt;=</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="st">"FL_16_DO"</span>))</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(final_data),</span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">table.attr =</span> <span class="st">"class=</span><span class="sc">\"</span><span class="st">striped</span><span class="sc">\"</span><span class="st">"</span>,</span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">format =</span> <span class="st">"html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exclude participants who were more than 5 percentage points away from 100</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>final_data <span class="ot">&lt;-</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  final_data <span class="sc">%&gt;%</span> </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(deviation_from_100 <span class="sc">&lt;=</span> <span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(<span class="st">"FL_16_DO"</span>))</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(final_data),</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">table.attr =</span> <span class="st">"class=</span><span class="sc">\"</span><span class="st">striped</span><span class="sc">\"</span><span class="st">"</span>,</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">format =</span> <span class="st">"html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="striped table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -848,7 +861,7 @@ For the frequency table, variable is rounded to the nearest 0</code></pre>
 
 </div>
 </div>
-<p>After the above exclusions, the final <em>N</em> for analysis was 374. The total <em>n</em> per condition was not affected systematically.</p>
+<p>After the above exclusions (<em>n</em> = 10), the final <em>N</em> for analysis was 374. The total <em>n</em> per condition was not affected systematically.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>Hmisc<span class="sc">::</span><span class="fu">describe</span>(final_data<span class="sc">$</span>condition)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -872,20 +885,21 @@ Proportion           0.329           0.340           0.332</code></pre>
 <h4 class="anchored" data-anchor-id="descriptive-statistics">Descriptive Statistics</h4>
 <p>The table below shows descriptive statistics (<em>N, M</em>, <em>SD</em>) for probability ratings relating to the four containers (red, blue, green, purple) by condition (ignorant, knowledge-implausible, knowledge-implausible).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(final_data <span class="sc">%&gt;%</span></span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(condition) <span class="sc">%&gt;%</span></span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_red =</span> <span class="fu">mean</span>(red),</span>
-<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_red =</span> <span class="fu">sd</span>(red),</span>
-<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_blue =</span> <span class="fu">mean</span>(blue),</span>
-<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_blue =</span> <span class="fu">sd</span>(blue),</span>
-<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_green =</span> <span class="fu">mean</span>(green),</span>
-<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_green =</span> <span class="fu">sd</span>(green),</span>
-<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_purple =</span> <span class="fu">mean</span>(purple),</span>
-<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_purple =</span> <span class="fu">sd</span>(purple)</span>
-<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>  ), <span class="at">digits =</span> <span class="dv">2</span>,</span>
-<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">table.attr =</span> <span class="st">"class=</span><span class="sc">\"</span><span class="st">striped</span><span class="sc">\"</span><span class="st">"</span>,</span>
-<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">format =</span> <span class="st">"html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run descriptive statistics for probability judgments over each container</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(final_data <span class="sc">%&gt;%</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(condition) <span class="sc">%&gt;%</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_red =</span> <span class="fu">mean</span>(red),</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_red =</span> <span class="fu">sd</span>(red),</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_blue =</span> <span class="fu">mean</span>(blue),</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_blue =</span> <span class="fu">sd</span>(blue),</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_green =</span> <span class="fu">mean</span>(green),</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_green =</span> <span class="fu">sd</span>(green),</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_purple =</span> <span class="fu">mean</span>(purple),</span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_purple =</span> <span class="fu">sd</span>(purple)</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a>  ), <span class="at">digits =</span> <span class="dv">2</span>,</span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">table.attr =</span> <span class="st">"class=</span><span class="sc">\"</span><span class="st">striped</span><span class="sc">\"</span><span class="st">"</span>,</span>
+<span id="cb49-15"><a href="#cb49-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">format =</span> <span class="st">"html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="striped table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -947,7 +961,7 @@ Proportion           0.329           0.340           0.332</code></pre>
 <p>The output below shows an independent samples t-test comparing participants’ probability judgments for the “red” container across the <em>Ignorant</em> and <em>knowledge-plausible</em> conditions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(red <span class="sc">~</span> condition,</span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> final_data[final_data<span class="sc">$</span>condition<span class="sc">!=</span><span class="st">"knowimplausible"</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> final_data[final_data<span class="sc">$</span>condition <span class="sc">!=</span> <span class="st">"knowimplausible"</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -961,8 +975,8 @@ sample estimates:
     mean in group ignorance mean in group knowplausible 
                    20.48780                    23.96774 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>effsize<span class="sc">::</span><span class="fu">cohen.d</span>(final_data<span class="sc">$</span>red[final_data<span class="sc">$</span>condition<span class="sc">!=</span><span class="st">"ignorance"</span>], </span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>                 final_data<span class="sc">$</span>red[final_data<span class="sc">$</span>condition<span class="sc">!=</span><span class="st">"knowplausible"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>effsize<span class="sc">::</span><span class="fu">cohen.d</span>(final_data<span class="sc">$</span>red[final_data<span class="sc">$</span>condition <span class="sc">!=</span> <span class="st">"ignorance"</span>], </span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>                 final_data<span class="sc">$</span>red[final_data<span class="sc">$</span>condition <span class="sc">!=</span> <span class="st">"knowplausible"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Cohen's d
@@ -977,143 +991,146 @@ d estimate: 0.09217616 (negligible)
 <section id="graphical-comparison" class="level4">
 <h4 class="anchored" data-anchor-id="graphical-comparison">Graphical Comparison</h4>
 <p>The graph below visualizes the mean differences in participants’ probability judgments relating to the “red container,” comparing the <em>ignorant</em> and <em>knowledge-plausible</em> groups across the original study (Birch &amp; Bloom, 2007)<em>,</em> 1st replication (Borchers, 2018), and the present study. Bridgers (n.d.) did not report full information on the relevant mean and SD values, hence this data is not included in the comparison below.</p>
-<section id="birch-bloom-plot-original" class="level5">
-<h5 class="anchored" data-anchor-id="birch-bloom-plot-original">Birch &amp; Bloom Plot (Original):</h5>
+<p><strong>Figure 3.</strong></p>
+<p><em>Birch &amp; Bloom Plot (Original)</em></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>birch_bloom_data <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Ignorance"</span>, <span class="dv">4</span>),</span>
-<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">rep</span>(<span class="st">"Knowledge-Plausible"</span>, <span class="dv">4</span>),</span>
-<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>              <span class="fu">rep</span>(<span class="st">"Knowledge-Implausible"</span>, <span class="dv">4</span>)),</span>
-<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">container=</span><span class="fu">c</span>(<span class="st">"blue"</span>,</span>
-<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">"red"</span>,</span>
-<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>              <span class="st">"purple"</span>,</span>
-<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>              <span class="st">"green"</span>), </span>
-<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">probability_percent =</span><span class="fu">c</span>(<span class="dv">71</span>, <span class="dv">23</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="co"># Mean for ignorance</span></span>
-<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">59</span>, <span class="dv">34</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="co"># Mean for knowledge plausible</span></span>
-<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">73</span>, <span class="dv">19</span>, <span class="dv">6</span>, <span class="dv">3</span>), <span class="co"># Mean for knowledge implausible</span></span>
-<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">standard_deviation =</span> <span class="fu">c</span>(<span class="dv">26</span>, <span class="dv">22</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="co"># SD for ignorance</span></span>
-<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">27</span>, <span class="dv">25</span>, <span class="dv">5</span>, <span class="dv">7</span>,  <span class="co"># SD for knowledge plausible</span></span>
-<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">29</span>, <span class="dv">21</span>, <span class="dv">16</span>, <span class="dv">5</span>), <span class="co"># SD for knowledge implausible</span></span>
-<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">52</span>, <span class="dv">12</span>))</span>
-<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">standard_error =</span> standard_deviation <span class="sc">/</span> <span class="fu">sqrt</span>(n))</span>
-<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a>filtered_birch_bloom_data <span class="ot">=</span> birch_bloom_data <span class="sc">%&gt;%</span></span>
-<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(container <span class="sc">==</span> <span class="st">"red"</span>,</span>
-<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a>         condition <span class="sc">!=</span> <span class="st">"Knowledge-Implausible"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hardcode new data frame based on information in Birch &amp; Bloom (2007)</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>birch_bloom_data <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">condition =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"Ignorance"</span>, <span class="dv">4</span>),</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>                <span class="fu">rep</span>(<span class="st">"Knowledge-Plausible"</span>, <span class="dv">4</span>),</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>                <span class="fu">rep</span>(<span class="st">"Knowledge-Implausible"</span>, <span class="dv">4</span>)),</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">container =</span> <span class="fu">c</span>(<span class="st">"blue"</span>,</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"red"</span>,</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>                <span class="st">"purple"</span>,</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">"green"</span>), </span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">probability_percent =</span> <span class="fu">c</span>(<span class="dv">71</span>, <span class="dv">23</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="co"># Means for ignorance</span></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">59</span>, <span class="dv">34</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="co"># Means for knowledge plausible</span></span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">73</span>, <span class="dv">19</span>, <span class="dv">6</span>, <span class="dv">3</span>), <span class="co"># Means for knowledge implausible</span></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">standard_deviation =</span> <span class="fu">c</span>(<span class="dv">26</span>, <span class="dv">22</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="co"># SDs for ignorance</span></span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">27</span>, <span class="dv">25</span>, <span class="dv">5</span>, <span class="dv">7</span>,  <span class="co"># SDs for knowledge plausible</span></span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a>                         <span class="dv">29</span>, <span class="dv">21</span>, <span class="dv">16</span>, <span class="dv">5</span>), <span class="co"># SDs for knowledge implausible</span></span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">52</span>, <span class="dv">12</span>)) <span class="co"># 52 participants in each condition</span></span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">standard_error =</span> standard_deviation <span class="sc">/</span> <span class="fu">sqrt</span>(n)) <span class="co"># Calculate SE</span></span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>filtered_birch_bloom_data <span class="ot">=</span> birch_bloom_data <span class="sc">%&gt;%</span></span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(container <span class="sc">==</span> <span class="st">"red"</span>,</span>
+<span id="cb54-22"><a href="#cb54-22" aria-hidden="true" tabindex="-1"></a>         condition <span class="sc">!=</span> <span class="st">"Knowledge-Implausible"</span>) <span class="co"># Keep only data relating to red container judgments</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span></span>
-<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(filtered_birch_bloom_data,</span>
-<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> condition, <span class="at">y =</span> probability_percent, <span class="at">fill =</span> condition)) <span class="sc">+</span></span>
-<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">"dodge"</span>, <span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Birch &amp; Bloom (2007; N = 104)"</span>) <span class="sc">+</span></span>
-<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>() <span class="sc">+</span></span>
-<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title=</span><span class="fu">element_text</span>(<span class="at">hjust=</span>.<span class="dv">5</span>),</span>
-<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
-<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>probability_percent <span class="sc">-</span> standard_error,</span>
-<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ymax =</span> probability_percent <span class="sc">+</span> standard_error), <span class="at">width =</span> .<span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="fu">rgb</span>(<span class="dv">101</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">187</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">103</span><span class="sc">/</span><span class="dv">255</span>),</span>
-<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">rgb</span>(<span class="dv">249</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">170</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">112</span><span class="sc">/</span><span class="dv">255</span>)),</span>
-<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Ignorance"</span>, <span class="st">"Knowledge-plausible"</span>)) <span class="sc">+</span></span>
-<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>,<span class="dv">100</span>) <span class="sc">+</span></span>
-<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Condition"</span>) <span class="sc">+</span></span>
-<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Percent of Red"</span>) <span class="sc">+</span></span>
-<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">1.5</span>, <span class="at">y =</span> <span class="dv">57</span>, <span class="at">label =</span> <span class="st">"***"</span>, <span class="at">size =</span> <span class="dv">6</span>) <span class="sc">+</span></span>
-<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span>, <span class="at">xend =</span> <span class="dv">2</span>, <span class="at">y =</span> <span class="dv">55</span>, <span class="at">yend =</span> <span class="dv">55</span>), <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">linetype =</span> <span class="st">"solid"</span>, <span class="at">size =</span> <span class="fl">0.5</span>)</span>
-<span id="cb55-21"><a href="#cb55-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-22"><a href="#cb55-22" aria-hidden="true" tabindex="-1"></a>plot1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Birch &amp; Bloom data for red container judgments</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>plot1 <span class="ot">&lt;-</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(filtered_birch_bloom_data,</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>         <span class="fu">aes</span>(<span class="at">x =</span> condition, <span class="at">y =</span> probability_percent, <span class="at">fill =</span> condition)) <span class="sc">+</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">"dodge"</span>, <span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span></span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Birch &amp; Bloom (2007; N = 104)"</span>) <span class="sc">+</span></span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>() <span class="sc">+</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title=</span><span class="fu">element_text</span>(<span class="at">hjust=</span>.<span class="dv">5</span>),</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> probability_percent <span class="sc">-</span> standard_error,</span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ymax =</span> probability_percent <span class="sc">+</span> standard_error), <span class="at">width =</span> .<span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="fu">rgb</span>(<span class="dv">101</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">187</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">103</span><span class="sc">/</span><span class="dv">255</span>),</span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">rgb</span>(<span class="dv">249</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">170</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">112</span><span class="sc">/</span><span class="dv">255</span>)),</span>
+<span id="cb55-16"><a href="#cb55-16" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Ignorance"</span>, <span class="st">"Knowledge-plausible"</span>)) <span class="sc">+</span></span>
+<span id="cb55-17"><a href="#cb55-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>,<span class="dv">100</span>) <span class="sc">+</span></span>
+<span id="cb55-18"><a href="#cb55-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Condition"</span>) <span class="sc">+</span></span>
+<span id="cb55-19"><a href="#cb55-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Percent of Red"</span>) <span class="sc">+</span></span>
+<span id="cb55-20"><a href="#cb55-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="fl">1.5</span>, <span class="at">y =</span> <span class="dv">57</span>, <span class="at">label =</span> <span class="st">"***"</span>, <span class="at">size =</span> <span class="dv">6</span>) <span class="sc">+</span></span>
+<span id="cb55-21"><a href="#cb55-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">1</span>, <span class="at">xend =</span> <span class="dv">2</span>, <span class="at">y =</span> <span class="dv">55</span>, <span class="at">yend =</span> <span class="dv">55</span>),</span>
+<span id="cb55-22"><a href="#cb55-22" aria-hidden="true" tabindex="-1"></a>               <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">linetype =</span> <span class="st">"solid"</span>, <span class="at">size =</span> <span class="fl">0.5</span>)</span>
+<span id="cb55-23"><a href="#cb55-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-24"><a href="#cb55-24" aria-hidden="true" tabindex="-1"></a>plot1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="borchers-plot-replication" class="level5">
-<h5 class="anchored" data-anchor-id="borchers-plot-replication">Borchers Plot (Replication):</h5>
+<p><strong>Figure 4.</strong></p>
+<p><em>Borchers Plot (Replication)</em></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importing Borcher data collected via MTurk</span></span>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import Borchers data</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>borchers_replication_all_participants <span class="ot">&lt;-</span></span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_xls</span>(<span class="st">"/Users/ottuba/birch2007_2_rescue/data/borchers_replication_anonymized.xls"</span>)</span>
 <span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Tidying data</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Tidy data</span></span>
 <span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>borchers_replication_tidy <span class="ot">&lt;-</span> borchers_replication_all_participants <span class="sc">%&gt;%</span></span>
 <span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">subid =</span> <span class="fu">row.names</span>(.)) <span class="sc">%&gt;%</span></span>
 <span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(measurement, probability_pct, red_knowledgeplausible<span class="sc">:</span>blue_ignorance) <span class="sc">%&gt;%</span></span>
 <span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(probability_pct)) <span class="sc">%&gt;%</span></span>
-<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(measurement, <span class="fu">c</span>(<span class="st">"color"</span>, <span class="st">"condition"</span>)) </span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(measurement, <span class="fu">c</span>(<span class="st">"color"</span>, <span class="st">"condition"</span>))</span>
 <span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Eligible participants </span></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for releavant participants </span></span>
 <span id="cb56-13"><a href="#cb56-13" aria-hidden="true" tabindex="-1"></a>borchers_replication_filtered_data <span class="ot">=</span> borchers_replication_tidy <span class="sc">%&gt;%</span></span>
-<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(high_school<span class="sc">==</span><span class="st">"Yes"</span>,</span>
-<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>         color_blind<span class="sc">==</span><span class="st">"No"</span>,</span>
-<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>         consent<span class="sc">==</span><span class="st">"I agree"</span>) <span class="co">#Consenting to the study</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb56-14"><a href="#cb56-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(high_school <span class="sc">==</span> <span class="st">"Yes"</span>, <span class="co"># Completed high school</span></span>
+<span id="cb56-15"><a href="#cb56-15" aria-hidden="true" tabindex="-1"></a>         color_blind <span class="sc">==</span> <span class="st">"No"</span>, <span class="co"># Is not colorblind</span></span>
+<span id="cb56-16"><a href="#cb56-16" aria-hidden="true" tabindex="-1"></a>         consent <span class="sc">==</span> <span class="st">"I agree"</span>) <span class="co"># Consented to the study</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span></span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  borchers_replication_filtered_data <span class="sc">%&gt;%</span></span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(color<span class="sc">==</span><span class="st">"red"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>condition, <span class="at">y=</span>probability_pct, <span class="at">fill=</span>condition) <span class="sc">+</span></span>
-<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">geom=</span><span class="st">"bar"</span>) <span class="sc">+</span></span>
-<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">geom=</span><span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">fun.data=</span>mean_se) <span class="sc">+</span></span>
-<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Condition"</span>) <span class="sc">+</span></span>
-<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Percent of Red"</span>) <span class="sc">+</span></span>
-<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Borchers (2018; N = 73)"</span>) <span class="sc">+</span></span>
-<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="fu">rgb</span>(<span class="dv">101</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">187</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">103</span><span class="sc">/</span><span class="dv">255</span>),</span>
-<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">rgb</span>(<span class="dv">249</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">170</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">112</span><span class="sc">/</span><span class="dv">255</span>)),</span>
-<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Ignorance"</span>, <span class="st">"Knowledge-plausible"</span>)) <span class="sc">+</span></span>
-<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>() <span class="sc">+</span></span>
-<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title=</span><span class="fu">element_text</span>(<span class="at">hjust=</span>.<span class="dv">5</span>),</span>
-<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
-<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>,<span class="dv">100</span>) <span class="sc">+</span></span>
-<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(<span class="at">comparisons =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"ignorance"</span>, <span class="st">"knowledgeplausible"</span>)), </span>
-<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>                 <span class="at">label =</span> <span class="st">"p.signif"</span>,</span>
-<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>                 <span class="at">label.size =</span> <span class="dv">24</span>, <span class="at">bracket.size =</span> .<span class="dv">75</span>, <span class="at">label.y =</span> <span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">50</span>))</span>
-<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>plot2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot Borchers data for red container judgments</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>plot2 <span class="ot">&lt;-</span></span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  borchers_replication_filtered_data <span class="sc">%&gt;%</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(color<span class="sc">==</span><span class="st">"red"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> condition, <span class="at">y =</span> probability_pct, <span class="at">fill =</span> condition) <span class="sc">+</span></span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">geom =</span> <span class="st">"bar"</span>) <span class="sc">+</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">geom =</span> <span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">fun.data =</span> mean_se) <span class="sc">+</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Condition"</span>) <span class="sc">+</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Percent of Red"</span>) <span class="sc">+</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Borchers (2018; N = 73)"</span>) <span class="sc">+</span></span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="fu">rgb</span>(<span class="dv">101</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">187</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">103</span><span class="sc">/</span><span class="dv">255</span>),</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">rgb</span>(<span class="dv">249</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">170</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">112</span><span class="sc">/</span><span class="dv">255</span>)),</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Ignorance"</span>, <span class="st">"Knowledge-plausible"</span>)) <span class="sc">+</span></span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>() <span class="sc">+</span></span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title=</span><span class="fu">element_text</span>(<span class="at">hjust=</span>.<span class="dv">5</span>),</span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>,<span class="dv">100</span>) <span class="sc">+</span></span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(<span class="at">comparisons =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"ignorance"</span>, <span class="st">"knowledgeplausible"</span>)), </span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>                 <span class="at">label =</span> <span class="st">"p.signif"</span>,</span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>                 <span class="at">label.size =</span> <span class="dv">24</span>, <span class="at">bracket.size =</span> .<span class="dv">75</span>, <span class="at">label.y =</span> <span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">50</span>))</span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>plot2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="abutto-plot-replication" class="level5">
-<h5 class="anchored" data-anchor-id="abutto-plot-replication">Abutto Plot (Replication):</h5>
+<p><strong>Figure 5.</strong></p>
+<p><em>Abutto Plot (Replication)</em></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>plot3 <span class="ot">&lt;-</span></span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  final_data_tidy <span class="sc">%&gt;%</span></span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(color <span class="sc">==</span> <span class="st">"red"</span> <span class="sc">&amp;</span> condition <span class="sc">!=</span> <span class="st">"knowimplausible"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> condition, <span class="at">y =</span> probability_pct, <span class="at">fill =</span> condition) <span class="sc">+</span></span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">geom =</span> <span class="st">"bar"</span>) <span class="sc">+</span></span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">geom =</span> <span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">fun.data =</span> mean_se) <span class="sc">+</span></span>
-<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Condition"</span>) <span class="sc">+</span></span>
-<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Abutto (2023; N = 374)"</span>) <span class="sc">+</span></span>
-<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Percent of Red"</span>) <span class="sc">+</span></span>
-<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="fu">rgb</span>(<span class="dv">101</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">187</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">103</span><span class="sc">/</span><span class="dv">255</span>),</span>
-<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">rgb</span>(<span class="dv">249</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">170</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">112</span><span class="sc">/</span><span class="dv">255</span>)),</span>
-<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Ignorance"</span>, <span class="st">"Knowledge-plausible"</span>)) <span class="sc">+</span></span>
-<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>() <span class="sc">+</span></span>
-<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> .<span class="dv">5</span>),</span>
-<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
-<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">100</span>) <span class="sc">+</span></span>
-<span id="cb58-22"><a href="#cb58-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(<span class="at">comparisons =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"ignorance"</span>, <span class="st">"knowplausible"</span>)), </span>
-<span id="cb58-23"><a href="#cb58-23" aria-hidden="true" tabindex="-1"></a>                   <span class="at">label =</span> <span class="st">"p.signif"</span>,</span>
-<span id="cb58-24"><a href="#cb58-24" aria-hidden="true" tabindex="-1"></a>                   <span class="at">label.size =</span> <span class="dv">24</span>, <span class="at">bracket.size =</span> .<span class="dv">75</span>, <span class="at">label.y =</span> <span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">50</span>))</span>
-<span id="cb58-25"><a href="#cb58-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-26"><a href="#cb58-26" aria-hidden="true" tabindex="-1"></a>plot3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot my own data for red container judgments</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>plot3 <span class="ot">&lt;-</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  final_data_tidy <span class="sc">%&gt;%</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(color <span class="sc">==</span> <span class="st">"red"</span> <span class="sc">&amp;</span> condition <span class="sc">!=</span> <span class="st">"knowimplausible"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> condition, <span class="at">y =</span> probability_pct, <span class="at">fill =</span> condition) <span class="sc">+</span></span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">geom =</span> <span class="st">"bar"</span>) <span class="sc">+</span></span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">geom =</span> <span class="st">"errorbar"</span>, <span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">fun.data =</span> mean_se) <span class="sc">+</span></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Condition"</span>) <span class="sc">+</span></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Abutto (2023; N = 374)"</span>) <span class="sc">+</span></span>
+<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Percent of Red"</span>) <span class="sc">+</span></span>
+<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="fu">rgb</span>(<span class="dv">101</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">187</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">103</span><span class="sc">/</span><span class="dv">255</span>),</span>
+<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>                               <span class="fu">rgb</span>(<span class="dv">249</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">170</span><span class="sc">/</span><span class="dv">255</span>,<span class="dv">112</span><span class="sc">/</span><span class="dv">255</span>)),</span>
+<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Ignorance"</span>, <span class="st">"Knowledge-plausible"</span>)) <span class="sc">+</span></span>
+<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>() <span class="sc">+</span></span>
+<span id="cb58-16"><a href="#cb58-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> .<span class="dv">5</span>),</span>
+<span id="cb58-17"><a href="#cb58-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb58-18"><a href="#cb58-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb58-19"><a href="#cb58-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb58-20"><a href="#cb58-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb58-21"><a href="#cb58-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb58-22"><a href="#cb58-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">100</span>) <span class="sc">+</span></span>
+<span id="cb58-23"><a href="#cb58-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_compare_means</span>(<span class="at">comparisons =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"ignorance"</span>, <span class="st">"knowplausible"</span>)), </span>
+<span id="cb58-24"><a href="#cb58-24" aria-hidden="true" tabindex="-1"></a>                   <span class="at">label =</span> <span class="st">"p.signif"</span>,</span>
+<span id="cb58-25"><a href="#cb58-25" aria-hidden="true" tabindex="-1"></a>                   <span class="at">label.size =</span> <span class="dv">24</span>, <span class="at">bracket.size =</span> .<span class="dv">75</span>, <span class="at">label.y =</span> <span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">50</span>))</span>
+<span id="cb58-26"><a href="#cb58-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-27"><a href="#cb58-27" aria-hidden="true" tabindex="-1"></a>plot3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>combined_plot <span class="ot">&lt;-</span> plot1 <span class="sc">+</span> plot2 <span class="sc">+</span> plot3</span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>combined_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine plots into a single panel</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>combined_plot <span class="ot">&lt;-</span> plot1 <span class="sc">+</span> plot2 <span class="sc">+</span> plot3</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>combined_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Final-Report_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
-</section>
 </section>
 </section>
 <section id="exploratory-analyses" class="level3">
@@ -1173,6 +1190,7 @@ d estimate: 0.09217616 (negligible)
 <span id="cb61-26"><a href="#cb61-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
 <span id="cb61-27"><a href="#cb61-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Figure 6.</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>combined_plot2 <span class="ot">&lt;-</span> plot4<span class="sc">+</span>plot5</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>combined_plot2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1186,7 +1204,7 @@ d estimate: 0.09217616 (negligible)
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(red <span class="sc">~</span> condition,</span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> final_data[final_data<span class="sc">$</span>condition<span class="sc">!=</span><span class="st">"knowplausible"</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> final_data[final_data<span class="sc">$</span>condition <span class="sc">!=</span> <span class="st">"knowplausible"</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -1206,7 +1224,7 @@ sample estimates:
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(blue <span class="sc">~</span> condition,</span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> final_data[final_data<span class="sc">$</span>condition<span class="sc">!=</span><span class="st">"knowimplausible"</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> final_data[final_data<span class="sc">$</span>condition <span class="sc">!=</span> <span class="st">"knowimplausible"</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -1226,7 +1244,7 @@ sample estimates:
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(blue <span class="sc">~</span> condition,</span>
-<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> final_data[final_data<span class="sc">$</span>condition<span class="sc">!=</span><span class="st">"knowplausible"</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> final_data[final_data<span class="sc">$</span>condition <span class="sc">!=</span> <span class="st">"knowplausible"</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -1246,7 +1264,7 @@ sample estimates:
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(purple <span class="sc">~</span> condition,</span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> final_data[final_data<span class="sc">$</span>condition<span class="sc">!=</span><span class="st">"knowplausible"</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> final_data[final_data<span class="sc">$</span>condition <span class="sc">!=</span> <span class="st">"knowplausible"</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -1273,16 +1291,18 @@ sample estimates:
 <h3 class="anchored" data-anchor-id="mini-meta-analysis">Mini Meta Analysis</h3>
 <p>Combining across the original paper, 1st replication, and 2nd replication, the aggregate effect size is negligible (estimated 5% difference in mean probability judgments on the original scale):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>raw_metaanalysis_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">read_xlsx</span>(<span class="st">"/Users/ottuba/birch2007_2_rescue/data/Birch-Bloom_minimeta_data.xlsx"</span>, <span class="at">range =</span> <span class="st">"B2:G6"</span>))</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>raw_metaanalysis_data[,<span class="fu">c</span>(<span class="st">"N"</span>, <span class="st">"raw_mean_difference"</span>,</span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"raw_low"</span>, <span class="st">"raw_high"</span>)] <span class="ot">&lt;-</span></span>
-<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(raw_metaanalysis_data[,<span class="fu">c</span>(<span class="st">"N"</span>, <span class="st">"raw_mean_difference"</span>,</span>
-<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"raw_low"</span>, <span class="st">"raw_high"</span>)], as.numeric)</span>
-<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(raw_metaanalysis_data,</span>
-<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">table.attr =</span> <span class="st">"class=</span><span class="sc">\"</span><span class="st">striped</span><span class="sc">\"</span><span class="st">"</span>,</span>
-<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">format =</span> <span class="st">"html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import raw meta-analysis data</span></span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>raw_metaanalysis_data <span class="ot">&lt;-</span></span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>(<span class="fu">read_xlsx</span>(<span class="st">"/Users/ottuba/birch2007_2_rescue/data/Birch-Bloom_minimeta_data.xlsx"</span>, <span class="at">range =</span> <span class="st">"B2:G6"</span>))</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-5"><a href="#cb71-5" aria-hidden="true" tabindex="-1"></a>raw_metaanalysis_data[,<span class="fu">c</span>(<span class="st">"N"</span>, <span class="st">"raw_mean_difference"</span>,</span>
+<span id="cb71-6"><a href="#cb71-6" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"raw_low"</span>, <span class="st">"raw_high"</span>)] <span class="ot">&lt;-</span></span>
+<span id="cb71-7"><a href="#cb71-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(raw_metaanalysis_data[,<span class="fu">c</span>(<span class="st">"N"</span>, <span class="st">"raw_mean_difference"</span>,</span>
+<span id="cb71-8"><a href="#cb71-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"raw_low"</span>, <span class="st">"raw_high"</span>)], as.numeric) <span class="co"># Convert to numeric values</span></span>
+<span id="cb71-9"><a href="#cb71-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb71-10"><a href="#cb71-10" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(raw_metaanalysis_data,</span>
+<span id="cb71-11"><a href="#cb71-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">table.attr =</span> <span class="st">"class=</span><span class="sc">\"</span><span class="st">striped</span><span class="sc">\"</span><span class="st">"</span>,</span>
+<span id="cb71-12"><a href="#cb71-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">format =</span> <span class="st">"html"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="striped table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -1336,10 +1356,10 @@ sample estimates:
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>for_mod <span class="ot">&lt;-</span> raw_metaanalysis_data <span class="sc">%&gt;%</span> </span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">se=</span>(raw_high<span class="sc">-</span>raw_low)<span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span><span class="fl">1.96</span>))</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">se=</span>(raw_high<span class="sc">-</span>raw_low)<span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span><span class="fl">1.96</span>)) <span class="co"># Calculate SE values</span></span>
 <span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>mini_meta_mod <span class="ot">&lt;-</span> <span class="fu">rma</span>(<span class="at">yi=</span>raw_mean_difference,</span>
-<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sei=</span>se, <span class="at">slab=</span>Study, <span class="at">data=</span>for_mod)</span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sei=</span>se, <span class="at">slab=</span>Study, <span class="at">data=</span>for_mod) <span class="co"># Run model</span></span>
 <span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mini_meta_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1368,50 +1388,57 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>aggregate <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">Study=</span><span class="st">"Aggregate"</span>, <span class="at">Citation=</span><span class="cn">NA</span>,</span>
-<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">raw_mean_difference=</span>mini_meta_mod<span class="sc">$</span>b,</span>
-<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">raw_low=</span>mini_meta_mod<span class="sc">$</span>ci.lb,</span>
-<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">raw_high=</span>mini_meta_mod<span class="sc">$</span>ci.ub,</span>
-<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">N=</span><span class="fu">sum</span>(raw_metaanalysis_data<span class="sc">$</span>N))</span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">raw_mean_difference =</span> mini_meta_mod<span class="sc">$</span>b, <span class="co"># Effect of interest</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">raw_low =</span> mini_meta_mod<span class="sc">$</span>ci.lb, <span class="co"># Lower CI bound</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">raw_high =</span> mini_meta_mod<span class="sc">$</span>ci.ub, <span class="co"># Upper CI bound</span></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">N =</span> <span class="fu">sum</span>(raw_metaanalysis_data<span class="sc">$</span>N)) <span class="co"># N for respective study</span></span>
 <span id="cb74-6"><a href="#cb74-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb74-7"><a href="#cb74-7" aria-hidden="true" tabindex="-1"></a>for_plot <span class="ot">&lt;-</span></span>
 <span id="cb74-8"><a href="#cb74-8" aria-hidden="true" tabindex="-1"></a>  raw_metaanalysis_data <span class="sc">%&gt;%</span></span>
 <span id="cb74-9"><a href="#cb74-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(aggregate) <span class="sc">%&gt;%</span></span>
-<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Study=</span><span class="fu">factor</span>(Study,</span>
-<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a>                      <span class="at">levels=</span><span class="fu">c</span>(<span class="st">"Aggregate"</span>,</span>
-<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Birch and Bloom"</span>,</span>
-<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Bridgers"</span>,</span>
-<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Borchers"</span>,</span>
-<span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Abutto"</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb74-10"><a href="#cb74-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Study =</span> <span class="fu">factor</span>(Study,</span>
+<span id="cb74-11"><a href="#cb74-11" aria-hidden="true" tabindex="-1"></a>                        <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Aggregate"</span>,</span>
+<span id="cb74-12"><a href="#cb74-12" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Birch and Bloom"</span>,</span>
+<span id="cb74-13"><a href="#cb74-13" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Bridgers"</span>,</span>
+<span id="cb74-14"><a href="#cb74-14" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Borchers"</span>,</span>
+<span id="cb74-15"><a href="#cb74-15" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"Abutto"</span>))) <span class="co"># create new column with study names</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Figure 7.</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(for_plot,</span>
-<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Study, <span class="at">y =</span> raw_mean_difference,</span>
-<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">ymin =</span> raw_low, <span class="at">ymax =</span> raw_high, <span class="at">size=</span>N))<span class="sc">+</span></span>
-<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">colour=</span><span class="st">'darkgray'</span>,<span class="at">size=</span>.<span class="dv">5</span>,<span class="at">width=</span>.<span class="dv">25</span>)<span class="sc">+</span></span>
-<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>for_plot <span class="sc">|&gt;</span> <span class="fu">filter</span>(Study <span class="sc">!=</span> <span class="st">"Aggregate"</span>))<span class="sc">+</span></span>
-<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>for_plot <span class="sc">|&gt;</span> <span class="fu">filter</span>(Study <span class="sc">==</span> <span class="st">"Aggregate"</span>),</span>
-<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape=</span><span class="dv">18</span>, <span class="at">color=</span><span class="st">"red"</span>)<span class="sc">+</span></span>
-<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
-<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="dv">25</span>,<span class="dv">25</span>) <span class="sc">+</span></span>
-<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_area</span>()<span class="sc">+</span></span>
-<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>,<span class="at">color=</span><span class="st">"black"</span>)<span class="sc">+</span></span>
-<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>() <span class="sc">+</span></span>
-<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
-<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">1.5</span>, <span class="at">lty=</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">"Main effect size on original scale"</span>, <span class="at">x=</span><span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot mini meta-analysis results</span></span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(for_plot,</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Study, <span class="at">y =</span> raw_mean_difference,</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">ymin =</span> raw_low, <span class="at">ymax =</span> raw_high, <span class="at">size=</span>N))<span class="sc">+</span></span>
+<span id="cb75-5"><a href="#cb75-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">colour=</span><span class="st">'darkgray'</span>,<span class="at">size=</span>.<span class="dv">5</span>,<span class="at">width=</span>.<span class="dv">25</span>)<span class="sc">+</span></span>
+<span id="cb75-6"><a href="#cb75-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>for_plot <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Study <span class="sc">!=</span> <span class="st">"Aggregate"</span>))<span class="sc">+</span></span>
+<span id="cb75-7"><a href="#cb75-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>for_plot <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Study <span class="sc">==</span> <span class="st">"Aggregate"</span>),</span>
+<span id="cb75-8"><a href="#cb75-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">shape =</span> <span class="dv">18</span>, <span class="at">color =</span> <span class="st">"red"</span>)<span class="sc">+</span></span>
+<span id="cb75-9"><a href="#cb75-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb75-10"><a href="#cb75-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="sc">-</span><span class="dv">25</span>, <span class="dv">25</span>) <span class="sc">+</span></span>
+<span id="cb75-11"><a href="#cb75-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_area</span>()<span class="sc">+</span></span>
+<span id="cb75-12"><a href="#cb75-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb75-13"><a href="#cb75-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>() <span class="sc">+</span></span>
+<span id="cb75-14"><a href="#cb75-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)<span class="sc">+</span></span>
+<span id="cb75-15"><a href="#cb75-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fl">1.5</span>, <span class="at">lty =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb75-16"><a href="#cb75-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Main effect size on original scale"</span>, <span class="at">x =</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Final-Report_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p><em>Note.</em> The estimate for Bridgers may be inaccurate, as it had to be reconstructed based on incomplete information (missing information on the mean difference and SDs relating to the group comparison of interest). The necessary numerical information was reconstructed with the help of ChatGPT (see here for output: <a href="https://chat.openai.com/share/cf52551d-d983-48af-a3a7-3239442fdf9d" class="uri">https://chat.openai.com/share/cf52551d-d983-48af-a3a7-3239442fdf9d</a>).</p>
+<p><strong>Figure 8.</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">forest</span>(mini_meta_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run forest plot</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">forest</span>(mini_meta_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Final-Report_files/figure-html/unnamed-chunk-38-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><em>Note.</em> The estimate for Bridgers may be inaccurate, as it had to be reconstructed based on incomplete information (missing information on the mean difference and SDs relating to the group comparison of interest). The necessary numerical information was reconstructed with the help of ChatGPT (see here for output: <a href="https://chat.openai.com/share/cf52551d-d983-48af-a3a7-3239442fdf9d" class="uri">https://chat.openai.com/share/cf52551d-d983-48af-a3a7-3239442fdf9d</a>).</p>
+<p><strong>Figure 9.</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">funnel</span>(mini_meta_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run funnel plot</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">funnel</span>(mini_meta_mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Final-Report_files/figure-html/unnamed-chunk-39-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -1422,7 +1449,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>On the above scale, I would rate the present rescue’s replication of results a .25. There was no support for the original authors’ main findings, but results on comparisons of secondary interest aligned.</p>
 <p><em>Categorize your rescue for how close of a replication of the original it was using the scale in the Figure below:</em></p>
 <p>Based on the scale provided in the figure below, I would rate the present rescue a “very close replication.” The effect and hypothesis in question were the same, the conceptualization and operationalization of IVs and DVs were held constant, the population was largely matched (pre-screened for adults living in the U.S. and enrolled in college), and stimuli were adapted only slightly. The key difference lay in the (lack of a) physical setting.</p>
-<p><strong>Figure X.</strong></p>
+<p><strong>Figure 10.</strong></p>
 <p><img src="images/Screenshot%202023-12-12%20at%2019.07.18.png" class="img-fluid"></p>
 <p><em>Note.</em> Figure taken from LeBel et al.&nbsp;(2018).</p>
 </section>
@@ -1430,19 +1457,44 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <section id="commentary" class="level3">
 <h3 class="anchored" data-anchor-id="commentary">Commentary</h3>
 <p>Crucially, the present rescue project’s results showed that different participants in different conditions were largely consistent in how probable they thought it was for Vicky to first search in the “red” container. In other words, rather than experiencing different degrees of interference as per the “curse of knowledge,” participants seemed to consistently consider the “red” container - that is, the container located where Vicky first put her violin - a plausible option for Vicky to start her search. Indeed, even in the <em>knowledge plausible</em> condition, one can (successfully) reason from the unknowing protagonist’s perspective and still think the “red” container presents a reasonable choice: It represents the same location - albeit not the same container - as where Vicky first put her violin before leaving the room. While it is certainly plausible for Vicky to distinctly remember the color of the container she put her violin (i.e., blue) and first begin her search there, it is also plausible for her to distinctly remember the corner of the living room she put her violin (i.e., where the red container is), and first begin her search there. Thus, using probability judgments relating to the “red” container as a basis for estimating the effect of the “curse of knowledge” bias may be misguided in its premise that unknowing Vicky would not reasonably begin her search there.</p>
-<p>It should also be noted that relative to Birch and Bloom’s (2007) original results, participants also generally judged it more probable for Vicky to first search in the “green” or “purple” containers. In the present study, descriptive statistics showed <span class="math inline">\(M_{green}\)</span> = 7.3% and <span class="math inline">\(SD_{green}\)</span> = 9.8% as well as <span class="math inline">\(M_{purple}\)</span> = 8.8% and <span class="math inline">\(SD_{purple}\)</span> = 13.2%. In the original study, descriptive statistics showed <span class="math inline">\(M_{green}\)</span> = 3.3% and <span class="math inline">\(SD_{green}\)</span>, as well as <span class="math inline">\(M_{purple}\)</span> = 3.7% and <span class="math inline">\(SD_{purple}\)</span> = 6.3%. This is slightly surprising, given that the story context should render these search locations as quite improbable: Both containers are neither of the same color as the container where Vicky placed her violin (blue), nor do they inhabit the same location of the original container after the sister, Denise, had rearranged the room. While this need not have impeded on the estimation of the effect of interest, it is still a deviation from the original results.</p>
-<p>Importantly, all of the above is still consistent with the explanation that <em>some</em> but not all adults in the <em>knowledge-plausible</em> condition may have succumbed to a “curse of knowledge” bias under the circumstances leveraged in the present study. The effect size, indeed, was not zero (<em>d</em> = 0.09), though drastically smaller than the one estimated in the original study (<em>d</em> = .47). Still, this difference in effect size could, at least in part, be explained by sampling variability as well as the discrepancies in study setup (lab versus in-person). Hence, Birch and Bloom’s (2007) fundamental claim that adults may display difficulties in their false-belief reasoning if sensitive enough measures are used should not be dismissed entirely on the basis of the present study’s results. Rather thano asking whether or not the “curse of knowledge” is a true phenomenon, the key question then becomes: To what degree, and under which circumstances, if not the ones induced in the present study, do adults display difficulties in false-belief reasoning akin to those of children? Future research may wish to develop and employ new, adapted paradigms to investigate this question.</p>
+<p>It should also be noted that relative to Birch and Bloom’s (2007) original results, participants also generally judged it more probable for Vicky to first search in the “green” or “purple” containers. In the present study, descriptive statistics showed <span class="math inline">\(M_{green}\)</span> = 7.3% and <span class="math inline">\(SD_{green}\)</span> = 9.8% as well as <span class="math inline">\(M_{purple}\)</span> = 8.8% and <span class="math inline">\(SD_{purple}\)</span> = 13.2%. In the original study, descriptive statistics showed <span class="math inline">\(M_{green}\)</span> = 3.3% and <span class="math inline">\(SD_{green}\)</span>, as well as <span class="math inline">\(M_{purple}\)</span> = 3.7% and <span class="math inline">\(SD_{purple}\)</span> = 6.3%. This is slightly surprising, given that the story context should render these search locations as quite improbable: Both containers are neither of the same color as the container where Vicky placed her violin (blue), nor do they inhabit the same location of the original container after the sister, Denise, had rearranged the room. Upon a closer examination of the respective data columns, I found that a considerable number of participants assigned the “purple” and “green” containers unexpectedly high probabilities, with <em>n</em> = 49 and <em>n</em> = 40 participants at ≥ 25%, respectively. While the result of the key test does not change upon excluding said participants (see Appendix), this overall pattern is still a considerable deviation from the original results.</p>
+<p>Importantly, all of the above is still consistent with the explanation that <em>some</em> but not all adults in the <em>knowledge-plausible</em> condition may have succumbed to a “curse of knowledge” bias under the circumstances leveraged in the present study. The estimated effect size across replication studies (see Figures 7 and 8), though drastically smaller than the one estimated in the original study (<em>d</em> = .47). This difference in effect size is likely, at least in part, attributable to sampling variability as well as the discrepancies in study setup (lab versus in-person). Hence, Birch and Bloom’s (2007) fundamental claim that adults may display difficulties in their false-belief reasoning if sensitive enough measures are used should not be dismissed entirely on the basis of the present study’s results. Rather than asking whether or not the “curse of knowledge” is a true phenomenon, the key question then becomes: To what degree, and under which circumstances, if not the ones induced in the present study, do adults display difficulties in false-belief reasoning akin to those of children? Future research may wish to develop and employ new, adapted paradigms to investigate this question.</p>
 </section>
+</section>
+<section id="appendix" class="level2">
+<h2 class="anchored" data-anchor-id="appendix">Appendix</h2>
+<p>Re-running key test while excluding participants with unexpectedly high probability judgments for “green” and “purple” containers:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(red <span class="sc">~</span> condition,</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> final_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>         final_data<span class="sc">$</span>condition <span class="sc">!=</span> <span class="st">"knowimplausible"</span>,</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>         final_data<span class="sc">$</span>green <span class="sc">&lt;=</span> <span class="dv">25</span>,</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>         final_data<span class="sc">$</span>purple <span class="sc">&lt;=</span> <span class="dv">25</span>,</span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>         ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  red by condition
+t = -1.533, df = 228.76, p-value = 0.1267
+alternative hypothesis: true difference in means between group ignorance and group knowplausible is not equal to 0
+95 percent confidence interval:
+ -8.517755  1.063370
+sample estimates:
+    mean in group ignorance mean in group knowplausible 
+                   20.12281                    23.85000 </code></pre>
+</div>
+</div>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <p>Birch, S. A. J., &amp; Bloom, P. (2007). The Curse of Knowledge in Reasoning About False Beliefs. <em>Psychological Science</em>, <em>18</em>(5), 382–386. <a href="https://doi.org/10.1111/j.1467-9280.2007.01909.x" class="uri">https://doi.org/10.1111/j.1467-9280.2007.01909.x</a></p>
 <p>Borchers, L. R. Replication of Study The Curse of Knowledge in Reasoning About False Beliefs by Susan A.J. Birch &amp; Paul Bloom (2007, Psychological Science). RPubs. Retrieved on December 12, 2023, from <a href="https://rpubs.com/lrborchers/450894" class="uri">https://rpubs.com/lrborchers/450894</a></p>
-<p>Bridgers, S. (n.d.). Replication of 'The Curse of Knowledge in Reasoning about False Beliefs'&nbsp; by Susan A.J. Birch &amp; Paul Bloom (2007, Psychological Science). Google Docs. Retrieved on December 12, 2023, from <a href="https://docs.google.com/document/d/1fSARliH5QKadGy3UElC00ehgwr2LLQbey-uzb1RPv0A/edit?usp=embed_facebook" class="uri">https://docs.google.com/document/d/1fSARliH5QKadGy3UElC00ehgwr2LLQbey-uzb1RPv0A/edit?usp=embed_facebook</a></p>
+<p>Bridgers, S. (n.d.). Replication of ‘The Curse of Knowledge in Reasoning about False Beliefs’&nbsp; by Susan A.J. Birch &amp; Paul Bloom (2007, Psychological Science). Google Docs. Retrieved on December 12, 2023, from <a href="https://docs.google.com/document/d/1fSARliH5QKadGy3UElC00ehgwr2LLQbey-uzb1RPv0A/edit?usp=embed_facebook" class="uri">https://docs.google.com/document/d/1fSARliH5QKadGy3UElC00ehgwr2LLQbey-uzb1RPv0A/edit?usp=embed_facebook</a></p>
 <p>LeBel, E. P., McCarthy, R. J., Earp, B. D., Elson, M., &amp; Vanpaemel, W. (2018). A unified framework to quantify the credibility of scientific findings. <em>Advances in Methods and Practices in Psychological Science</em>, <em>1</em>(3), 389–402. <a href="https://doi.org/10.1177/2515245918787489" class="uri">https://doi.org/10.1177/2515245918787489</a></p>
 <p>Livingston, L. A., Shah, P., White, S. J., &amp; Happé, F. (2021). Further developing the Frith–Happé animations: A quicker, more objective, and web-based test of theory of mind for autistic and neurotypical adults. <em>Autism Research</em>, <em>14</em>(9), 1905–1912. <a href="https://doi.org/10.1002/aur.2575" class="uri">https://doi.org/10.1002/aur.2575</a></p>
 <p>Simonsohn, U. (2014). <em>Small Telescopes: Detectability and the Evaluation of Replication Results</em> (SSRN Scholarly Paper 2259879). <a href="https://doi.org/10.2139/ssrn.2259879" class="uri">https://doi.org/10.2139/ssrn.2259879</a></p>
-<p>Wimmer, H., &amp; Perner, J. (1983). Beliefs about beliefs: Representation and constraining function of wrong beliefs in young children's understanding of deception. <em>Cognition</em>, <em>13</em>(1), 103–128. <a href="https://doi.org/10.1016/0010-0277(83)90004-5" class="uri">https://doi.org/10.1016/0010-0277(83)90004-5</a></p>
+<p>Wimmer, H., &amp; Perner, J. (1983). Beliefs about beliefs: Representation and constraining function of wrong beliefs in young children’s understanding of deception. <em>Cognition</em>, <em>13</em>(1), 103–128. <a href="https://doi.org/10.1016/0010-0277(83)90004-5" class="uri">https://doi.org/10.1016/0010-0277(83)90004-5</a></p>
 </section>
 
 </main>
