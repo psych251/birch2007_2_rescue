@@ -659,7 +659,7 @@ plot1
 # Import Borchers data
 borchers_data_url <- getURL("https://github.com/psych251/birch2007_2_rescue/raw/main/data/borchers_replication_anonymized.csv")
 
-borchers_replication_all_participants <- read.csv(text = borchers_data_url)
+borchers_replication_tidy <- read.csv(text = borchers_data_url)
 
 # Tidy data
 borchers_replication_tidy <- borchers_replication_all_participants %>%
