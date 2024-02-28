@@ -147,7 +147,7 @@ and Bloom's (2007) story stimuli.
 knitr::opts_chunk$set(echo = T)
 
 # Import relevant libraries
-library(tidyverse); library(ggplot2); library(car); library(effsize); library(qualtRics); library(readxl); library(patchwork); library(ggpubr); library(metafor); library(RCurl)
+library(tidyverse); library(ggplot2); library(car); library(effsize); library(qualtRics); library(readxl); library(patchwork); library(ggpubr); library(metafor); library(RCurl); library(here)
 
 ```
 
@@ -349,8 +349,8 @@ demographics, and data exclusions based on the rules spelled out in my analysis 
 
 ### Data Processing
 
-*Given that raw data will not be shared due to containing identifiers, skip steps 1 and
-2.*
+*Given that raw data is not shared in the repository (due to containing identifiers),
+please skip steps 1 and 2.*
 
 1.  Read in csv. data in R (deidentified data set available under
     <https://github.com/psych251/birch2007_2_rescue/tree/main/data>)
@@ -384,9 +384,7 @@ final_data_tidy <- final_data_raw %>% # Filter to keep only columns established 
 
 ```{r}
 
-final_data_url <- getURL("https://raw.githubusercontent.com/psych251/birch2007_2_rescue/main/data/final_data/2023-12-12_final_data_tidy.csv")
-
-final_data_tidy <- read.csv(text = final_data_url)
+final_data_tidy <- read.csv(here("data/final_data/2023-12-12_final_data_tidy.csv"))
 
 # Show first few rows of data set
 knitr::kable(head(final_data_tidy),
@@ -657,9 +655,7 @@ plot1
 ```{r}
 
 # Import Borchers data
-borchers_data_url <- getURL("https://github.com/psych251/birch2007_2_rescue/raw/main/data/borchers_replication_anonymized.csv")
-
-borchers_replication_tidy <- read.csv(text = borchers_data_url)
+borchers_replication_all_participants <- read.csv(here("data/borchers_replication_anonymized.csv"))
 
 # Tidy data
 borchers_replication_tidy <- borchers_replication_all_participants %>%
@@ -916,9 +912,7 @@ original scale):
 ```{r}
 
 # Import raw meta-analysis data
-raw_metaanalysis_url <- getURL("https://github.com/psych251/birch2007_2_rescue/raw/main/data/Birch-Bloom_minimeta_data.csv")
-
-raw_metaanalysis_data <- read.csv(text = raw_metaanalysis_url)
+raw_metaanalysis_data <- read_xlsx(here("data/Birch-Bloom_minimeta_data.xlsx"), col_names = T, range = "B2:G6")
 
 raw_metaanalysis_data[,c("N", "raw_mean_difference",
                         "raw_low", "raw_high")] <-
